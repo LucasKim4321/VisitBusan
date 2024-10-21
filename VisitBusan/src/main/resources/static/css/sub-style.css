@@ -561,6 +561,25 @@ footer .container {
 /* ------------------ */
 
 /* board (게시판 전체 공통) */
+
+.pagination {
+    .page-link {
+        color: gray;
+    }
+    .page-link:active {
+        box-shadow: none;
+    }
+    .page-link:focus {
+        box-shadow: none;
+    }
+    .active .page-link {
+        background-color: gray;
+        color: #fff;
+        border-color: gray;
+    }
+
+} /* end .pagination */
+
 .board {
     .content {
         /* all: unset; */

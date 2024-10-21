@@ -92,15 +92,17 @@ pageRequests.forEach(request => {
     .then(data => {
 
         for(i=0; i<data.length; i++) {
-            console.log("data[i]: ",data[i])
-            console.log("data[i].id: ",data[i].id)
-            console.log("data[i].category: ",data[i].category)
-            console.log("data[i].title: ",data[i].title)
-            console.log("data[i].boardFiles: ",data[i].boardFiles)
+            // console.log("data[i]: ",data[i])
+            // console.log("data[i].id: ",data[i].id)
+            // console.log("data[i].category: ",data[i].category)
+            // console.log("data[i].title: ",data[i].title)
+            // console.log("data[i].boardFiles: ",data[i].boardFiles)
 
             if(request.bCategory == "festival") {
                 const f_sliderBox = document.createElement("div");
                 f_sliderBox.classList = "f-sliderBox"
+                f_sliderBox.setAttribute('data-link', `/board/festivalBoard/read?id=${data[i].id}&bCategory=festival`);
+                f_sliderBox.onclick = postRead;
                 
                 if (data[i].boardFiles.length == 0 ) {
                     f_sliderBox.style.backgroundImage= "url('../images/mainpage/f_img2.gif')";
@@ -112,7 +114,7 @@ pageRequests.forEach(request => {
                 f_sliderBox.innerHTML += 
                 `<div class="f-slider-title">
                     <h2>${data[i].title}</h2>
-                    <span class="date">기간 ${data[i].startDate} ~ ${data[i].endDate}</span>
+                    <span class="date">기간 ${data[i].startDate!=null?data[i].startDate:""} ~ ${data[i].endDate!=null?data[i].endDate:""}</span>
                 </div>`
 
                 f_sliderList.appendChild(f_sliderBox);
@@ -121,17 +123,10 @@ pageRequests.forEach(request => {
                 totalSlides = slides.length;
 
             } else if (request.bCategory == "place") {
-                // const g_item = document.createElement("div");
-                // g_item.classList = "g-item"
-                // if (data[i].boardFiles.length == 0 ) {
-                //     g_item.style.backgroundImage= "url('../images/samples/busan1.jpg')";
-                // }
-                // if (data[i].boardFiles.length > 0 ) {
-                //     g_item.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
-                // }
-                // g_imgBox.appendChild(g_item);
                 const g_imgBox_child = document.createElement("div");
                 g_imgBox_child.classList = "g-item"
+                g_imgBox_child.setAttribute('data-link', `/board/travelInfo/read?id=${data[i].id}&bCategory=place`);
+                g_imgBox_child.onclick = postRead;
                 if (data[i].boardFiles.length == 0 ) {
                     g_imgBox_child.style.backgroundImage= "url('../images/samples/busan1.jpg')";
                 }
@@ -141,36 +136,39 @@ pageRequests.forEach(request => {
                 g_imgBox.appendChild(g_imgBox_child);
 
             } else if (request.bCategory == "review") {
+                const t_imgBox_child = document.createElement("div");
+                t_imgBox_child.classList = "t-item"
+                t_imgBox_child.setAttribute('data-link', `/board/userBoard/read?id=${data[i].id}&bCategory=review`);
+                t_imgBox_child.onclick = postRead;
                 let htmlTag = '';
                 if (data[i].boardFiles.length == 0 ) {
                     htmlTag +=
-                    `<div class="t-item">
-                        <div class="image-container">
-                            <img class="img-tag" src="../images/samples/busan1.jpg">
-                        </div>`
+                    `<div class="image-container">
+                        <img class="img-tag" src="../images/samples/busan1.jpg">
+                    </div>`
                 }
                 if (data[i].boardFiles.length > 0 ) {
                     htmlTag +=
-                    `<div class="t-item">
-                        <div class="image-container">
-                            <img class="img-tag" src="/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}">
-                        </div>`
+                    `<div class="image-container">
+                        <img class="img-tag" src="/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}">
+                    </div>`
                 }
                 htmlTag +=
                 `   <div class="t-tag">#광안리해수욕장</div>
                     <div class="t-title">${data[i].title}</div>
                     <div class="t-date">${data[i].regDate}</div>
-                </div>`
-                t_imgBox.innerHTML += htmlTag;
+                `
+                t_imgBox_child.innerHTML += htmlTag;
+                t_imgBox.appendChild(t_imgBox_child);
 
             } else if (request.bCategory == "themeTravel") {
                 const ord_imgSlide_child = document.createElement("li");
+                ord_imgSlide_child.setAttribute('data-link', `/board/travelRecommend/read?id=${data[i].id}&bCategory=themeTravel`);
+                ord_imgSlide_child.onclick = postRead;
                 if (data[i].boardFiles.length == 0 ) {
-                    console.log("case1")
                     ord_imgSlide_child.style.backgroundImage= "url('../images/samples/busan1.jpg')";
                 }
                 if (data[i].boardFiles.length > 0 ) {
-                    console.log("case2")
                     ord_imgSlide_child.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
                 }
                 ord_imgSlide.appendChild(ord_imgSlide_child);
@@ -183,3 +181,12 @@ pageRequests.forEach(request => {
 
 })
 
+/* 게시글 링크 동작 */
+
+function postRead() {
+    // console.log("click")
+    // console.log("this: ", this)
+    // console.log(this.getAttribute('data-link'));
+    const link = this.getAttribute('data-link');
+    location.href= link;    
+}
