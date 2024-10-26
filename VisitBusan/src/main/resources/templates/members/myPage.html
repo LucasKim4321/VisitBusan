@@ -56,7 +56,7 @@
     <ul class="tab-menu nav nav-tabs mypage-link mt-4" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <h3 class="active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane" aria-selected="false" tabindex="-1">
-                나의 리뷰
+                내 게시글
             </h3>
         </li>
         <li class="nav-item" role="presentation">
@@ -70,8 +70,8 @@
         <div class="tab-pane fade active show" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="mypage-bottom-box">
                 <div class="rev-inner-list">
-                    <div class="row">
-                        <div class="col rev-inner-item">
+                    <div class="myPosts">
+                        <div class="myPost rev-inner-item">
                             <div class="rev-img">
                                 <img src="/images/mypage/image1.jpg" alt="이미지">
                             </div>
@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="myPost">
                             <div class="rev-img">
                                 <img src="/images/mypage/image1.jpg" alt="이미지">
                             </div>
@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="myPost">
                             <div class="rev-img">
                                 <img src="/images/mypage/image1.jpg" alt="이미지">
                             </div>
@@ -138,7 +138,7 @@
         </div>
         <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
             <div class="mypage-bottom-box">
-                <div class="row">
+                <div class="row myLikes">
                     <div class="col rev-inner-item">
                         <div class="rev-img">
                             <img src="/images/mypage/image1.jpg" alt="이미지">
@@ -409,6 +409,76 @@
                console.error("Error: ", error);
            });
         });
+
+        const myPosts = document.querySelector('.myPosts');
+        myPosts.innerHTML = ''; 
+        const writerId = [[${member.name}]]
+        const request = {type:'writerId', keyword:writerId, size:3};
+
+        // 서버로부터 카테고리별로 그룹화된 데이터를 가져옴
+        fetch(`/board/main/list?size=${request.size}&type=${request.type}&keyword=${request.keyword}`)
+        .then(response => response.json())
+        .then(data => {
+
+            for(i=0; i<data.length; i++) {
+                // console.log("data[i]: ",data[i])
+                // console.log("data[i].id: ",data[i].id)
+                // console.log("data[i].category: ",data[i].category)
+                // console.log("data[i].title: ",data[i].title)
+                // console.log("data[i].content: ",data[i].content)
+                // console.log("data[i].boardFiles: ",data[i].boardFiles)
+
+                const myPost = document.createElement("div");
+                myPost.classList = "myPost"
+                myPost.setAttribute('data-link', `/board/userBoard/read?id=${data[i].id}&bCategory=${data[i].bCategory}`);
+                myPost.onclick = postRead;
+                                    
+                let htmlTag = '';
+                htmlTag += 
+                    `
+                    <div class="image-container rev-img">
+                    `
+                if (data[i].boardFiles.length == 0 ) {
+                    htmlTag += 
+                    `   <img src="../images/mypage/image1.jpg" alt="이미지">`
+                }
+                if (data[i].boardFiles.length > 0 ) {
+                    htmlTag += 
+                    `   <img src="/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}" alt="이미지">`
+                }
+
+                htmlTag += 
+                    `
+                    </div>
+                    <div class="rev-content">
+                        <div class="mypage-tag">#광안리해수욕장</div>
+                        <div class="mypage-text">
+                            ${data[i].content}
+                        </div>
+                        <p class="mypage-date">${data[i].regDate}</p>
+                        <div class="mypage-star">
+                            ${data[i].boardLikeCount}
+                        </div>
+                    </div>
+                    `
+
+                myPost.innerHTML += htmlTag;
+                myPosts.appendChild(myPost);
+                console.log(i,"myPost: ",myPost)
+                console.log(i,"myPosts: ",myPosts)
+            }
+        })
+        
+        /* 게시글 링크 동작 */
+
+        function postRead() {
+            // console.log("click")
+            // console.log("this: ", this)
+            // console.log(this.getAttribute('data-link'));
+            const link = this.getAttribute('data-link');
+            location.href= link;    
+        }
+
     </script>
 </div>
 </body>

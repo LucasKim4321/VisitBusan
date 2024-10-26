@@ -44,11 +44,11 @@ public class BoardController {
     // 유저 게시판 :
     //  - 유저게시판(userBoard) : 여행정보(information), 여행일정(schedule), 후기(review)
 
-    @GetMapping("/category")
-    public @ResponseBody ResponseEntity<Map<String, List<Board>>> getBoardsByCategory() {
-        Map<String, List<Board>> boardsByCategory = boardService.mainList2();
-        return ResponseEntity.ok(boardsByCategory);
-    }
+//    @GetMapping("/category")
+//    public @ResponseBody ResponseEntity<Map<String, List<Board>>> getBoardsByCategory() {
+//        Map<String, List<Board>> boardsByCategory = boardService.mainList2();
+//        return ResponseEntity.ok(boardsByCategory);
+//    }
 
     @GetMapping("/main/list")
     public @ResponseBody ResponseEntity<List<BoardListAllDTO>> mainList(PageRequestDTO pageRequestDTO){
@@ -146,20 +146,22 @@ public class BoardController {
                        PageRequestDTO pageRequestDTO,
                        Model model) {
 
-        log.info("==> id: "+id);
-        log.info("==> pageRequestDTO: "+pageRequestDTO);
+        if(id != null) {
+            log.info("==> id: "+id);
+            log.info("==> pageRequestDTO: "+pageRequestDTO);
 
-        // 게시글 조회 서비스 요청
-        BoardDTO boardDTO = boardService.readOne(id);
-        model.addAttribute("dto",boardDTO);
-        log.info("==> after service boardDTO: "+boardDTO);
+            // 게시글 조회 서비스 요청
+            BoardDTO boardDTO = boardService.readOne(id);
+            model.addAttribute("dto",boardDTO);
+            log.info("==> after service boardDTO: "+boardDTO);
 
-        boardService.viewCount(boardDTO);
+            boardService.viewCount(boardDTO);
 
-        //프로필 이미지 조회
-        ProfileImageDTO profileImageDTO = new ProfileImageDTO();
-        profileImageService.findImage(profileImageDTO, boardDTO.getWriterId());
-        model.addAttribute("writerProfileImage", profileImageDTO);
+            //프로필 이미지 조회
+            ProfileImageDTO profileImageDTO = new ProfileImageDTO();
+            profileImageService.findImage(profileImageDTO, boardDTO.getWriterId());
+            model.addAttribute("writerProfileImage", profileImageDTO);
+        }
 
 
 //        Member member = memberRepository.findByUserId(boardDTO.getWriterId()).orElseThrow();

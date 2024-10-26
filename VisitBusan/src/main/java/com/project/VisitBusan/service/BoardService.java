@@ -38,8 +38,8 @@ public interface BoardService {
     void baordLikeCount(Long board_id);
 
     // 메인 게시물 리스트
-    Map<String, List<Board>> mainList();
-    Map<String, List<Board>> mainList2();
+//    Map<String, List<Board>> mainList();
+//    Map<String, List<Board>> mainList2();
 
     // DTO -> Entity : List<String> fileName -> Board에서 Set<boardImage> 타입으로 변환
     default Board dtoToEntity(BoardDTO boardDTO) {

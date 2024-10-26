@@ -8,7 +8,7 @@
 <style layout:fragment="mystyle" th:inline="css">
 </style>
 <body>
-    <div class="adminMain container" layout:fragment="content">
+    <div class="adminMain" layout:fragment="content">
         <div class="cate cate_1">
             <div class="box_1">
                 <h5 class="ms-2">회원 N건</h5>
@@ -19,11 +19,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" width="10%">순번</th>
+                            <th scope="col">회원번호</th>
                             <th scope="col">권한</th>
                             <th scope="col">회원아이디</th>
                             <th scope="col">이름</th>
-                            <th scope="col" width="30%">이메일</th>
+                            <th scope="col">이메일</th>
                             <th scope="col">주소</th>
                             <th scope="col">가입일</th>
                             <!-- <th scope="col">비로그인 일수</th> -->
@@ -32,16 +32,14 @@
                     </thead>
                     <tbody>
                     <!--/*<tr th:each="dto:${memberDTOList}" th:data-link="|@{/admin/member/read}?id=${dto.id}&${link}|">*/-->
-                    <tr th:each="dto:${memberDTOList}">
-                        <!--/*<th scope="row" th:text="${dto.id}"></th>*/-->
-                        <td>num</td>
-                        <td th:text="${dto.role}">role</td>
+                    <tr class="informationBtn" th:each="dto:${memberDTOList}" th:data-userId="@{|read/${dto.userId}|}">
+                        <th scope="row" th:text="${dto.id}"></th>
+                        <td th:text="${dto.roleSet.contains('ROOT') ? 'ROOT' : dto.roleSet[0]}">role</td>
                         <td th:text="${dto.userId}"></td>
                         <td th:text="${dto.name}"></td>
                         <td th:text="${dto.email}"></td>
                         <td th:text="${dto.address}"></td>
-                        <!--/*<td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd hh:mm')}"></td>*/-->
-                        <td>date</td>
+                        <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -60,9 +58,9 @@
                 <table class="table" th:with="link=${pageRequestDTO.getLink()}">
                     <thead>
                         <tr class="text-center">
-                            <th scope="col" width="10%">순번</th>
+                            <th scope="col">글번호</th>
                             <th scope="col">게시판</th>
-                            <th scope="col" width="30%">제목</th>
+                            <th scope="col">제목</th>
                             <th scope="col">이름</th>
                             <th scope="col">등록일</th>
                         </tr>
@@ -74,7 +72,7 @@
                         <td th:text="${dto.category}"></td>
                         <td th:text="${dto.title}"></td>
                         <td th:text="${dto.writer}"></td>
-                        <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd hh:mm')}"></td>
+                        <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></td>
                     </tr>
                     <!--/*
                     <tr th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/admin/board/read}?id=${dto.id}&${link}|">
@@ -102,10 +100,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" width="5%">순번</th>
+                        <th scope="col">글번호</th>
                         <th scope="col">게시판</th>
-                        <th scope="col" width="30%">제목</th>
-                        <th scope="col" width="30%">신고사유</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">신고사유</th>
                         <th scope="col">신고자</th>
                         <th scope="col">신고일</th>
                     </tr>

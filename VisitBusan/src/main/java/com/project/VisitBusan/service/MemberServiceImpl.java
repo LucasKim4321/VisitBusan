@@ -1,8 +1,7 @@
 package com.project.VisitBusan.service;
 
 import com.project.VisitBusan.config.CustomSecurityConfig;
-import com.project.VisitBusan.dto.MemberDTO;
-import com.project.VisitBusan.dto.ProfileImageDTO;
+import com.project.VisitBusan.dto.*;
 import com.project.VisitBusan.entity.Member;
 import com.project.VisitBusan.entity.ProfileImage;
 import com.project.VisitBusan.exception.DuplicateEmailException;
@@ -14,20 +13,24 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Log4j2
 public class MemberServiceImpl implements MemberService {
+
+    private final ModelMapper modelMapper;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final ProfileImageRepository profileImageRepository;
@@ -131,6 +134,7 @@ public class MemberServiceImpl implements MemberService {
                 memberDTO.getName(),
                 memberDTO.getEmail(),
                 memberDTO.getAddress(),
+                memberDTO.getRoleSet(),
                 memberDTO.getProfileText() // 추가 정보가 필요한 경우 포함
         );
         System.out.println("======================");
@@ -162,5 +166,39 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return memberDTOList;
+    }
+
+    //전체 조회2
+    @Override
+    public PageResponseDTO<MemberDTO> findAll(PageRequestDTO pageRequestDTO) {
+        log.info("=> test2");
+
+        // 검색 조건에 대한 처리
+        String[] types = pageRequestDTO.getTypes();  // 검색 타입(글제목, 글내용, 작성자)
+        log.info("=> test3 types"+ Arrays.toString(types));
+        String keyword = pageRequestDTO.getKeyword(); // 검색 키워드
+        log.info("=> test4 keyword: "+keyword);
+        Pageable pageable = pageRequestDTO.getPageable("id");
+        log.info("=> test5 pageable: "+pageable);
+
+        // 조건 검색 및 페이징한 결과값 가져오기
+        Page<Member> result = memberRepository.searchAll(types, keyword, pageable);
+        log.info("=> result: "+result);
+
+        // page객체에 있는 내용을 List구조 가져오기
+        List<MemberDTO> dtoList = result.getContent().stream()
+                // collection 구조에 있는 entity를 하나씩 dto로 변환하여 List구조에 저장
+                .map(member-> modelMapper.map(member,MemberDTO.class))
+                .collect(Collectors.toList());
+
+        log.info("==> dtoList: "+dtoList);
+
+        // 매개변수로 전달받은 객체(pageRequestDTO)를 가지고 PageResponseDTO.Builder()를 통해
+        // PageRequestDTO객체 생성되어 필요시 스프링이 필요시점에 주입 시켜줌(list에서 pageRequestDTO객체 사용가능함 )
+        return PageResponseDTO.<MemberDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList) // Projection.bean(): JPQL의 결과를 바로 DTO로 처리한 결과를 입력 **
+                .total((int)result.getTotalElements())
+                .build();
     }
 }

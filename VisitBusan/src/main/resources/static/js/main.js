@@ -88,7 +88,12 @@ ord_imgSlide.innerHTML = '';
 pageRequests.forEach(request => {
     // 서버로부터 카테고리별로 그룹화된 데이터를 가져옴
     fetch(`/board/main/list?size=${request.size}&bCategory=${request.bCategory}`)
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json()
+    })
     .then(data => {
 
         for(i=0; i<data.length; i++) {
@@ -178,7 +183,9 @@ pageRequests.forEach(request => {
         }
 
     })
-
+    .catch(error => {
+        console.error('Error: ', error);
+    })
 })
 
 /* 게시글 링크 동작 */

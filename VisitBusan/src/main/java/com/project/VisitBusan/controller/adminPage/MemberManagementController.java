@@ -1,6 +1,7 @@
 package com.project.VisitBusan.controller.adminPage;
 import com.project.VisitBusan.dto.MemberDTO;
 import com.project.VisitBusan.dto.PageRequestDTO;
+import com.project.VisitBusan.dto.PageResponseDTO;
 import com.project.VisitBusan.entity.Member;
 import com.project.VisitBusan.exception.DuplicateEmailException;
 import com.project.VisitBusan.exception.DuplicateUserIdException;
@@ -36,10 +37,15 @@ public class MemberManagementController {
     public String memberPage(PageRequestDTO pageRequestDTO,
                              Model model) {
 
-        List<MemberDTO> memberDTOList = memberService.findAll();
-        log.info("=> memberDTOList: "+memberDTOList);
+//        List<MemberDTO> memberDTOList = memberService.findAll();
+//        log.info("=> memberDTOList: "+memberDTOList);
+//        model.addAttribute("memberDTOList", memberDTOList);
 
-        model.addAttribute("memberDTOList", memberDTOList);
+        log.info("=> test1 pageRequestDTO"+pageRequestDTO);
+
+        PageResponseDTO<MemberDTO> responseDTO = memberService.findAll(pageRequestDTO);
+        log.info("=> responseDTO: "+responseDTO);
+        model.addAttribute("responseDTO", responseDTO);
 
         return "adminPage/member/list";
     }
@@ -55,6 +61,7 @@ public class MemberManagementController {
         log.info("===> userId : " + userId);
 
         return ResponseEntity.ok(member);
+//        return (ResponseEntity<MemberDTO>) ResponseEntity.notFound();
     }
 
     // 회원 등록: GET, POST
@@ -121,20 +128,20 @@ public class MemberManagementController {
         //결과 반환
         return ResponseEntity.ok(response);
     }
-/*
-    //3. 회원정보 수정
+
     @PostMapping(value = "/list/modify") //데이터 전송
-    public String updateMember(@Valid @ModelAttribute MemberDTO memberDTO, //valid 유효성 검사
-                               BindingResult bindingResult, //유효성 검사 후 데이터 담는 객체
-                               RedirectAttributes redirectAttributes) { //일회성 데이터 전달
+    public @ResponseBody ResponseEntity<?> updateMember(@Valid @RequestBody MemberDTO memberDTO, //valid 유효성 검사
+//                                       public String updateMember(@Valid @RequestBody MemberDTO memberDTO, //valid 유효성 검사
+                                          BindingResult bindingResult, //유효성 검사 후 데이터 담는 객체
+                                          RedirectAttributes redirectAttributes) { //일회성 데이터 전달
         System.out.println("수정 요청 받음: " + memberDTO);
 
         // 유효성 검사 오류 처리
-        if (bindingResult.hasErrors()) {
+       /* if (bindingResult.hasErrors()) {
             // 1회용 정보유지 : redirect방식으로 요청시 정보관리하는 객체
             redirectAttributes.addFlashAttribute("errorMessage", "비밀번호를 입력해주세요.");
-            return "redirect:/admin/member/list";
-        }
+            return ResponseEntity.ok("SU");
+        }*/
 
         //회원정보 수정
         memberService.modify(memberDTO);
@@ -143,9 +150,9 @@ public class MemberManagementController {
 
         redirectAttributes.addFlashAttribute("message", "회원정보가 수정되었습니다.");
 
-        return "redirect:/admin/member/list";
+        return ResponseEntity.ok("SU");
     }
-*/
+
     //4. 회원정보 삭제
     @PreAuthorize("isAuthenticated") //로그인 인증 완료
     @PostMapping(value = "/list/delete")

@@ -16,12 +16,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Member {
+public class Member extends BaseEntity {
 
     //------------------ 기본필드 ----------------------//
 
     @Id  // 기본키로 지정
-    @Column(name="member_id")  // 테이블 이름(필드명) 사용자 지정 없으면 그냥 동일하게 설정
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -55,12 +54,17 @@ public class Member {
         this.roleSet.clear();
     }
 
+    public String getRoleKey() {
+        return this.roleSet.toString();
+    }
+
     //------------------ 변경메서드 ----------------------//
 
     //데이터 수정하는 메서드
     public void change(String name,
                        String email,
                        String address,
+                       Set<Role> roleSet,
                        String profileText
                        //String userId
                         ) {
@@ -68,6 +72,7 @@ public class Member {
         this.name = name; //닉네임
         this.email = email; //이메일
         this.address = address; //주소
+        this.roleSet = roleSet; //권한
         this.profileText = profileText; //프로필 자기소개
     }
 

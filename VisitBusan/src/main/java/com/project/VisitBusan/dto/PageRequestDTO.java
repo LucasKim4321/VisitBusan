@@ -21,22 +21,28 @@ import java.time.LocalDateTime;
 public class PageRequestDTO {
 
     @Builder.Default
-    private int page = 1;
+    private int page = 1;  // 페이지 번호
 
     @Builder.Default
-    private int size = 8;
+    private int size = 8;  // 페이지당 보여질 항목 개수
 
-    private String type;  // 검색 종류 = t,c,w,tc,tw, twc
-    private String keyword;
+    private String type;  // 검색 종류 = t,c,w,tc,tw,twc,writerId   t=title c=content w=writer
+    private String keyword;  // 검색어
     private String bCategory;  // 카테고리 = information, schedule, review, festival ...
-    private LocalDate bStartDate;
-    private LocalDate bEndDate;
+    private LocalDate bStartDate;  // 축제 시작 날짜
+    private LocalDate bEndDate;  // 축제 끝나는 날짜
+    private LocalDateTime regDate;  // 등록일
 
     // 키워드에 대한 type을 구분하여 배열구조로 반환
     public String[] getTypes() {
         if (type== null || type.isEmpty()) return null;
-
-        return type.split("");
+        if (type.equals("tc") || type.equals("tw") || type.equals("twc")) {
+            return type.split("");
+        }
+        else{
+            String[] arrType = {type};
+            return arrType;
+        }
     }
 
     // 페이징 초기값 설정
@@ -66,11 +72,14 @@ public class PageRequestDTO {
                 }
             }
 
-            if (bStartDate != null)  // 카테고리 추가
+            if (bStartDate != null)  // 축제 시작 날짜 추가
                 builder.append("&bStartDate="+bStartDate);
 
-            if (bEndDate != null)  // 카테고리 추가
+            if (bEndDate != null)  // 축제 끝나는 날짜 추가
                 builder.append("&bEndDate="+bEndDate);
+
+            if (regDate != null)  // 등록일 추가
+                builder.append("&regDate="+regDate);
 
             // link = page=1&size10&type=twc&keyword=URLEncoder.Encode("홍길동")...
             link = builder.toString();

@@ -13,13 +13,19 @@
 
 <body>
     <div class="admin-page">
-        <!--header-->
-        <th:block th:replace="~{fragments/header_side_admin :: header-side-inner}"></th:block>
+        <!-- 사이드바 -->
+        <th:block th:replace="~{fragments/admin_header :: header-side}"></th:block>
 
-        <!--content-->
-        <div class="contant-box">
-            <th:block th:replace="~{fragments/header_admin :: header-inner}"></th:block>
-            <div layout:fragment="content"></div>
+        <div class="main">
+
+            <!-- 상단바 -->
+            <th:block th:replace="~{fragments/admin_header :: header-top}"></th:block>
+
+            <div class="main_body">
+                <!-- 내용 -->
+                <div layout:fragment="content"></div>
+            </div>
+
         </div>
     </div>
 

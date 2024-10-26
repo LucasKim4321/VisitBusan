@@ -226,6 +226,8 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         QReply reply = QReply.reply;
         QBoardLike boardLike = QBoardLike.boardLike;
         QFestivalInfo festivalInfo = QFestivalInfo.festivalInfo;
+        log.info("=> test board"+board);
+        log.info("=> test board.id"+board.id);
 
         // 1. 쿼리문 작성 (댓글 기준으로 게시글 연결)
         JPQLQuery<Board> boardJPQLQuery = from(board);
@@ -234,41 +236,41 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         boardJPQLQuery.leftJoin(festivalInfo).on(festivalInfo.board.eq(board));
 
         // 5. 조건문 추가 : where 문 작성
-        if(category != null) {
 
-            //  BooleanBuilder: 조건문을 작성하는 클래스
-            BooleanBuilder booleanBuilder = new BooleanBuilder();
+        //  BooleanBuilder: 조건문을 작성하는 클래스
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-            if ( (types != null && types.length > 0) && keyword != null){// 검색 키워드가 있으면
+        if ( (types != null && types.length > 0) && keyword != null){// 검색 키워드가 있으면
 
-                for (String type : types){
-                    switch (type){
-                        case "t":
-                            booleanBuilder.or(board.title.contains(keyword));break;
-                        case "c":
-                            booleanBuilder.or(board.content.contains(keyword));break;
-                        case "w":
-                            booleanBuilder.or(board.writer.contains(keyword));break;
-                        case "writerId":
-                            booleanBuilder.or(board.writerId.contains(keyword));break;
-                    }
-                } // end for
+            for (String type : types){
+                switch (type){
+                    case "t":
+                        booleanBuilder.or(board.title.contains(keyword));break;
+                    case "c":
+                        booleanBuilder.or(board.content.contains(keyword));break;
+                    case "w":
+                        booleanBuilder.or(board.writer.contains(keyword));break;
+                    case "writerId":
+                        booleanBuilder.or(board.writerId.contains(keyword));break;
+                }
+            } // end for
 
-            } // end if type
+        } // end if type
 
-            // 카테고리 조건 추가
+        // 카테고리 조건 추가
+        if (category != null) {
             booleanBuilder.and(board.category.contains(category));
+        }
 
-            if (bStartDate != null) {
-                booleanBuilder.and(festivalInfo.endDate.goe(bStartDate).or(festivalInfo.endDate.isNull())); // 축제 종료일이 검색 시작일 이후 이거나 종료 날짜가 null인 경우
-            }
-            if ( bEndDate != null ) {
-                booleanBuilder.and(festivalInfo.startDate.loe(bEndDate).or(festivalInfo.startDate.isNull())); // 축제 시작일이 검색 종료일 이전 이거나 시작 날짜가 null인 경우
-            }
+        if (bStartDate != null) {
+            booleanBuilder.and(festivalInfo.endDate.goe(bStartDate).or(festivalInfo.endDate.isNull())); // 축제 종료일이 검색 시작일 이후 이거나 종료 날짜가 null인 경우
+        }
+        if ( bEndDate != null ) {
+            booleanBuilder.and(festivalInfo.startDate.loe(bEndDate).or(festivalInfo.startDate.isNull())); // 축제 시작일이 검색 종료일 이전 이거나 시작 날짜가 null인 경우
+        }
+        // end BooleanBuilder
 
-            boardJPQLQuery.where(booleanBuilder);
-
-        } // end if category
+        boardJPQLQuery.where(booleanBuilder);
 
         // 1.1 게시글번호를 기준으로 그룹핑 처리
         boardJPQLQuery.groupBy(board);
@@ -311,6 +313,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
                     .id(board1.getId())
                     .category(board1.getCategory())
                     .title(board1.getTitle())
+                    .content(board1.getContent())
                     .writer(board1.getWriter())
                     .writerId(board1.getWriterId())
                     .regDate(board1.getRegDate())

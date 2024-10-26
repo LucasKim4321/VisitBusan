@@ -2,6 +2,8 @@ package com.project.VisitBusan.service;
 
 import com.project.VisitBusan.constant.Role;
 import com.project.VisitBusan.dto.MemberDTO;
+import com.project.VisitBusan.dto.PageRequestDTO;
+import com.project.VisitBusan.dto.PageResponseDTO;
 import com.project.VisitBusan.dto.ProfileImageDTO;
 import com.project.VisitBusan.entity.Member;
 import com.project.VisitBusan.entity.ProfileImage;
@@ -22,6 +24,8 @@ public interface MemberService {
     MemberDTO findMember(String userId);
     //전체 조회
     List<MemberDTO> findAll();
+    //전체 조회2
+    PageResponseDTO<MemberDTO> findAll(PageRequestDTO pageRequestDTO);
     //회원 수정
     Member modify(MemberDTO memberDTO);
     //회원 삭제

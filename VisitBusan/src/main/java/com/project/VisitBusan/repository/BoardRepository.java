@@ -25,8 +25,8 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch
     @Query("SELECT b FROM Board b ORDER BY b.category, b.id")
     List<Board> findAllGroupedByCategory();
 
-    @Query("SELECT b FROM Board b WHERE b.category = :category")
-    List<Board> findTop5ByCategory(@Param("category") String category, Pageable pageable);
+//    @Query("SELECT b FROM Board b WHERE b.category = :category")
+//    List<Board> findTop5ByCategory(@Param("category") String category, Pageable pageable);
 
     List<Board> findAll();
 }

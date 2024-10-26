@@ -253,6 +253,7 @@ public class BoardServiceImpl implements BoardService {
         // 검색 조건에 대한 처리
         String category = pageRequestDTO.getBCategory();
         String[] types = pageRequestDTO.getTypes();  // 검색 타입(글제목, 글내용, 작성자)
+        log.info("=> test types"+ Arrays.toString(types));
         String keyword = pageRequestDTO.getKeyword(); // 검색 키워드
         LocalDate bStartDate = pageRequestDTO.getBStartDate();
         LocalDate bEndDate = pageRequestDTO.getBEndDate();
@@ -284,35 +285,35 @@ public class BoardServiceImpl implements BoardService {
     public void baordLikeCount(Long board_id) {
     }
 
-    // 모든 게시물을 카테고리별로 그룹화하여 가져오기
-    public Map<String, List<Board>> mainList() {
-        List<Board> allBoards = boardRepository.findAll();
-        Map<String, List<Board>> groupedByCategory = new HashMap<>();
-
-        // 카테고리별로 게시물을 나누어 맵에 저장
-        for (Board board : allBoards) {
-            groupedByCategory  // 맵에 해당 카테고리가 없으면 새 리스트를 생성하고, 게시물을 추가
-                    .computeIfAbsent(board.getCategory(), k -> new ArrayList<>())
-                    .add(board);
-        }
-
-        return groupedByCategory;  // 카테고리별로 그룹화된 결과 반환
-    }
-
-    public Map<String, List<Board>> mainList2() {
-        // 카테고리 목록을 가져온다고 가정합니다.
-        List<String> categories = getCategories(); // 카테고리 목록을 가져오는 메서드 구현 필요
-
-        Map<String, List<Board>> groupedByCategory = new HashMap<>();
-
-        for (String category : categories) {
-            Pageable pageable = PageRequest.of(0, 5); // 페이지 번호는 0, 페이지 크기는 5로 설정
-            List<Board> boards = boardRepository.findTop5ByCategory(category, pageable);
-            groupedByCategory.put(category, boards);
-        }
-
-        return groupedByCategory;
-    }
+//    // 모든 게시물을 카테고리별로 그룹화하여 가져오기
+//    public Map<String, List<Board>> mainList() {
+//        List<Board> allBoards = boardRepository.findAll();
+//        Map<String, List<Board>> groupedByCategory = new HashMap<>();
+//
+//        // 카테고리별로 게시물을 나누어 맵에 저장
+//        for (Board board : allBoards) {
+//            groupedByCategory  // 맵에 해당 카테고리가 없으면 새 리스트를 생성하고, 게시물을 추가
+//                    .computeIfAbsent(board.getCategory(), k -> new ArrayList<>())
+//                    .add(board);
+//        }
+//
+//        return groupedByCategory;  // 카테고리별로 그룹화된 결과 반환
+//    }
+//
+//    public Map<String, List<Board>> mainList2() {
+//        // 카테고리 목록을 가져온다고 가정합니다.
+//        List<String> categories = getCategories(); // 카테고리 목록을 가져오는 메서드 구현 필요
+//
+//        Map<String, List<Board>> groupedByCategory = new HashMap<>();
+//
+//        for (String category : categories) {
+//            Pageable pageable = PageRequest.of(0, 5); // 페이지 번호는 0, 페이지 크기는 5로 설정
+//            List<Board> boards = boardRepository.findTop5ByCategory(category, pageable);
+//            groupedByCategory.put(category, boards);
+//        }
+//
+//        return groupedByCategory;
+//    }
 
     private List<String> getCategories() {
         // 이 메서드에서 카테고리 목록을 반환합니다.

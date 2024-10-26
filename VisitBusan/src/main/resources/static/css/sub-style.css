@@ -445,12 +445,40 @@ footer .container {
 .mypage .pro-content .mypage-comant {
     color: #333;
 }
+.mypage .myPosts {
+    display: flex;
+    width: 100%;
+
+    .myPost {
+        width: 33.33%;
+        padding: 0 12px;
+
+        /* 이미지 설정 */
+        .image-container {
+            width: 100%; /* 원하는 너비 */
+            overflow: hidden; /* 부모 요소를 벗어난 부분을 숨김 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* 원하는 가로 세로 비율 설정 (예: 16:9 비율) */
+            aspect-ratio: 16 / 9; 
+            /* aspect-ratio: 4 / 3; */
+        }
+        .image-container img {
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover; /* 이미지 비율을 유지하면서 부모 요소를 덮도록 설정 */
+        }
+    }
+
+}
+
+/* memberjoin */
 .login-box {
     max-width: 600px;
     margin: 0 auto;
 }
-
-/* memberjoin */
 .memberjoin .login {
     max-width: 600px;
     margin: 0 auto;

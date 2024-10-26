@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/base}">
-<!-- header -->
-<div class="header-side-inner" th:fragment="header-side-inner">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- header-top -->
+<div class="header-top" th:fragment="header-top">
+    <div class="main_head d-flex">
+        <div class="list pt-3">
+            <a href="#" class="link-light">=</a>
+        </div>
+        <a th:href="@{/admin}">
+            <div class=" text-white pt-4 ps-4">관리자 홈</div>
+        </a>
+        <a th:href="@{/}">
+            <div class=" text-white pt-4 ps-4">메인페이지</div>
+        </a>
+    </div><!-- end main_head -->
+</div>
+<!-- end header-top -->
+
+<!-- header-side -->
+<div class="header-side" th:fragment="header-side">
     <div class="sideBar">
         <div class="sb_1">
             <div class="admin_img">
@@ -58,5 +74,6 @@
         </div>
     </div>
 </div>
-<!-- /header -->
+<!-- end header-side -->
+
 </html>
