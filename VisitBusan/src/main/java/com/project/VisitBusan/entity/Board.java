@@ -43,9 +43,16 @@ public class Board extends BaseEntity{  //extends BaseEntity 하면 BaseEntity�
 
     // 데이터 수정하는 메서드
     public void change(String category, String title, String content) {
-        this.category = category;
-        this.title = title;
-        this.content = content;
+
+        if(category!= null && !category.isEmpty()) {
+            this.category = category;
+        }
+        if(title!= null && !title.isEmpty()) {
+            this.title = title;
+        }
+        if(content!= null && !content.isEmpty()) {
+            this.content = content;
+        }
 
     } // end change
 

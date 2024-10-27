@@ -7,92 +7,95 @@
 <!-- 현재 페이지에서만 사용하는 css 정의 -->
 <style layout:fragment="mystyle" th:inline="css">
 </style>
-<body>
-    <div class="adminMain" layout:fragment="content">
-        <div class="cate cate_1">
-            <div class="box_1">
-                <h5 class="ms-2">회원 N건</h5>
-                <p>총 회원 n명 차단 n명 탈퇴 n명</p>
-            </div>
-            <br>
-            <div class="tableBox table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">회원번호</th>
-                            <th scope="col">권한</th>
-                            <th scope="col">회원아이디</th>
-                            <th scope="col">이름</th>
-                            <th scope="col">이메일</th>
-                            <th scope="col">주소</th>
-                            <th scope="col">가입일</th>
-                            <!-- <th scope="col">비로그인 일수</th> -->
-                            <!-- <th scope="col">차단</th> -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <!--/*<tr th:each="dto:${memberDTOList}" th:data-link="|@{/admin/member/read}?id=${dto.id}&${link}|">*/-->
-                    <tr class="informationBtn" th:each="dto:${memberDTOList}" th:data-userId="@{|read/${dto.userId}|}">
-                        <th scope="row" th:text="${dto.id}"></th>
-                        <td th:text="${dto.roleSet.contains('ROOT') ? 'ROOT' : dto.roleSet[0]}">role</td>
-                        <td th:text="${dto.userId}"></td>
-                        <td th:text="${dto.name}"></td>
-                        <td th:text="${dto.email}"></td>
-                        <td th:text="${dto.address}"></td>
-                        <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="d-flex justify-content-end">
-                <a th:href="@{/admin/member/list}">
-                    <button type="button" class="btn btn-dark me-3">회원 전체보기</button>
-                </a>
-            </div>
+
+<div class="adminMain" layout:fragment="content">
+
+    <div class="cate cate_1">
+        <div class="box_1">
+            <h5 class="ms-2">회원 [[${memberResponseDTO.total}]]건</h5>
+            <p>차단 n명 탈퇴 n명</p>
         </div>
-        <div class="cate cate_2">
-            <h5 class="ms-2" >게시글 N건</h5>
-            <br>
-
-            <div class="tableBox table-responsive">
-                <table class="table" th:with="link=${pageRequestDTO.getLink()}">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">글번호</th>
-                            <th scope="col">게시판</th>
-                            <th scope="col">제목</th>
-                            <th scope="col">이름</th>
-                            <th scope="col">등록일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/admin/board/read}?id=${dto.id}&${link}|">
-                        <!--/*<tr th:each="i : ${#numbers.sequence(0, 4, +1)}" th:with="dto=${responseDTO.dtoList[i]}" th:data-link="|@{/admin/board/read}?id=${dto.id}&${link}|">*/-->
-                        <td th:text="${dto.id}" style="width:10%;"></td>
-                        <td th:text="${dto.category}"></td>
-                        <td th:text="${dto.title}"></td>
-                        <td th:text="${dto.writer}"></td>
-                        <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+        <br>
+        <div class="tableBox table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">회원번호</th>
+                        <th scope="col">권한</th>
+                        <th scope="col">회원아이디</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">주소</th>
+                        <th scope="col">가입일</th>
+                        <!-- <th scope="col">비로그인 일수</th> -->
+                        <!-- <th scope="col">차단</th> -->
                     </tr>
-                    <!--/*
-                    <tr th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/admin/board/read}?id=${dto.id}&${link}|">
-                        <th scope="row" th:text="${dto.id}"></th>
-                        <td th:text="${dto.category}"></td>
-                        <td th:text="${dto.title}"></td>
-                        <td th:text="${dto.writer}"></td>
-                        <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd hh:mm')}"></td>
-                    </tr>*/-->
-                    </tbody>
-                </table>
-            </div>
-            <div class="d-flex justify-content-end">
-                <a th:href="@{/admin/board/list}">
-                    <button type="button" class="btn btn-dark me-3">게시글 전체보기</button>
-                </a>
-            </div>
+                </thead>
+                <tbody>
+                <tr class="informationBtn" th:each="dto:${memberResponseDTO.dtoList}" th:data-userId="${dto.userId}">
+                    <th scope="row" th:text="${dto.id}"></th>
+                    <td th:if="${dto.roleSet.size==0}"></td>
+                    <td th:if="${dto.roleSet.size>0}" th:text="${dto.roleSet.contains(T(com.project.VisitBusan.constant.Role).ROOT) ? 'ROOT' : dto.roleSet.iterator().next()}">role</td>
+                    <td th:text="${dto.userId}"></td>
+                    <td th:text="${dto.name}"></td>
+                    <td th:text="${dto.email}"></td>
+                    <td th:text="${dto.address}"></td>
+                    <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a th:href="@{/admin/member/list}">
+                <button type="button" class="btn btn-dark me-3">회원 전체보기</button>
+            </a>
+        </div>
+    </div> <!-- end cate_1 -->
 
-        </div> <!-- end cate_2 -->
-        <div class="cate cate_3">
+    <div class="cate cate_2">
+        <h5 class="ms-2" >게시글 [[${boardResponseDTO.total}]]건</h5>
+        <br>
+
+        <div class="tableBox table-responsive">
+            <table class="table" th:with="link=${pageRequestDTO.getLink()}">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">글번호</th>
+                        <th scope="col">게시판</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">등록일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dto:${boardResponseDTO.dtoList}" th:data-link="|@{/admin/board/read}?id=${dto.id}&${link}|">
+                    <!--/*<tr th:each="i : ${#numbers.sequence(0, 4, +1)}" th:with="dto=${responseDTO.dtoList[i]}" th:data-link="|@{/admin/board/read}?id=${dto.id}&${link}|">*/-->
+                    <td th:text="${dto.id}"></td>
+                    <td th:text="${dto.category}"></td>
+                    <td th:text="${dto.title}"></td>
+                    <td th:text="${dto.writer}"></td>
+                    <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <!--/*
+                <tr th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/admin/board/read}?id=${dto.id}&${link}|">
+                    <th scope="row" th:text="${dto.id}"></th>
+                    <td th:text="${dto.category}"></td>
+                    <td th:text="${dto.title}"></td>
+                    <td th:text="${dto.writer}"></td>
+                    <td th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd hh:mm')}"></td>
+                </tr>*/-->
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a th:href="@{/admin/board/list}">
+                <button type="button" class="btn btn-dark me-3">게시글 전체보기</button>
+            </a>
+        </div>
+
+    </div> <!-- end cate_2 -->
+
+    <div class="cate cate_3">
         <h5 class="ms-2" >신고 N건</h5>
         <br>
 
@@ -151,87 +154,199 @@
         </div>
 
     </div> <!-- end cate_3 -->
-    </div> <!-- end fragment="content" -->
-</body>
 
-<!--회원 수정 팝업-->
-<div class="uploadModal modal">
-    <div class="modal-dialog">
-        <div class="modal-content p-5">
-            <h2 class="text-center">회원정보 관리</h2>
-            <hr>
-            <form th:action="@{/mypage/modify}" method="POST" id="modifyForm">
-                <input type="hidden" name="userId" th:value="${member.userId}">
-                <div class="mb-2">
-                    <label for="inputName" class="col-form-label">닉네임</label>
-                    <input type="text" id="inputName" name="name" th:value="${member.name}">
-                </div>
-                <div class="mb-2">
+    <!--회원 수정 팝업-->
+    <div class="modal fade informationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content p-5">
+                <h2 class="text-center">회원정보 관리</h2>
+                <hr>
+                <form th:if="${memberResponseDTO.dtoList.size() > 0}" method="POST" id="modifyForm">
+                    <!--아이디-->
+                    <label for="inputUserId" class="col-form-label">아이디</label>
+                    <input type="text" id="inputUserId" class="form-control" disabled />
+                    <!--권한-->
+                    <label for="inputRole" class="col-form-label">권한</label>
+                    <!-- <input type="text" id="inputRole" class="form-control" /> -->
+                    <select class="form-select" id="inputRole">
+                        <option value="USER">USER</option>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="ROOT" hidden>ROOT</option>
+                    </select>
+                    <!--이름-->
+                    <label for="inputName" class="col-form-label">이름</label>
+                    <input type="text"  id="inputName" class="form-control" />
+                    <!--이메일 주소-->
                     <label for="inputEmail" class="col-form-label">이메일</label>
-                    <input type="email" id="inputEmail" name="email" th:value="${member.email}">
-                </div>
-                <div class="mb-2">
+                    <input type="email" id="inputEmail" class="form-control" />
+                    <!--주소-->
                     <label for="inputAddress" class="col-form-label">주소</label>
-                    <input type="text" id="inputAddress" name="address" th:value="${member.address}">
-                </div>
-                <div class="mb-2">
-                    <label for="inputprofileText" class="col-form-label">소개말</label>
-                    <input type="text" id="inputprofileText" name="profileText" th:value="${member.profileText}">
-                </div>
-                <div class="mb-2">
-                    <label for="inputPassword" class="col-form-label">비밀번호 확인(필수)</label>
-                    <input type="password" id="inputPassword" name="password">
-                </div>
+                    <input type="text" id="inputAddress" class="form-control" />
+                    <!--가입일(고정)-->
+                    <label for="inputDate" class="col-form-label">가입일</label>
+                    <input type="text" id="inputDate" class="form-control" disabled />
 
-                <!-- 오류 메시지 표시 -->
-                <div id="modify-error"></div>
+                    <!-- 오류 메시지 표시 -->
+                    <div id="modify-error"></div>
 
-                <div class="row align-items-end mt-5 mb-4">
-                    <div class="col">
-                        <button type="button" class="closeBtn btn btn-danger w-100">취소하기</button>
+                    <!--버튼-->
+                    <div class="buttonBox2 row align-items-end mt-5 mb-4">
+                        <div class="col">
+                            <button type="button" class="removeBtn btn btn-outline-secondary w-100">회원 삭제</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="modBtn btn btn-outline-secondary w-100">회원정보 변경</button>
+                        </div>
                     </div>
-                    <div class="col">
-                        <button type="submit" class="modBtn btn btn-primary w-100">회원정보 변경</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</div> <!-- end fragment="content" -->
 
 <!--/* 현재 페이지에서만 사용하는 script 정의 */-->
 <script layout:fragment="myscript" th:inline="javascript">
-    console.log("test 시작");
-        /* 게시글 링크 동작 */
+    console.log("스크립트 실행! :b");
 
-        const table = document.querySelector('.cate_2 .table');
-        const rows = table.getElementsByTagName('tr');
+    /* 멤버 링크 동작 */
+    const memberTable = document.querySelector('.cate_1 .table');
+    const memberRows = memberTable.getElementsByTagName('tr');
 
-        // 각 행에 클릭 이벤트 리스너 추가
-        for (let i = 1; i < rows.length; i++) { // 헤더를 제외하기 위해 i를 1로 시작
-          rows[i].addEventListener('click', function(e) {
-            console.log(e.target);
-            console.log(this.getAttribute('data-link'));
-            const link = this.getAttribute('data-link');
-            location.href= link;
-          });
-        } /* end table listener */
+    const informationModal = new bootstrap.Modal(document.querySelector('.informationModal'));
 
-        //팝업 추가
-        document.addEventListener('DOMContentLoaded', function() {
-            const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"));
+    // 각 행에 클릭 이벤트 리스너 추가
+    for (let i = 1; i < memberRows.length; i++) { // 헤더를 제외하기 위해 i를 1로 시작
+        memberRows[i].addEventListener('click', function(e) {
+            console.log("list click")
+            const userId = this.getAttribute('data-userId');
+            console.log("userId",userId)
+            if (userId!=null||userId.length>0) {
+                fetch(`/admin/member/read/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();  // 응답 데이터를 JSON으로 변환
+                })
+                .then(data => {
+                    // 성공적으로 데이터를 받았을 때 처리
+                    console.log("데이터 : ", data);
+                    console.log("roleSet : ", data.roleSet);
+                    document.getElementById('inputUserId').value = data.userId;
+                    if (data.roleSet.includes('ROOT')){
+                        document.getElementById('inputRole').value = 'ROOT';
+                        document.getElementById('inputRole').disabled = true;
+                    }
+                    else {
+                        document.getElementById('inputRole').value = data.roleSet[0];
+                        document.getElementById('inputRole').disabled = false;
+                    }
+                    document.getElementById('inputName').value = data.name;
+                    document.getElementById('inputEmail').value = data.email;
+                    document.getElementById('inputAddress').value = data.address;
+                    document.getElementById('inputDate').value = data.regDate;
 
-            // 수정
-            document.querySelector(".cate_1 table td").addEventListener('click', function(e) {
-               console.log("test");
-               uploadModal.show();
-
-                console.log("test 시작");
-            });
+                    informationModal.show();
+                })
+                .catch(error => {
+                    console.error('Error fetching member data:', error);
+                    alert('회원 정보를 불러오는데 문제가 발생했습니다.');
+                });
+            }
         });
+    };
+
+    // 모달 회원 수정 버튼 동작
+    document.querySelector('.modBtn').addEventListener('click', function(e) {
+        e.preventDefault();  // 기본 이벤트 제거
+        e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
+        console.log("modBtn click")
+
+        const memberData = {
+            userId: document.getElementById('inputUserId').value,
+            roleSet: [document.getElementById('inputRole').value],
+            name: document.getElementById('inputName').value,
+            email: document.getElementById('inputEmail').value,
+            address: document.getElementById('inputAddress').value
+        };
+        console.log(memberData)
+
+        // 서버에 POST 요청을 보냅니다.
+        fetch('/admin/member/modify', {
+            method: 'POST',
+            headers: {
+                //'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(memberData)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = "/admin"; // 응답 텍스트를 반환
+            } else {
+                throw new Error("서버 응답에 문제가 있습니다.");
+            }
+        })
+        .then(data => {
+            console.log("회원 정보가 수정되었습니다");
+            informationModal.hide(); // 모달 닫기
+        })
+        .catch(error => {
+            console.error("Error: ", error);
+        });
+    });
+    
+    // 모달 회원 삭제 버튼 동작
+    document.querySelector('.removeBtn').addEventListener('click', function(e) {
+        e.preventDefault();  // 기본 이벤트 제거
+        e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
+
+        const userId = document.getElementById('inputUserId').value;
+        // 서버에 POST 요청을 보냅니다.
+        if(document.getElementById('inputRole').value!='ROOT') {
+            fetch(`/admin/member/delete?userId=${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/admin";
+                } else {
+                    throw new Error("서버 응답에 문제가 있습니다.");
+                    // throw new Error(response.body);
+                }
+            })
+            .then(data => {
+                console.log("회원이 삭제되었습니다");
+                modal.hide(); // 모달 닫기
+            })
+            .catch(error => {
+                console.error("Error: ", error);
+            });
+        }
+    })
+
+    /* 게시글 링크 동작 */
+    const boardTable = document.querySelector('.cate_2 .table');
+    const boardRows = boardTable.getElementsByTagName('tr');
+
+    // 각 행에 클릭 이벤트 리스너 추가
+    for (let i = 1; i < boardRows.length; i++) { // 헤더를 제외하기 위해 i를 1로 시작
+        boardRows[i].addEventListener('click', function(e) {
+        console.log(e.target);
+        console.log(this.getAttribute('data-link'));
+        const link = this.getAttribute('data-link');
+        location.href= link;
+        });
+    } /* end table listener */
 
 </script>
 

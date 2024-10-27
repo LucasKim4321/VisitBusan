@@ -10,11 +10,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberSearch {
+
     Member findByEmail(String email);
 
     @EntityGraph(attributePaths = "profileImage")
     @Query("select b from Member b where b.userId = :userId")
     Optional<Member> findByUserId(@Param("userId") String userId);
+
 }
 
 

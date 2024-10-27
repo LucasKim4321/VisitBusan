@@ -35,23 +35,22 @@ public class AdminStartController {
 //        PageResponseDTO responseDTO = boardService.list(pageRequestDTO);
 
         // 1-2. 게시글 조회수,댓글수,좋아요수 List 조회
-        PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);
+        PageResponseDTO<BoardListReplyCountDTO> boardResponseDTO = boardService.listWithReplyCount(pageRequestDTO);
 
         // 1-3. 게시글 파일포함 List 조회
 //        PageResponseDTO<BoardAllDataDTO> responseDTO = boardService.listWithAll(pageRequestDTO);
 
 //        log.info("=> "+responseDTO);
 
-        model.addAttribute("responseDTO", responseDTO);
+        model.addAttribute("boardResponseDTO", boardResponseDTO);
 
 
         // 회원 조회
 
-        List<MemberDTO> memberDTOList = memberService.findAll();
-        log.info("=> memberDTOList: "+memberDTOList);
-
-        model.addAttribute("memberDTOList", memberDTOList);
-
+//        List<MemberDTO> memberDTOList = memberService.findAll();
+//        model.addAttribute("memberDTOList", memberDTOList);
+        PageResponseDTO<MemberDTO> memberResponseDTO = memberService.findAll(pageRequestDTO);
+        model.addAttribute("memberResponseDTO", memberResponseDTO);
 
         return "adminPage/main";
     }

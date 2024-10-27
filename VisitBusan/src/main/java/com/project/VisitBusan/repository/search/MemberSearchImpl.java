@@ -26,72 +26,9 @@ public class MemberSearchImpl extends QuerydslRepositorySupport implements Membe
     }
 
     @Override
-    public Page<Member> search(Pageable pageable) {
-
-        // Entity -> QDomain
-        QMember member = QMember.member;
-        // JPQLQuery<Board> => jsp : PreparseStatement 역할
-        // 1. where 추가
-        JPQLQuery<Member> query = from(member);  // select ... from member
-        query.where(member.userId.contains("test"));  // where title like ...
-
-
-        // 2. 조건문을 작성하는 클래스
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-
-        // where title like '%11%' or content like '%12%'
-        booleanBuilder.or(member.name.contains("test"));
-        booleanBuilder.or(member.email.contains("test"));
-        log.info("==> booleanBuilder: "+booleanBuilder);
-
-        JPQLQuery<Member> query2 = from(member).where(booleanBuilder);
-        log.info("==> 1. query2: "+query2);
-        query2.where(member.id.gt(3L));
-        log.info("==> 2. query2: "+query2);
-
-
-        // 1. 쿼리문 수행하여 결과 값을 List구조로 반환
-        List<Member> list = query.fetch();  // 데이터 모두 반환
-        long count = query.fetchCount();  // 검색된 모든 값 카운트
-
-        log.info("==> list: "+list);
-        log .info("_______________________");
-//        list.stream().forEach(b->log.info(b));
-        log.info("==> total: "+count);
-
-
-        // 3. paging 추가
-        // Pageable pageable = PageRequest.of(pageNumber:1, pageSize:5, Sort.by("id"))
-//        this.getQuerydsl().applyPagination(pageable, query2);  // 인자값으로 넘어온 pageable데이터로 query2 페이징 설정
-
-
-        // 2. 쿼리문 수행하여 결과 값을 List구조로 반환
-        List<Member> list2 = query2.fetch();  // 3.paging추가 이후 // 마지막 페이지 반환 // 마지막 페이지가 비어있으면 안보임(설정한 페이지가 더 많을 경우)
-        long count2 = query2.fetchCount();  // 검색된 모든 값 카운트
-
-        log.info("==> list2: "+list2);
-        log .info("_______________________");
-//        list.stream().forEach(b->log.info(b));
-        log.info("==> total2: "+count2);
-
-
-        // 페이지 처리의 최종 결과: Page<T>타입
-        // JPA에서 제공하는 PageImpl클래스는 3개의 파라미터로 Page<T>를 생성
-        return new PageImpl<>(list2, pageable, count2);
-
-    }
-
-    @Override
     public Page<Member> searchAll(String[] types, String keyword, Pageable pageable) {    // pageable은 항상 마지막에 와야함
 
-        log.info("=> test6");
         QMember member = QMember.member;
-        log.info("=> test6 member"+member);
-        log.info("=> test6 member.id"+member.id);
-        log.info("=> test6 member.userId"+member.userId);
-        log.info("=> test6 member.name"+member.name);
-        log.info("=> test6 member.email"+member.email);
-        log.info("=> test6 member.address"+member.address);
 
         JPQLQuery<Member> query = from(member);
 
@@ -121,19 +58,17 @@ public class MemberSearchImpl extends QuerydslRepositorySupport implements Membe
 //            booleanBuilder.and(member.category.contains(category));
 
         query.where(booleanBuilder);
-        log.info("=> test7 booleanBuilder"+booleanBuilder);
-        log.info("=> test7 query"+query);
 
         // paging 추가
 //        this.getQuerydsl().applyPagination(pageable, query);
-        log.info("=> test8");
+        query.offset(pageable.getOffset());
+        query.limit(pageable.getPageSize());
+        query.orderBy(member.id.desc());
 
         // query 실행
         List<Member> list = query.fetch();
-        log.info("=> test9 list"+list);
         long count = query.fetchCount();
         // 또는 long count = query.fetch().size();
-        log.info("=> test10 count"+count);
 
         return new PageImpl<>(list, pageable, count);
     }

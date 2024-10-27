@@ -140,6 +140,7 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     // 특정 게시글에 대한 댓글 개수 계산하는 인터페이스 구현
     @Override
     public Page<BoardListReplyCountDTO> searchWithReplyCount(String category, String[] types, String keyword, Pageable pageable) {
+
         QBoard board = QBoard.board;
         QReply reply = QReply.reply;
         QBoardLike boardLike = QBoardLike.boardLike;

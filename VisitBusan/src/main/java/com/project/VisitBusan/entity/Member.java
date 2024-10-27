@@ -66,14 +66,23 @@ public class Member extends BaseEntity {
                        String address,
                        Set<Role> roleSet,
                        String profileText
-                       //String userId
                         ) {
-        //this.userId = userId; //닉네임
-        this.name = name; //닉네임
-        this.email = email; //이메일
-        this.address = address; //주소
-        this.roleSet = roleSet; //권한
-        this.profileText = profileText; //프로필 자기소개
+
+        if(name!= null && !name.isEmpty()) {
+            this.name = name; //닉네임
+        }
+        if(email!= null && !email.isEmpty()) {
+            this.email = email; //이메일
+        }
+        if(address!= null && !address.isEmpty()) {
+            this.address = address; //주소
+        }
+        if(roleSet!= null && !(roleSet.contains(Role.ROOT))) {
+            this.roleSet = roleSet; //권한
+        }
+        if(profileText!= null && !profileText.isEmpty()) {
+            this.profileText = profileText; //프로필 자기소개
+        }
     }
 
     //------------------ 정적 팩토리 ----------------------//
@@ -93,8 +102,16 @@ public class Member extends BaseEntity {
         member.setPassword(password);
 
         //권한 설정
-        // member.setRole(Role.USER); // Set<Role> 사용전
-         member.addRole(Role.USER);    // Set<Role> 사용후
+        if (memberDTO.getRoleSet() != null) {
+//            memberDTO.getRoleSet().forEach(role->member.addRole(role));
+            memberDTO.getRoleSet().forEach(member::addRole);
+        }
+        else {
+            // member.setRole(Role.USER); // Set<Role> 사용전
+            member.addRole(Role.USER);    // Set<Role> 사용후
+        }
+
+
 
         return member;
     }

@@ -9,6 +9,7 @@ import com.project.VisitBusan.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,17 +42,14 @@ public class MemberManagementController {
 //        log.info("=> memberDTOList: "+memberDTOList);
 //        model.addAttribute("memberDTOList", memberDTOList);
 
-        log.info("=> test1 pageRequestDTO"+pageRequestDTO);
-
         PageResponseDTO<MemberDTO> responseDTO = memberService.findAll(pageRequestDTO);
-        log.info("=> responseDTO: "+responseDTO);
         model.addAttribute("responseDTO", responseDTO);
 
         return "adminPage/member/list";
     }
 
     @GetMapping("/read/{userId}")
-    public ResponseEntity<MemberDTO> readMember(@PathVariable String userId) {
+    public @ResponseBody ResponseEntity<MemberDTO> readMember(@PathVariable String userId) {
         MemberDTO member = memberService.findMember(userId);
 
         if (member == null) {
@@ -64,19 +62,8 @@ public class MemberManagementController {
 //        return (ResponseEntity<MemberDTO>) ResponseEntity.notFound();
     }
 
-    // 회원 등록: GET, POST
-    @GetMapping(value = "/list/create")
-    public String memberRegisterForm(Model model) {
-
-        // 데이터가 없는 memberDTO생성 : form에 입력한 데이터와 1:1 맵핑
-        model.addAttribute("memberDTO", new MemberDTO());
-
-        // 포워딩: 뷰리졸브
-        return "adminPage/member/list";
-    }
-
-    @PostMapping(value = "/list/create")
-    public String memberRegister(@Valid @ModelAttribute MemberDTO memberDTO,
+    @PostMapping(value = "/create")
+    public @ResponseBody ResponseEntity<?> memberRegister(@Valid @RequestBody MemberDTO memberDTO,
                                  Model model) {
 
         log.info("=> memberDTO: " + memberDTO);
@@ -86,10 +73,9 @@ public class MemberManagementController {
             memberService.saveMember(memberDTO);
         } catch (Exception e) { // 중복된 이메일 등록시 예외발생되는 Exception 처리
             model.addAttribute("errorMessage", e.getMessage());
-            return "adminPage/member/create";// 입력폼으로 포워딩
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found.");
         }
-
-        return "redirect:/admin/member/list";
+        return ResponseEntity.ok("Deleted");
     }
 
     // 중복 체크 처리
@@ -129,7 +115,7 @@ public class MemberManagementController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping(value = "/list/modify") //데이터 전송
+    @PostMapping(value = "/modify") //데이터 전송
     public @ResponseBody ResponseEntity<?> updateMember(@Valid @RequestBody MemberDTO memberDTO, //valid 유효성 검사
 //                                       public String updateMember(@Valid @RequestBody MemberDTO memberDTO, //valid 유효성 검사
                                           BindingResult bindingResult, //유효성 검사 후 데이터 담는 객체
@@ -150,39 +136,22 @@ public class MemberManagementController {
 
         redirectAttributes.addFlashAttribute("message", "회원정보가 수정되었습니다.");
 
-        return ResponseEntity.ok("SU");
+        return ResponseEntity.ok("Modified");
     }
 
     //4. 회원정보 삭제
-    @PreAuthorize("isAuthenticated") //로그인 인증 완료
-    @PostMapping(value = "/list/delete")
-    public String removeMember(@RequestParam("userId") String userId, RedirectAttributes redirectAttributes) {
+//    @PreAuthorize("isAuthenticated") //로그인 인증 완료
+    @PostMapping(value = "/delete")
+    public @ResponseBody ResponseEntity<?> removeMember(@RequestParam("userId") String userId, RedirectAttributes redirectAttributes) {
 
         try {
             memberService.remove(userId);
             redirectAttributes.addFlashAttribute("result","deleted");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "회원 삭제를 실패하였습니다.");
-            return "redirect:/admin/member/list";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found.");
         }
-        return "redirect:/admin/member/list";
+        return ResponseEntity.ok("Deleted");
     }
 
-    @PostMapping(value = "/modify/check") //데이터 전송
-    public String updateMemberCheck(@Valid @ModelAttribute MemberDTO memberDTO, //valid 유효성 검사
-                                    BindingResult bindingResult){ //유효성 검사 후 데이터 담는 객체
-
-        log.info("updateMemberCheck ================>"+memberDTO);
-        String errorMessage = "";
-
-        // 유효성 검사 오류 처리
-        if (bindingResult.hasErrors()) {
-            log.info("test2 ================>");
-            errorMessage ="비밀번호를 입력해주세요.";
-        }
-
-        // 멤버 조회
-        MemberDTO member = memberService.findMember(memberDTO.getUserId());
-        return errorMessage;
-    }
 }
