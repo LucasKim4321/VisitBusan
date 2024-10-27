@@ -46,6 +46,7 @@ document.querySelector('.createBtn1').addEventListener('click', function(e) {
     dateBox.hidden=true;
     passwordBox.hidden=false;
     document.getElementById('inputUserId').disabled=false;
+    document.getElementById('inputRole').disabled = false;
 
     // 모달 데이터 초기화
     const modalInputs = informationModal.getElementsByTagName('input')

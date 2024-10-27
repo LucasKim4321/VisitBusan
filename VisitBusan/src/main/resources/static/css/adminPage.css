@@ -265,7 +265,7 @@ a {
 .cate_1 {
     .table thead {
         th:nth-child(1) { width: 10% !important; }
-        th:nth-child(5) { width: 30% !important; }
+        th:nth-child(6) { width: 30% !important; }
     }
 } /* end .cate_1 */
 

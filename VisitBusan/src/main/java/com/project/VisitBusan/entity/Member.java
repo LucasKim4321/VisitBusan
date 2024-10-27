@@ -77,7 +77,7 @@ public class Member extends BaseEntity {
         if(address!= null && !address.isEmpty()) {
             this.address = address; //주소
         }
-        if(roleSet!= null && !(roleSet.contains(Role.ROOT))) {
+        if(roleSet!= null && !roleSet.isEmpty() && !(roleSet.contains(Role.ROOT))) {
             this.roleSet = roleSet; //권한
         }
         if(profileText!= null && !profileText.isEmpty()) {
