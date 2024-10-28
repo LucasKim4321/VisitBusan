@@ -3,6 +3,7 @@ console.log("스크립트 실행! :b");
 const dataCon = document.querySelector('.dataCon');
 const errors = dataCon.getAttribute('data-errors');
 const menu = dataCon.getAttribute('data-menu');
+const readLink = dataCon.getAttribute('data-readLink');
 const link = dataCon.getAttribute('data-link');
 const linkRemove = dataCon.getAttribute('data-link-remove');
 const dto_id = dataCon.getAttribute('data-id');
@@ -90,3 +91,19 @@ document.querySelector('.removeBtn').addEventListener('click', function(e) {
         formObj.submit();
     }
 })
+
+// 게시글 링크 복사
+function copyLink() {
+    // console.log(window.location.href)
+    // console.log(window.location.protocol)
+    // console.log(window.location.hostname)
+    // console.log(window.location.port)
+    const hostName = window.location.hostname;
+    const port = window.location.port;
+    navigator.clipboard.writeText(`${hostName}:${port}${readLink}?id=${dto_id}`).then(() => {
+        alert("링크가 복사되었습니다!");
+    }).catch(err => {
+        alert("복사에 실패했습니다.");
+        console.error("복사 오류:", err);
+    });
+}

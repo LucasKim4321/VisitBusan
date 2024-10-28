@@ -2,19 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/base}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>main</title>
-</head>
 
-<body>
-<div class="container userBoard" layout:fragment="content">
+<!-- 현재 페이지에서만 사용하는 css 정의 -->
+<style layout:fragment="mystyle" th:inline="css">
+</style>
+
+<div class="container board listPage" layout:fragment="content">
+
     <div class="body">
         <!-- 페이지 이름 -->
         <div class="topBox">
-<!--/*            <div>[[${responseDTO}]]</div>*/-->
-            <h1>[[${pageRequestDTO.bCategory=='place'?'명소':pageRequestDTO.bCategory=='food'?'음식':'숙박'}]]</h1>
+            <h1 class="categoryName" th:switch="${pageRequestDTO.bCategory}">
+                <th:block th:case="'place'">명소</th:block>
+                <th:block th:case="'food'">음식</th:block>
+                <th:block th:case="'accommodation'">숙박</th:block>
+                <th:block th:case="'scheduledTravel'">일정여행</th:block>
+                <th:block th:case="'themeTravel'">테마여행</th:block>
+                <th:block th:case="'information'">여행정보</th:block>
+                <th:block th:case="'schedule'">여행일정</th:block>
+                <th:block th:case="'review'">후기</th:block>
+                <th:block th:case="*">전체</th:block>
+            </h1>
             <ul class="controlBox">
                 <li class="aBtn active">#전체</li>
                 <li class="Btn1">#맛집</li>
@@ -22,8 +30,19 @@
                 <li class="Btn3">#축제</li>
                 <li class="Btn4">#마켓</li>
             </ul>
-            <form action="/board/userBoard/list" th:action="|@{/board/}${menu}/list?${pageRequestDTO.getLink()}|" method="get" role="search" class="search searchForm">
-                <input class="form-control" type="search" name="q" placeholder="Search" aria-label="Search">
+            <form action="/board/userBoard/list" th:action="|@{/board/}${menu}/list|" method="get" role="search" class="search searchForm">
+                <input type="hidden" name="bCategory" th:value="${pageRequestDTO.getBCategory()}">
+                <div class="input-group-prepend">
+                    <select hidden class="form-select" name="type">
+                        <option value="tc" th:selected="${pageRequestDTO.type=='tc'}">제목+내용</option>
+                        <option value="tcw" th:selected="${pageRequestDTO.type=='tcw'}">제목+내용+작성자</option>
+                        <option value="t" th:selected="${pageRequestDTO.type=='t'}">제목</option>
+                        <option value="c" th:selected="${pageRequestDTO.type=='c'}">내용</option>
+                        <option value="w" th:selected="${pageRequestDTO.type=='w'}">작성자</option>
+                    </select>
+                </div>
+                <input class="form-control" type="search" name="keyword" placeholder="Search" aria-label="Search"
+                       th:value="${pageRequestDTO.keyword}">
                 <button class="btn btn-light" type="submit">Search</button>
             </form>
         </div>
@@ -48,28 +67,31 @@
             </div>
         </div>
 
-        <!-- 카테고리 탭 (여행공유,여행일정,후기) -->
-        <div class="tab-content" id="nav-tabContent">
-            <div class="postsBox" th:with="link=${pageRequestDTO.getLink()}">
-                <!-- 게시글 (가로4 * 세로3) -->
-                <div class="post" th:each="dto:${responseDTO.dtoList}">
-                    <div class="postImgBox"><img th:src="|@{/images/}${menu}/busan1.jpg|" alt="사진"></div>
-                    <a class="postTitle" th:text="${dto.title}" th:href="|@{/board/}${menu}/read?id=${dto.id}&${link}|" >여행과 힐링을 동시에, 부산 웰니스 관광지 선정(부산웰니스관광, 광안리, 숲, 명상, 스파)</a>
-                    <ul class="postText">
-                        <li>방문: <span th:text="${dto.viewCount}">1588</span></li>
-                        <li>댓글: <span>1</span></li>
-                        <li>좋아요: <span>8</span></li>
-                    </ul>
-                    <div class="postDate" th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd hh:mm')}">2024.08.22</div>
+        <div class="postsBox" th:with="link=${pageRequestDTO.getLink()}">
+            <!-- 게시글 (가로4 * 세로3) -->
+            <div class="post" th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/board/}${menu}/read?id=${dto.id}&${link}|">
+                <!-- 게시글에 대한 이미지 첨부파일 -->
+                <div class="postImgBox">
+                    <th:block th:if="${dto.boardFiles == null || dto.boardFiles.size() == 0 }">
+                        <img th:src="|@{/images/samples/}busan1.jpg|" alt="사진">
+                    </th:block>
+                    <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() > 0 }">
+                        <img th:src="|/view/s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
+                    </th:block>
                 </div>
+                <div class="postTitle" th:text="${dto.title}">여행과 힐링을 동시에, 부산 웰니스 관광지 선정(부산웰니스관광, 광안리, 숲, 명상, 스파)</div>
+                <ul class="postText">
+                    <li>조회수: <span th:text="${dto.viewCount}">1588</span></li>
+                    <li>댓글: <span th:text="${dto.replyCount}">1</span></li>
+                    <li>좋아요: <span th:text="${dto.boardLikeCount}">8</span></li>
+                </ul>
+                <div class="postDate" th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}">2024.08.22</div>
             </div>
-        </div>
+        </div> <!-- end class="postsBox" -->
 
-
-        <!-- class="tab-content" -->
         <!-- 페이지 버튼 -->
         <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center mt-4">
+            <ul class="pagination my_pagination justify-content-center mt-4">
 
                 <!-- 불러올 이전 페이지가 있으면 활성화 -->
                 <li th:if="${responseDTO.prev}" class="page-item">
@@ -91,43 +113,19 @@
                 </li>
 
             </ul>
-        </nav>
+        </nav> <!-- end page -->
     </div>
+
+    <div>[[${responseDTO}]]</div>
+
 </div> <!-- end class="container" -->
 
+<!-- 게시판 리스트 스크립트 연결 -->
+<script th:src="@{/js/boardList.js}" layout:fragment="basescript"></script>
 
+<!--/* 현재 페이지에서만 사용하는 script 정의 */-->
 <script layout:fragment="myscript" th:inline="javascript">
-    console.log("스크립트 실행! :b");
-
-    // 페이징 번호 클릭시 처리하는 함수
-    document.querySelector('.pagination').addEventListener('click',function(e) {
-    e.preventDefault();  // 기본 이벤트 제거
-    e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
-
-    console.log('e: ',e);
-
-    const target = e.target;
-    if (target.tagName != 'A') {
-    console.log("<a>태그가 아니라고!!");
-    return;  // <a>태그가 아니면 종료
-        }
-
-        const num = target.getAttribute('data-num');  // 현재 클릭된 요소의 data-num을 읽어옴
-
-        // 검색 기능 폼(form)에서 전송
-
-        // document.querySelector('form');  // 폼이 하나면 이렇게 해도 상관없음 // 나중을 위해 비추(까먹고있다가 한참 찾야함)
-        const formObj = document.querySelector('.searchForm');
-
-        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
-        formObj.innerHTML += "<input type='hidden' name='bCategory' value='"+[[${pageRequestDTO.getBCategory}]]+"'>"
-        formObj.submit();  // 전송
-
-        // location.href="/board/list?page="+num  // 클릭한 페이지 번호
-
-        })
-
+    console.log("스크립트 실행2 :b");
 </script>
 
-</body>
 </html>

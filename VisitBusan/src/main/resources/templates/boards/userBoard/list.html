@@ -7,13 +7,22 @@
 <style layout:fragment="mystyle" th:inline="css">
 </style>
 
-<div class="container board listPage userBoard" layout:fragment="content">
+<div class="container board listPage" layout:fragment="content">
 
     <div class="body">
         <!-- 페이지 이름 -->
         <div class="topBox">
-<!--/*            <div>[[${responseDTO}]]</div>*/-->
-            <h1>[[${pageRequestDTO.bCategory=='information'?'여행정보':pageRequestDTO.bCategory=='schedule'?'여행일정':'후기'}]]</h1>
+            <h1 class="categoryName" th:switch="${pageRequestDTO.bCategory}">
+                <th:block th:case="'place'">명소</th:block>
+                <th:block th:case="'food'">음식</th:block>
+                <th:block th:case="'accommodation'">숙박</th:block>
+                <th:block th:case="'scheduledTravel'">일정여행</th:block>
+                <th:block th:case="'themeTravel'">테마여행</th:block>
+                <th:block th:case="'information'">여행정보</th:block>
+                <th:block th:case="'schedule'">여행일정</th:block>
+                <th:block th:case="'review'">후기</th:block>
+                <th:block th:case="*">전체</th:block>
+            </h1>
             <ul class="controlBox">
                 <li class="aBtn active">#전체</li>
                 <li class="Btn1">#맛집</li>
@@ -58,32 +67,27 @@
             </div>
         </div>
 
-
-
-        <!-- 카테고리 탭 (여행공유,여행일정,후기) -->
-        <div class="tab-content" id="nav-tabContent">
-            <div class="postsBox" th:with="link=${pageRequestDTO.getLink()}">
-                <!-- 게시글 (가로4 * 세로3) -->
-                <div class="post" th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/board/}${menu}/read?id=${dto.id}&${link}|">
-                    <!-- 게시글에 대한 이미지 첨부파일 -->
-                    <div class="postImgBox">
-                        <th:block th:if="${dto.boardFiles == null || dto.boardFiles.size() == 0 }">
-                            <img th:src="|@{/images/samples/}busan1.jpg|" alt="사진">
-                        </th:block>
-                        <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() > 0 }">
-                            <img th:src="|/view/s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
-                        </th:block>
-                    </div>
-                    <div class="postTitle" th:text="${dto.title}">여행과 힐링을 동시에, 부산 웰니스 관광지 선정(부산웰니스관광, 광안리, 숲, 명상, 스파)</div>
-                    <ul class="postText">
-                        <li>조회수: <span th:text="${dto.viewCount}">1588</span></li>
-                        <li>댓글: <span th:text="${dto.replyCount}">1</span></li>
-                        <li>좋아요: <span th:text="${dto.boardLikeCount}">8</span></li>
-                    </ul>
-                    <div class="postDate" th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}">2024.08.22</div>
+        <div class="postsBox" th:with="link=${pageRequestDTO.getLink()}">
+            <!-- 게시글 (가로4 * 세로3) -->
+            <div class="post" th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/board/}${menu}/read?id=${dto.id}&${link}|">
+                <!-- 게시글에 대한 이미지 첨부파일 -->
+                <div class="postImgBox">
+                    <th:block th:if="${dto.boardFiles == null || dto.boardFiles.size() == 0 }">
+                        <img th:src="|@{/images/samples/}busan1.jpg|" alt="사진">
+                    </th:block>
+                    <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() > 0 }">
+                        <img th:src="|/view/s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
+                    </th:block>
                 </div>
+                <div class="postTitle" th:text="${dto.title}">여행과 힐링을 동시에, 부산 웰니스 관광지 선정(부산웰니스관광, 광안리, 숲, 명상, 스파)</div>
+                <ul class="postText">
+                    <li>조회수: <span th:text="${dto.viewCount}">1588</span></li>
+                    <li>댓글: <span th:text="${dto.replyCount}">1</span></li>
+                    <li>좋아요: <span th:text="${dto.boardLikeCount}">8</span></li>
+                </ul>
+                <div class="postDate" th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}">2024.08.22</div>
             </div>
-        </div> <!-- end class="tab-content" -->
+        </div> <!-- end class="postsBox" -->
 
         <!-- 페이지 버튼 -->
         <nav aria-label="Page navigation">

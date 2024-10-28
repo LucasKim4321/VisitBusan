@@ -4,23 +4,31 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/base}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>main</title>
-</head>
 
-<body>
-<div class="container userCreate" layout:fragment="content">
+<!-- 현재 페이지에서만 사용하는 css 정의 -->
+<style layout:fragment="mystyle" th:inline="css">
+</style>
+
+<div class="container board modifyPage" layout:fragment="content">
     <div class="body">
 
         <div class="topBox">
-            <h1>[[${dto.category=='place'?'명소':dto.category=='food'?'음식':'숙박'}]]</h1>
+            <h1 class="categoryName" th:switch="${dto.category}">
+                <th:block th:case="'place'">명소</th:block>
+                <th:block th:case="'food'">음식</th:block>
+                <th:block th:case="'accommodation'">숙박</th:block>
+                <th:block th:case="'scheduledTravel'">일정여행</th:block>
+                <th:block th:case="'themeTravel'">테마여행</th:block>
+                <th:block th:case="'information'">여행정보</th:block>
+                <th:block th:case="'schedule'">여행일정</th:block>
+                <th:block th:case="'review'">후기</th:block>
+                <th:block th:case="*">전체</th:block>
+            </h1>
         </div>
 
         <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
 
-            <form action="/board/userBoard/modify" th:action="|@{/board/}${menu}/modify?${pageRequestDTO.getLink()}|" method="post">
+            <form class="modifyForm" action="/board/userBoard/modify" th:action="|@{/board/}${menu}/modify?${pageRequestDTO.getLink()}|" method="post">
                 <div class="topBox mt-4">
                     <!-- 카테고리 -->
                     <div class="categoryBox mt-3">
@@ -63,7 +71,9 @@
 
                 <!-- 내용 -->
                 <div class="contentBox">
-                    <textarea class="form-control" name="content" placeholder="내용 입력 1000자 제한">[[${dto.content}]]</textarea>
+                    <textarea class="form-control content" name="content" rows="20" onInput="handleResizeHeight()" placeholder="내용 입력 2000자 제한"
+                              th:text="${dto.content}"></textarea>
+                    <p>행 수: <span id="rowCount">1</span> 글자 수: <span id="textCount">1</span></p>
                 </div>
 
                 <!-- 태그 -->
@@ -89,6 +99,33 @@
                            th:value="${dto.writerId}">
                 </div>
 
+                <!-- 첨부파일 등록 모달 버튼 -->
+                <div class="mt-3 mb-3 row">
+                    <div class="col d-flex">
+                        <div><input type="button" id="addFilesBtn" class="btn btn-secondary opacity-50 addFilesBtn" value="이미지 등록"></div>
+                        <!-- 이미지 첨부파일 -->
+                        <div class="col container-fluid d-flex gap-3 uploadResult" style="flex-wrap:wrap">
+                            <th:block th:each="fileName: ${dto.fileNames}" th:if="${dto.fileNames != null && dto.fileNames.size() > 0 }">
+                                <div class="card" style="width: 18rem;"
+                                     th:with="nameArr=${fileName.split('==vb==')}">  <!-- nameArr [0]uuid [1]fileName -->
+                                    <div class="card-header d-flex justify-content-center">
+                                        <p>[[${nameArr[1]}]]</p>
+                                        <p hidden>${nameArr[1]}</p>  <!-- 그냥 텍스트로 인식 -->
+                                        <button type="button" class="btn btn-outline-danger opacity-50" style="margin-left:auto"
+                                                th:onClick="javascript:removeFile([[${nameArr[0]}]], [[${nameArr[1]}]], this)" > x </button>
+                                    </div>
+                                    <div class="card-body">
+                                        <img style="" class="w-100" th:data-src="${fileName}"
+                                             th:src="|/view/s_${fileName}|" />
+                                    </div>
+                                </div>
+
+                            </th:block>
+                        </div>
+                        <div class="uploadHidden"></div>
+                    </div>
+                </div>
+
                 <!-- 하단 버튼 -->
                 <div class="buttonBox d-flex mt-3">
                     <div class="ms-auto">
@@ -96,7 +133,7 @@
                             <button type="button" class="form-control border d-inline cancelBtn">취소</button>
                         </a>
                     </div>
-                    <div class="ms-2"><button type="submit" class="form-control border d-inline submitBtn">등록</button></div>
+                    <div class="ms-2"><button type="submit" class="form-control border d-inline confirmBtn">수정완료</button></div>
                 </div>
             </form>
 
@@ -106,10 +143,50 @@
 
     <div>[[${dto}]]</div>
 
+    <!-- 첨부파일 추가를 위한 모달창 -->
+    <div class="modal modalUpload fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload Files</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <div id="input_files_result_box"><div id="input_files_result"></div></div>
+                            <input type="file" class="form-control" id="input_files" name="files" multiple>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary closeModalUpload" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary uploadBtn">업로드</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
+         th:data-id="${dto.id}" th:data-link-read="|/board/${menu}/read?id=${dto.id}&${pageRequestDTO.getLink()}|">
+        <th:block th:each="fileName:${dto.fileNames}">
+            <div class="fileName" th:text="${fileName}"></div>
+        </th:block>
+    </div>
+
+    <!-- Axios 라이브러리 연결 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- file upload 처리하는 javascript 연결 -->
+    <script src="/js/upload.js"></script>
+
 </div> <!-- end fragment="content" -->
 
-<!-- 부트 스트랩 -->
-<script layout:fragment="myscript" th:inline="javascript"></script>
+<!-- 게시판 수정 스크립트 연결 -->
+<script th:src="@{/js/boardModify.js}" layout:fragment="basescript"></script>
 
-</body>
+<!--/* 현재 페이지에서만 사용하는 script 정의 */-->
+<script layout:fragment="myscript" th:inline="javascript">
+    console.log("스크립트 실행2 :b");
+</script>
+
 </html>

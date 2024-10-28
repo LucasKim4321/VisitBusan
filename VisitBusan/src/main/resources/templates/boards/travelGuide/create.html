@@ -8,7 +8,7 @@
 <style layout:fragment="mystyle" th:inline="css">
 </style>
 
-<div class="container board createPage userCreate" layout:fragment="content">
+<div class="container board createPage" layout:fragment="content">
     <div class="body">
 
         <div class="topBox">
@@ -86,9 +86,9 @@
                 <!-- 하단 버튼 -->
                 <div class="buttonBox d-flex mt-3">
                     <div class="ms-auto">
-                        <!--/*                        <a href="/board/information" th:href="|@{/board/}${menu}/list?${pageRequestDTO.getLink()}|" class="ms-auto">*/-->
-                        <button type="button" class="form-control border d-inline cancelBtn">취소</button>
-                        <!--/*                        </a>*/-->
+<!--/*                        <a href="/board/information" th:href="|@{/board/}${menu}/list?${pageRequestDTO.getLink()}|" class="ms-auto">*/-->
+                            <button type="button" class="form-control border d-inline cancelBtn">취소</button>
+<!--/*                        </a>*/-->
                     </div>
                     <div class="ms-2"><button type="submit" class="form-control border d-inline submitBtn">등록</button></div>
                 </div>
@@ -123,7 +123,7 @@
     </div>
 
     <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
-         th:data-link-list="|/board/${menu}/list?${pageRequestDTO.getLink()}|"></div>
+        th:data-link-list="|/board/${menu}/list?${pageRequestDTO.getLink()}|"></div>
 
     <!-- Axios 라이브러리 연결 -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

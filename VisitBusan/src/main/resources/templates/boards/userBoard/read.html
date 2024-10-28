@@ -4,11 +4,21 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/base}">
 
-<div class="container board userPost readPage" layout:fragment="content">
+<div class="container board readPage" layout:fragment="content">
     <div class="body">
 
         <div class="topBox">
-            <h1>[[${dto.category=='information'?'여행정보':dto.category=='schedule'?'여행일정':'후기'}]]</h1>
+            <h1 class="categoryName" th:switch="${dto.category}">
+                <th:block th:case="'place'">명소</th:block>
+                <th:block th:case="'food'">음식</th:block>
+                <th:block th:case="'accommodation'">숙박</th:block>
+                <th:block th:case="'scheduledTravel'">일정여행</th:block>
+                <th:block th:case="'themeTravel'">테마여행</th:block>
+                <th:block th:case="'information'">여행정보</th:block>
+                <th:block th:case="'schedule'">여행일정</th:block>
+                <th:block th:case="'review'">후기</th:block>
+                <th:block th:case="*">전체</th:block>
+            </h1>
         </div>
 
         <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
@@ -44,11 +54,11 @@
                     </div>
 
                     <div class="ms-auto">
-                        댓글수
+                        <div>댓글수 <span th:text="${dto.replyCount}">1</span></div>
                     </div>
 
                     <div>
-                        url복사...
+                        <div onclick="copyLink()">url복사...</div>
                     </div>
 
                 </div>
@@ -82,8 +92,8 @@
 
                 <!-- 좋아요, 댓글, 공유, 신고 -->
                 <div class="d-flex gap-3 mt-3">
-                    <div class="">좋아요 7</div>
-                    <div>댓글 12</div>
+                    <div>좋아요: <span th:text="${dto.boardLikeCount}">8</span></div>
+                    <div>댓글: <span th:text="${dto.replyCount}">1</span></div>
                     <div class="ms-auto">공유</div>
                     <div>신고</div>
                 </div>
@@ -162,7 +172,7 @@
 
     <div>[[${dto}]]</div>
 
-    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
+    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-readLink="|/board/${menu}/read|" th:data-link="${pageRequestDTO.getLink()}"
          th:data-id="${dto.id}" th:data-link-remove="|/board/${menu}/remove?id=${dto.id}&${pageRequestDTO.getLink()}|">
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>

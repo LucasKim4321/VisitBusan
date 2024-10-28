@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/base}">
 
-<div class="container board userPost readPage" layout:fragment="content">
+<div class="container board readPage" layout:fragment="content">
     <div class="body">
 
         <div class="topBox">
@@ -44,11 +44,11 @@
                     </div>
 
                     <div class="ms-auto">
-                        댓글수
+                        <div>댓글수 <span th:text="${dto.replyCount}">1</span></div>
                     </div>
 
                     <div>
-                        url복사...
+                        <div onclick="copyLink()">url복사...</div>
                     </div>
 
                 </div>
@@ -82,13 +82,61 @@
 
                 <!-- 좋아요, 댓글, 공유, 신고 -->
                 <div class="d-flex gap-3 mt-3">
-                    <div class="">좋아요 7</div>
-                    <div>댓글 12</div>
+                    <div>좋아요: <span th:text="${dto.boardLikeCount}">8</span></div>
+                    <div>댓글: <span th:text="${dto.replyCount}">1</span></div>
                     <div class="ms-auto">공유</div>
                     <div>신고</div>
                 </div>
             </div>
             <hr>
+
+            <!-- 댓글 창-->
+            <div class="replyBox">
+                <div class="d-flex mt-3 gap-3">
+                    <div>등록순</div>
+                    <div>최신순</div>
+                </div>
+
+                <ul class="list-group replies"> <!--  댓글리스트 -->
+                    <li class="list-group-item ">
+                        댓글이 없습니다.
+                    </li>
+                </ul>
+
+                <!-- 댓글1 -->
+                <!--
+                <div class="reply d-flex mt-3 gap-3">
+                    <div class="imgBox">
+                        <div class="imgdiv rounded-circle mx-auto"><img th:src="|@{/images/profileImage/}gwanganli2.jpg|"></div>
+                    </div>
+                    <div>
+                        <div>작성자</div>
+                        <div>댓글 내용</div>
+                        <div class="d-flex gap-3">
+                            <div>작성날자/시간</div>
+                            <div>답글쓰기</div>
+                            <div>좋아요</div>
+                        </div>
+                    </div>
+                </div>
+                !-->
+
+                <!-- 댓글 페이징 -->
+                <div class="row mt-4 mb-5">
+                    <div class="col d-flex justify-content-center">
+                        <ul class="pagination replyPaging">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 댓글 등록 -->
+                <div class="d-flex my-4">
+                    <textarea class="form-control col me-3 replyText" name="" id="" placeholder="댓글 입력"></textarea>
+                    <div class=""><button class="regBtn btn btn-outline-secondary w-100 h-100">등록</button></div>
+
+                </div>
+
+            </div> <!-- end 댓글창 -->
 
             <!-- 하단 버튼 -->
             <div class="buttonBox d-flex mt-3">
@@ -114,7 +162,7 @@
 
     <div>[[${dto}]]</div>
 
-    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
+    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-readLink="|/board/${menu}/read|" th:data-link="${pageRequestDTO.getLink()}"
          th:data-id="${dto.id}" th:data-link-remove="|/board/${menu}/remove?id=${dto.id}&${pageRequestDTO.getLink()}|">
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>
@@ -125,6 +173,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- file upload 처리하는 javascript 연결 -->
     <script src="/js/upload.js"></script>
+    <script src="/js/reply.js"></script>
 
 </div> <!-- end fragment="content" -->
 

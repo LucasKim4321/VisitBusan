@@ -7,7 +7,7 @@
 <style layout:fragment="mystyle" th:inline="css">
 </style>
 
-<div class="container board listPage userBoard" layout:fragment="content">
+<div class="container board listPage travelGuideList" layout:fragment="content">
 
     <div class="body">
         <!-- 페이지 이름 -->
@@ -50,31 +50,26 @@
             </div>
         </div>
 
-
-
-        <!-- 카테고리 탭 (여행공유,여행일정,후기) -->
-        <div class="tab-content" id="nav-tabContent">
-            <div class="postsBox" th:with="link=${pageRequestDTO.getLink()}">
-                <!-- 게시글 (가로4 * 세로3) -->
-                <div class="post" th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/board/}${menu}/read?id=${dto.id}&${link}|">
-                    <!-- 게시글에 대한 이미지 첨부파일 -->
-                    <div class="postImgBox">
-                        <th:block th:if="${dto.boardFiles == null || dto.boardFiles.size() == 0 }">
-                            <img th:src="|@{/images/samples/}busan1.jpg|" alt="사진">
-                        </th:block>
-                        <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() > 0 }">
-                            <img th:src="|/view/s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
-                        </th:block>
-                    </div>
-                    <div class="postTitle" th:text="${dto.title}">여행과 힐링을 동시에, 부산 웰니스 관광지 선정(부산웰니스관광, 광안리, 숲, 명상, 스파)</div>
+        <div class="postsBox" th:with="link=${pageRequestDTO.getLink()}">
+            <!-- 게시글 (가로4 * 세로3) -->
+            <div class="post" th:each="dto:${responseDTO.dtoList}" th:data-link="|@{/board/}${menu}/read?id=${dto.id}&${link}|">
+                <!-- 게시글에 대한 이미지 첨부파일 -->
+                <div class="postImgBox">
+                    <th:block th:if="${dto.boardFiles == null || dto.boardFiles.size() == 0 }">
+                        <img th:src="|@{/images/samples/}busan1.jpg|" alt="사진">
+                    </th:block>
                     <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() > 0 }">
-                        <div class="down-btn" th:with="realFileName=${dto.boardFiles[1].fileName}">
-                            <a th:download="${realFileName}" th:href="|/view/${dto.boardFiles[1].uuid}==vb==${realFileName}|">다운로드</a>
-                        </div>
+                        <img th:src="|/view/s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
                     </th:block>
                 </div>
+                <div class="postTitle" th:text="${dto.title}">여행과 힐링을 동시에, 부산 웰니스 관광지 선정(부산웰니스관광, 광안리, 숲, 명상, 스파)</div>
+                <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() >= 2 }">
+                    <div class="down-btn-box" th:with="realFileName=${dto.boardFiles[1].fileName}">
+                        <a class="down-btn" th:download="${realFileName}" th:href="|/view/${dto.boardFiles[1].uuid}==vb==${realFileName}|">다운로드</a>
+                    </div>
+                </th:block>
             </div>
-        </div> <!-- end class="tab-content" -->
+        </div>
 
         <!-- 페이지 버튼 -->
         <nav aria-label="Page navigation">
@@ -113,6 +108,7 @@
 <!--/* 현재 페이지에서만 사용하는 script 정의 */-->
 <script layout:fragment="myscript" th:inline="javascript">
     console.log("스크립트 실행2 :b");
+    console.log("그림 하나, 파일 하나 이렇게 올려야 에러 안걸림");
 </script>
 
 </html>

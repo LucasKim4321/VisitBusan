@@ -1,5 +1,8 @@
 console.log("스크립트 실행2! :b");
 
+const dataCon = document.querySelector('.dataCon');
+const link = dataCon.getAttribute('data-link');
+
 // 페이징 번호 클릭시 처리하는 함수
 document.querySelector('.my_pagination').addEventListener('click',function(e) {
     e.preventDefault();  // 기본 이벤트 제거
@@ -194,7 +197,7 @@ document.querySelector('.modBtn').addEventListener('click', function(e) {
     })
     .then(response => {
         if (response.ok) {
-            window.location.href = "/admin/member/list"; // 응답 텍스트를 반환
+            window.location.href = `/admin/member/list?${link}`; // 응답 텍스트를 반환
         } else {
             throw new Error("서버 응답에 문제가 있습니다.");
         }
@@ -224,7 +227,7 @@ document.querySelector('.removeBtn').addEventListener('click', function(e) {
         })
         .then(response => {
             if (response.ok) {
-                window.location.href = "/admin/member/list";
+                window.location.href = `/admin/member/list?${link}`;
             } else {
                 throw new Error("서버 응답에 문제가 있습니다.");
                 // throw new Error(response.body);

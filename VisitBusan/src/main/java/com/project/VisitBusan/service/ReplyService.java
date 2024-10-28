@@ -35,18 +35,21 @@ public interface ReplyService {
 
         return reply;
     }
-        // Entity -> ReplyDTO: Board 객체가 필요하지 않으므로 게시물 번호만 처리
-        default ReplyDTO entityToDTO(Reply reply){
-            ReplyDTO dto = ReplyDTO.builder()
-                    .id(reply.getId())
-                    .replyText(reply.getReplyText())
-                    .replier(reply.getReplier())
-                    .id(reply.getId())
+    // Entity -> ReplyDTO: Board 객체가 필요하지 않으므로 게시물 번호만 처리
+    default ReplyDTO entityToDTO(Reply reply){
+        ReplyDTO dto = ReplyDTO.builder()
+                .id(reply.getId())
+                .replyText(reply.getReplyText())
+                .replier(reply.getReplier())
+                .id(reply.getId())
 
-                    .regDate(reply.getRegDate())
-                    .modDate(reply.getModDate())
-                    .build();
+                .regDate(reply.getRegDate())
+                .modDate(reply.getModDate())
+                .build();
 
-            return dto;
+        return dto;
     }
+
+
+
 }

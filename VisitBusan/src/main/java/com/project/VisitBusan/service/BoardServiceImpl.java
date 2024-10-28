@@ -83,6 +83,8 @@ public class BoardServiceImpl implements BoardService {
         // return boardDTO;
 
         FestivalInfo festivalInfo = festivalInfoRepository.findByBoard_id(id);
+        long replyCount =  replyRepository.replyCount(id);
+        long countBoardLike =  boardLikeRepository.countBoardLike(id);
 
         log.info("==> festivalInfo" + festivalInfo);
 
@@ -90,10 +92,14 @@ public class BoardServiceImpl implements BoardService {
         if (festivalInfo != null) {
             log.info("==> festivalInfo != null");
             boardDTO = entityToDTOAll(board, festivalInfo);
+            boardDTO.setReplyCount(replyCount);
+            boardDTO.setBoardLikeCount(countBoardLike);
 
         } else {
             log.info("==> festivalInfo == null");
             boardDTO = entityToDTO(board);
+            boardDTO.setReplyCount(replyCount);
+            boardDTO.setBoardLikeCount(countBoardLike);
         }
 
         return boardDTO;

@@ -17,6 +17,11 @@
     font-family: 'NotoSansKR', sans-serif;
     letter-spacing: -0.5px;
 }
+
+/* ------------------ */
+/*     공통 스타일     */
+/* ------------------ */
+
 html, body {
     min-width: 500px;
     margin: 0 auto;
@@ -30,19 +35,16 @@ a {
     color: #333;
     text-decoration: none;
 }
-
 h1 {
     font-size: 32px;
     font-weight: 800;
     margin-bottom: 30px;
 }
-
 h2 {
     font-size: 24px;
     margin-bottom: 10px;
     font-weight: 600;
 }
-
 h3 {
     font-size: 18px;
     margin-bottom: 5px;
@@ -61,15 +63,12 @@ h4 {
 .body {
     margin: 60px 0;
 }
-
-/* 공통 스타일 */
 .container {
     padding: 150px 0 80px 0;
 }
 footer .container {
-        padding: 0;
+    padding: 0;
 }
-
 /* 카테고리 */
 .with-4 {
     flex: 1 1 100%;
@@ -114,23 +113,6 @@ footer .container {
     display: inline-block;
 }
 /* 버튼 */
-.controlBox {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 30px 0 20px;
-}
-.controlBox li {
-    border: 1px solid #ccc;
-    padding: 4px 16px;
-    border-radius: 25px;
-    font-size: 16px;
-}
-.controlBox li.active {
-    background-color: #38aed6;
-    border: #38aed6;
-    color: #fff;
-}
 .whiteBtn {
     background-color: #fff;
     padding: 8px 16px;
@@ -164,72 +146,311 @@ footer .container {
     width: 100%;
     text-align: center;
 }
+/* 공통스타일 end */
 
-/* 게시판 레이아웃 4*3 */
-.postsBox {
+
+/* ------------------ */
+/* 공통된 게시판 스타일 */
+/* ------------------ */
+
+/* board (게시판 전체 공통) */
+.board {
+    .content {
+        /* all: unset; */
+        /* white-space: pre; */
+        /* white-space: pre-line; */
+        /* white-space: pre-wrap; */
+        /* border: none; */
+        /* outline: none; */
+        resize: none;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+}
+
+/* 페이지 컨트롤 */
+.pagination {
+    .page-link {
+        color: gray;
+    }
+    .page-link:active {
+        box-shadow: none;
+    }
+    .page-link:focus {
+        box-shadow: none;
+    }
+    .active .page-link {
+        background-color: gray;
+        color: #fff;
+        border-color: gray;
+    }
+
+} /* end .pagination */
+
+/* 검색창 설정 */
+.topBox .search {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-.postsBox .post {
-    max-width: 100%;
-    margin-bottom: 10px;
-}
-.postsBox .postTitle {
-    font-size: 16px;
-    color: #000;
-    line-height: 20px;
-    font-weight: 545;
-    height: 20px;
-    overflow: hidden;
-    margin: 15px 0 5px;
-    display: -webkit-box;
-    text-overflow: ellipsis;
-    #fff-space:
-    normal;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-}
-.postsBox .postRegDate {
-    font-size: 15px;
-    color: #777;
-}
-.postsBox .postText {
-    font-size: 15px;
-    display: flex;
-    gap: 10px;
-}
-.postsBox .postText li {
-    color: #555;
-}
-.postsBox .postText span {
-    color: #38aed6;
-}
-.postsBox .postDate {
-    font-size: 14px;
-    color: #999;
-    margin: 10px 0;
-}
-.postImgBox {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    height: 300px;
+    margin-top: 20px;
+    .form-control {
+        width: 50%;
+        border-radius: 50px 0 0 50px;
+        padding: 10px 20px;
+        border-right: 0px;
+    }
+    button {
+        border-radius: 0 50px 50px 0;
+        padding: 10px 20px;
+        background: #999;
+        color: #fff;
+    }
 }
-.postImgBox img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+
+/* list (list페이지 공통) */
+/* 게시판 레이아웃 4*2 */
+.listPage {
+    .postsBox {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .postsBox .post {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+    .postsBox .post:hover {
+        cursor: pointer;
+    }
+    .postsBox .postTitle {
+        font-size: 16px;
+        color: #000;
+        line-height: 20px;
+        font-weight: 545;
+        height: 20px;
+        overflow: hidden;
+        margin: 15px 0 5px;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        #fff-space:
+        normal;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+    .postsBox .postRegDate {
+        font-size: 15px;
+        color: #777;
+    }
+    .postsBox .postText {
+        font-size: 15px;
+        display: flex;
+        gap: 10px;
+    }
+    .postsBox .postText li {
+        color: #555;
+    }
+    .postsBox .postText span {
+        color: #38aed6;
+    }
+    .postsBox .postDate {
+        font-size: 14px;
+        color: #999;
+        margin: 10px 0;
+    }
+    .postImgBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+    }
+    .postImgBox img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .postsBox .downBox {
+        text-align: center;
+        padding: 0 0 20px 0;
+        border: 1px #ccc solid;
+        font-size: 16px;
+    }
+    /* 태그,기간 컨트롤 */
+    .controlBox {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 30px 0 20px;
+    }
+    .controlBox li {
+        border: 1px solid #ccc;
+        padding: 4px 16px;
+        border-radius: 25px;
+        font-size: 16px;
+    }
+    .controlBox li.active {
+        background-color: #38aed6;
+        border: #38aed6;
+        color: #fff;
+    }
+    .search-inner .select-box {
+        width: 100%;
+    }
+    .search-inner .btn-search {
+        background-color: #333;
+        color: #fff;
+        padding: 7px 15px;
+    }
+    .search-inner .form-control {
+        min-width: 185px;
+    }
+    .search_array {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0;
+        font-size: 16px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .search_array .sort {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    .search_array .sort a {
+        font-size: 16px;
+        display: inline-block;
+    }
+    .search_array .search-inner {
+        font-weight: 500;
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .search_array .search-inner span {
+        color: #e90049;
+    }
+
+} /* end listPage */
+
+
+/* read (read페이지 공통) */
+.readPage {
+    .content {
+        border: none;
+        outline: none;
+    }
+    /* 이미지 크기 제한 */
+    .imgBox {
+        width: 60px;
+        /* 이미지를 동그랗게 만듬 */
+        .imgdiv {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            margin-top: 0%;
+        }
+        .imgdiv img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    }
 }
-.postsBox .downBox {
+
+/* modify, create (modify,create페이지 공통) */
+.createPage, .modifyPage {
+    .card-body {
+        width: 250px;
+        height: 300px;
+        overflow: hidden;
+        justify-content: center;
+    }
+    .UIBox {
+        gap: 10px;
+    }
+    .categoryBox select, .UIBox button, .buttonBox button {
+        color: gray;
+    }
+    .contentBox textarea {
+        height: 500px; width: 100%;
+    }
+    /* 아이콘 좌우반전 */
+    .scaleX-R{
+        transform: scaleX(-1);
+    }
+    .UIBox button {
+        border: none;
+        background-color: #fff;
+    }
+}
+
+/* end 공통된 게시판 스타일 */
+
+/* ------------------ */
+/* 개별 게시판 스타일 */
+/* ------------------ */
+
+/* travelGuide */
+.travelGuideList {
+    .postTitle {
+        text-align: center;
+    }
+    .down-btn-box {
+        text-align: center;
+        .down-btn {
+            color: #333;
+            border: 1px solid #b5b5b5;
+            padding: 5px 20px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        .down-btn:hover {
+            color: #fff;
+            border: #38aed6;
+            background-color: #38aed6;
+        }
+    }
+}
+
+/* festivalBoard */
+
+.festivalList .days .page-link {
     text-align: center;
-    padding: 0 0 20px 0;
-    border: 1px #ccc solid;
+}
+
+.festivalBoard .dates > li > a , .days > li > a {
+    border: none;
+}
+
+/* 박스안 이미지 가득차게 수평 수직 가운데 정렬 1 */
+.festivalBoard button {
+    border: none;
+    background-color: transparent;
     font-size: 16px;
 }
-/* post 박스 */
+.festivalBoard .pagination {
+    overflow: hidden;
+}
+
+.festivalCreate, .festivalModify {
+    .informationBox .infor-inner-box .period {
+        display: flex;
+        gap: 10px;
+        input:nth-child(1) { flex: 1; }
+        input:nth-child(2) { flex: 1; }
+    }
+}
 .informationBox {
     margin: 20px 0;
+    border: 1px solid #dee2e6;
+    padding: 25px 40px;
+    border-radius: 20px;
+    margin-bottom: 10px;
 }
 .informationBox .infor-inner-box  {
     display: flex;
@@ -276,75 +497,37 @@ footer .container {
     border: 1px solid #333;
     font-size: 16px;
 }
-.informationBox {
-    border: 1px solid #dee2e6;
-    padding: 25px 40px;
-    border-radius: 20px;
-    margin-bottom: 10px;
-}
 .informationBox p {
     margin-bottom: 0.5rem;
 }
 /* 버튼 설정 */
-.home-btn {
+.informationBox .home-btn {
     background-color: #333;
     color: #fff;
     border: none;
     padding: 10px 30px;
     margin-top: 10px;
 }
-.down-btn {
-    color: #333;
-    border: 1px solid #b5b5b5;
-    padding: 5px 20px;
-    margin-top: 5px;
-    display: inline-block;
+
+/*  박스안 이미지 가득차게 수평 수직 가운데 정렬 2
+.festivalBoard .postImgBox {
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+
+    img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
-.down-btn:hover {
-    color: #fff;
-    border: none;
-    background-color: #38aed6;
-}
-.search-inner .select-box {
-    width: 100%;
-}
-.search-inner .btn-search {
-    background-color: #333;
-    color: #fff;
-    padding: 7px 15px;
-}
-.search-inner .form-control {
-    min-width: 185px;
-}
-.search_array {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 0;
-    font-size: 16px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-.search_array .sort {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-.search_array .sort a {
-    font-size: 16px;
-    display: inline-block;
-}
-.search_array .search-inner {
-    font-weight: 500;
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    width: 100%;
-}
-.search_array .search-inner span {
-    color: #e90049;
-}
-/* 공통스타일 end */
+*/
+
+/* end 개별 게시판 스타일 */
+
+
+/* 마이페이지 */
 /*mypage -> modal*/
 .mypage .profileModal input {
     width: 100%;
@@ -474,6 +657,8 @@ footer .container {
 
 }
 
+/* 회원가입 */
+
 /* memberjoin */
 .login-box {
     max-width: 600px;
@@ -581,233 +766,6 @@ footer .container {
 .mypageMail .mali-img img {
     background-color: #aaa;
     width: 100%;
-}
-
-
-/* ------------------ */
-/* 공통된 게시판 스타일 */
-/* ------------------ */
-
-/* board (게시판 전체 공통) */
-
-.pagination {
-    .page-link {
-        color: gray;
-    }
-    .page-link:active {
-        box-shadow: none;
-    }
-    .page-link:focus {
-        box-shadow: none;
-    }
-    .active .page-link {
-        background-color: gray;
-        color: #fff;
-        border-color: gray;
-    }
-
-} /* end .pagination */
-
-.board {
-    .content {
-        /* all: unset; */
-        /* white-space: pre; */
-        /* white-space: pre-line; */
-        /* white-space: pre-wrap; */
-        /* border: none; */
-        /* outline: none; */
-        resize: none;
-        overflow-y: hidden;
-        overflow-x: hidden;
-    }
-}
-
-/* read (read페이지 공통) */
-.readPage .content {
-    border: none;
-    outline: none;
-}
-
-/* modify, create (modify,create페이지 공통) */
-.createPage, .modifyPage {
-    .card-body {
-        width: 250px;
-        height: 300px;
-        overflow: hidden;
-        justify-content: center;
-    }
-    .UIBox {
-        gap: 10px;
-    }
-    .categoryBox select, .UIBox button, .buttonBox button {
-        color: gray;
-    }
-    .contentBox textarea {
-        height: 500px; width: 100%;
-    }
-    /* 아이콘 좌우반전 */
-    .scaleX-R{
-        transform: scaleX(-1);
-    }
-    .UIBox button {
-        border: none;
-        background-color: #fff;
-    }
-}
-
-/* list (list페이지 공통) */
-.listPage .postsBox {
-    .post:hover {
-        cursor: pointer;
-    }
-}
-
-
-/* ------------------ */
-/* 개별 게시판 스타일 */
-/* ------------------ */
-
-/* festivalBoard */
-
-.festivalList .days .page-link {
-    text-align: center;
-}
-
-.festivalBoard .dates > li > a , .days > li > a {
-    border: none;
-}
-
-/* 박스안 이미지 가득차게 수평 수직 가운데 정렬 1 */
-.festivalBoard button {
-    border: none;
-    background-color: transparent;
-    font-size: 16px;
-}
-.festivalBoard .pagination {
-    overflow: hidden;
-}
-
-.festivalCreate, .festivalModify {
-    .informationBox .infor-inner-box .period {
-        display: flex;
-        gap: 10px;
-        input:nth-child(1) { flex: 1; }
-        input:nth-child(2) { flex: 1; }
-    }
-}
-
-
-/*  박스안 이미지 가득차게 수평 수직 가운데 정렬 2
-.festivalBoard .postImgBox {
-    position: relative;
-    overflow: hidden;
-    height: 300px;
-
-    img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-}
-*/
-
-
-/* destinationsList */
-.topBox .search {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-.topBox .search .form-control {
-    width: 50%;
-    border-radius: 50px 0 0 50px;
-    padding: 10px 20px;
-    border-right: 0px;
-}
-.topBox .search button {
-    border-radius: 0 50px 50px 0;
-    padding: 10px 20px;
-    background: #999;
-    color: #fff;
-}
-
-/* sharingList */
-.sharingList .top{
-    text-align: center;
-}
-.sharingList .middle{
-    margin-top: 150px;
-
-    align-items: center;
-}
-.sharingList .information{
-    margin-top: 50px;
-}
-.sharingList .place-box {
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-}
-.sharingList .place-sit {
-    display: flex;
-    gap: 20px
-}
-.sharingList .place-sit li, .sharingList .place-save li {
-    font-size: 18px;
-    font-weight: 500;
-}
-.sharingList .place-sit span {
-    font-size: 18px;
-    margin-left: 5px;
-    color: #38aed6;
-}
-/* userBoard */
-/* 박스안 이미지 가득차게 수평 수직 가운데 정렬 */
-.userBoard .imgBox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-}
-/* 태그 창을 가운데 배치하기 위한 설정 */
-.userBoard .nav-tabs {
-    position: relative;
-}
-.userBoard .orderBy {
-    position: absolute;
-}
-/*-----------------------------------*/
-
-.userBoard .tags {
-    height: 50px;
-    line-height: 50px;
-}
-
-/* userCreate */
-
-
-/* userPost */
-/* 이미지 크기 제한 */
-.userPost .imgBox {
-    width: 60px;
-}
-
-/* 이미지를 동그랗게 만듬 */
-.userPost .imgdiv {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    margin-top: 0%;
-}
-.userPost .imgdiv img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
 }
 
 

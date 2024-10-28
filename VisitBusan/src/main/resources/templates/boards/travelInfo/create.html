@@ -3,27 +3,35 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/base}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>main</title>
-</head>
 
-<body>
-<div class="container userCreate" layout:fragment="content">
+<!-- 현재 페이지에서만 사용하는 css 정의 -->
+<style layout:fragment="mystyle" th:inline="css">
+</style>
+
+<div class="container board createPage" layout:fragment="content">
     <div class="body">
 
         <div class="topBox">
-            <h1>[[${pageRequestDTO.bCategory=='place'?'명소':pageRequestDTO.bCategory=='food'?'음식':'숙박'}]]</h1>
+            <h1 class="categoryName" th:switch="${pageRequestDTO.bCategory}">
+                <th:block th:case="'place'">명소</th:block>
+                <th:block th:case="'food'">음식</th:block>
+                <th:block th:case="'accommodation'">숙박</th:block>
+                <th:block th:case="'scheduledTravel'">일정여행</th:block>
+                <th:block th:case="'themeTravel'">테마여행</th:block>
+                <th:block th:case="'information'">여행정보</th:block>
+                <th:block th:case="'schedule'">여행일정</th:block>
+                <th:block th:case="'review'">후기</th:block>
+                <th:block th:case="*">전체</th:block>
+            </h1>
         </div>
 
         <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
-            <form action="/board/userBoard/create" th:action="|@{/board/}${menu}/create?${pageRequestDTO.getLink()}|" method="post">
+            <form class="createForm" action="/board/userBoard/create" th:action="|@{/board/}${menu}/create?${pageRequestDTO.getLink()}|" method="post">
                 <div class="topBox mt-4">
                     <!-- 카테고리 -->
                     <div class="categoryBox mt-3">
                         <select class="form-select" name="category">
-                            <option>- 카테고리 선택 -</option>
+                            <option value="">- 카테고리 선택 -</option>
                             <option value="place" th:selected="${pageRequestDTO.bCategory=='place'}">명소</option>
                             <option value="food" th:selected="${pageRequestDTO.bCategory=='food'}">음식</option>
                             <option value="accommodation" th:selected="${pageRequestDTO.bCategory=='accommodation'}">숙박</option>
@@ -60,7 +68,7 @@
 
                 <!-- 내용 -->
                 <div class="contentBox">
-                    <textarea class="form-control" name="content" placeholder="내용 입력 1000자 제한"></textarea>
+                    <textarea class="form-control content" name="content" rows="20" placeholder="내용 입력 2000자 제한"></textarea>
                 </div>
 
                 <!-- 태그 -->
@@ -78,12 +86,21 @@
                     <input type="hidden" class="form-control" name="writerId" value="test" readonly>
                 </div>
 
+                <!-- 첨부파일 등록 모달 버튼 -->
+                <div class="mt-3 mb-3 row">
+                    <div class="col d-flex">
+                        <div><input type="button" id="addFilesBtn" class="btn btn-secondary opacity-50 addFilesBtn" value="이미지 등록"></div>
+                        <div class="col container-fluid d-flex gap-3 uploadResult" style="flex-wrap:wrap"></div>
+                        <div class="uploadHidden"></div>
+                    </div>
+                </div>
+
                 <!-- 하단 버튼 -->
                 <div class="buttonBox d-flex mt-3">
                     <div class="ms-auto">
-                        <a href="/board/information" th:href="|@{/board/}${menu}/list?${pageRequestDTO.getLink()}|" class="ms-auto">
+<!--/*                        <a href="/board/information" th:href="|@{/board/}${menu}/list?${pageRequestDTO.getLink()}|" class="ms-auto">*/-->
                             <button type="button" class="form-control border d-inline cancelBtn">취소</button>
-                        </a>
+<!--/*                        </a>*/-->
                     </div>
                     <div class="ms-2"><button type="submit" class="form-control border d-inline submitBtn">등록</button></div>
                 </div>
@@ -93,10 +110,46 @@
 
     </div> <!-- end .body -->
 
+    <!-- 첨부파일 추가를 위한 모달창 -->
+    <div class="modal modalUpload fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Upload Files</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <div id="input_files_result_box"><div id="input_files_result"></div></div>
+                            <input type="file" class="form-control" id="input_files" name="files" multiple>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary closeModalUpload" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary uploadBtn">업로드</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
+        th:data-link-list="|/board/${menu}/list?${pageRequestDTO.getLink()}|"></div>
+
+    <!-- Axios 라이브러리 연결 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- file upload 처리하는 javascript 연결 -->
+    <script src="/js/upload.js"></script>
+
 </div> <!-- end fragment="content" -->
 
-<!-- 부트 스트랩 -->
-<script layout:fragment="myscript"></script>
+<!-- 게시판 생성 스크립트 연결 -->
+<script th:src="@{/js/boardCreate.js}" layout:fragment="basescript"></script>
 
-</body>
+<!--/* 현재 페이지에서만 사용하는 script 정의 */-->
+<script layout:fragment="myscript" th:inline="javascript">
+    console.log("스크립트 실행2 :b");
+</script>
+
 </html>

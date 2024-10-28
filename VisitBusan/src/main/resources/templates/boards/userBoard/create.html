@@ -8,11 +8,21 @@
 <style layout:fragment="mystyle" th:inline="css">
 </style>
 
-<div class="container board createPage userCreate" layout:fragment="content">
+<div class="container board createPage" layout:fragment="content">
     <div class="body">
 
         <div class="topBox">
-            <h1>[[${pageRequestDTO.bCategory=='information'?'여행정보':pageRequestDTO.bCategory=='schedule'?'여행일정':'후기'}]]</h1>
+            <h1 class="categoryName" th:switch="${pageRequestDTO.bCategory}">
+                <th:block th:case="'place'">명소</th:block>
+                <th:block th:case="'food'">음식</th:block>
+                <th:block th:case="'accommodation'">숙박</th:block>
+                <th:block th:case="'scheduledTravel'">일정여행</th:block>
+                <th:block th:case="'themeTravel'">테마여행</th:block>
+                <th:block th:case="'information'">여행정보</th:block>
+                <th:block th:case="'schedule'">여행일정</th:block>
+                <th:block th:case="'review'">후기</th:block>
+                <th:block th:case="*">전체</th:block>
+            </h1>
         </div>
 
         <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
