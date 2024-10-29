@@ -56,7 +56,7 @@
                 <input class="form-control" type="search" name="keyword" placeholder="Search" aria-label="Search"
                        th:value="${pageRequestDTO.keyword}">
                 <button class="btn btn-light" type="submit">Search</button>
-                <a href="/board/userBoard/create" th:href="|@{/admin/board/create}?${pageRequestDTO.getLink()}|">
+                <a sec:authorize ="hasAnyAuthority('ROLE_ADMIN')" href="/board/userBoard/create" th:href="|@{/admin/board/create}?${pageRequestDTO.getLink()}|">
                     <button type="button" class="btn createBtn">글쓰기</button>
                 </a>
             </div>

@@ -13,6 +13,13 @@ console.log("link: " ,link)
 console.log("dto_id: " ,dto_id)
 console.log("fileNames: " ,fileNames)
 
+// 툴박스
+const toolBox = document.querySelector('.toolBox .UIBox');
+toolBox.addEventListener("click", (e)=> {
+    e.preventDefault();  // 기본 이벤트 제거
+    e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
+})
+
 const content = document.querySelector('.content');
 const rowCountDisplay = document.getElementById("rowCount");
 const textCountDisplay = document.getElementById("textCount");
@@ -303,9 +310,10 @@ function appendNotShownData(){    // [remove] 버튼 클릭시 첨부파일 관�
 // 수정 버튼
 // -------- //
 
-document.querySelector('.confirmBtn').addEventListener('click', function(e) {
+function confirmFun(e) {
     e.preventDefault();  // 기본 이벤트 제거
     e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
+    console.log("click")
 
     // const formObj = document.querySelector('form');  // form 이런식으로 태그를 직접 찍으면 나중에 추가, 수정 작업을 하면서 중복되서 오류날 가능성 높음. 비추천
     const formObj = document.querySelector('.modifyForm');
@@ -388,4 +396,4 @@ document.querySelector('.confirmBtn').addEventListener('click', function(e) {
 
     formObj.submit();  // 전송
 
-})
+}

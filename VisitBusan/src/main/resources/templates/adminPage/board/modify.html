@@ -7,162 +7,153 @@
 
 <!-- 현재 페이지에서만 사용하는 css 정의 -->
 <style layout:fragment="mystyle" th:inline="css">
-    .card-body {
-        width: 250px;
-        height: 300px;
-        overflow: hidden;
-        justify-content: center;
-    }
 </style>
 
-<!-- main_body  -->
-<div class="userCreate myBox" layout:fragment="content">
+<div class="board modifyPage" layout:fragment="content">
 
-    <div class="body">
+    <div class="topBox">
+        <h1 class="categoryName" th:switch="${dto.category}">
+            <th:block th:case="'place'">명소</th:block>
+            <th:block th:case="'food'">음식</th:block>
+            <th:block th:case="'accommodation'">숙박</th:block>
+            <th:block th:case="'scheduledTravel'">일정여행</th:block>
+            <th:block th:case="'themeTravel'">테마여행</th:block>
+            <th:block th:case="'preparation'">여행준비정보</th:block>
+            <th:block th:case="'guide'">가이드북</th:block>
+            <th:block th:case="'information'">여행정보</th:block>
+            <th:block th:case="'schedule'">여행일정</th:block>
+            <th:block th:case="'review'">후기</th:block>
+            <th:block th:case="'performance'">공연·전시</th:block>
+            <th:block th:case="'festival'">축제·행사</th:block>
+            <th:block th:case="'sports'">스포츠 경기</th:block>
+            <th:block th:case="*">전체</th:block>
+        </h1>
+    </div>
 
-        <div class="topBox">
-            <h1 class="categoryName" th:switch="${dto.category}">
-                <th:block th:case="'place'">명소</th:block>
-                <th:block th:case="'food'">음식</th:block>
-                <th:block th:case="'accommodation'">숙박</th:block>
-                <th:block th:case="'scheduledTravel'">일정여행</th:block>
-                <th:block th:case="'themeTravel'">테마여행</th:block>
-                <th:block th:case="'preparation'">여행준비정보</th:block>
-                <th:block th:case="'guide'">가이드북</th:block>
-                <th:block th:case="'information'">여행정보</th:block>
-                <th:block th:case="'schedule'">여행일정</th:block>
-                <th:block th:case="'review'">후기</th:block>
-                <th:block th:case="'performance'">공연·전시</th:block>
-                <th:block th:case="'festival'">축제·행사</th:block>
-                <th:block th:case="'sportsGame'">스포츠 경기</th:block>
-                <th:block th:case="*">전체</th:block>
-            </h1>
-        </div>
+    <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
 
-        <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
+        <form class="modifyForm" action="/admin/board/modify" th:action="|@{/admin/board/modify?}${pageRequestDTO.getLink()}|" method="post">
+            <div class="topBox mt-4">
+                <!-- 카테고리 -->
+                <div class="categoryBox mt-3">
+                    <select class="form-select" name="category">
+                        <option value="">- 카테고리 선택 -</option>
+                        <option value="place" th:selected="${dto.category=='place'}">명소</option>
+                        <option value="food" th:selected="${dto.category=='food'}">음식</option>
+                        <option value="accommodation" th:selected="${dto.category=='accommodation'}">숙박</option>
+                        <option value="scheduledTravel" th:selected="${dto.category=='scheduledTravel'}">일정여행</option>
+                        <option value="themeTravel" th:selected="${dto.category=='themeTravel'}">테마여행</option>
+                        <option value="preparation" th:selected="${dto.category=='preparation'}">여행준비정보</option>
+                        <option value="guide" th:selected="${dto.category=='guide'}">가이드북</option>
+                        <option value="information" th:selected="${dto.category=='information'}">여행정보</option>
+                        <option value="schedule" th:selected="${dto.category=='schedule'}">여행일정</option>
+                        <option value="review" th:selected="${dto.category=='review'}">후기</option>
+                        <option value="performance, all1" th:selected="${dto.category=='performance, all1'}">공연·전시</option>
+                        <option value="festival, all1" th:selected="${dto.category=='festival, all1'}">축제·행사</option>
+                        <option value="sports, all1" th:selected="${dto.category=='sports, all1'}">스포츠 경기</option>
+                    </select>
+                </div>
 
-            <form class="modifyForm" action="/board/userBoard/modify" th:action="|@{/admin/board/modify}?${pageRequestDTO.getLink()}|" method="post">
-                <div class="topBox mt-4">
-                    <!-- 카테고리 -->
-                    <div class="categoryBox mt-3">
-                        <select class="form-select" name="category">
-                            <option value="">- 카테고리 선택 -</option>
-                            <option value="place" th:selected="${dto.category=='place'}">명소</option>
-                            <option value="food" th:selected="${dto.category=='food'}">음식</option>
-                            <option value="accommodation" th:selected="${dto.category=='accommodation'}">숙박</option>
-                            <option value="scheduledTravel" th:selected="${dto.category=='scheduledTravel'}">일정여행</option>
-                            <option value="themeTravel" th:selected="${dto.category=='themeTravel'}">테마여행</option>
-                            <option value="preparation" th:selected="${dto.category=='preparation'}">여행준비정보</option>
-                            <option value="guide" th:selected="${dto.category=='guide'}">가이드북</option>
-                            <option value="information" th:selected="${dto.category=='information'}">여행정보</option>
-                            <option value="schedule" th:selected="${dto.category=='schedule'}">여행일정</option>
-                            <option value="review" th:selected="${dto.category=='review'}">후기</option>
-                            <option value="performance, all1" th:selected="${dto.category=='performance, all1'}">공연·전시</option>
-                            <option value="festival, all1" th:selected="${dto.category=='festival, all1'}">축제·행사</option>
-                            <option value="sports, all1" th:selected="${dto.category=='sports, all1'}">스포츠 경기</option>
-                        </select>
-                    </div>
+                <!-- 장소 링크 (홈페이지에 올려진 장소 링크) (추후 모달창 사용) -->
+                <div class="mt-3">
+                    <input type="text" class="form-control location" name="location" placeholder="장소 링크">
+                </div>
 
-                    <!-- 장소 링크 (홈페이지에 올려진 장소 링크) (추후 모달창 사용) -->
-                    <div class="mt-3">
-                        <input type="text" class="form-control location" name="location" placeholder="장소 링크">
-                    </div>
+                <!-- 제목 -->
+                <div class="title mt-3">
+                    <input type="text" class="form-control" name="title" placeholder="제목 입력 3자 이상 100자 이하"
+                            th:value="${dto.title}">
+                </div>
 
-                    <!-- 제목 -->
-                    <div class="title mt-3">
-                        <input type="text" class="form-control" name="title" placeholder="제목 입력 3자 이상 100자 이하"
-                               th:value="${dto.title}">
-                    </div>
-
-                    <!-- 툴 박스 (기능 추가 가능 할 시 더 추가)-->
-                    <!-- 아이콘 사이트 https://fontawesome.com/ 무료 아이콘 사용 -->
-                    <div class="toolBox d-flex gap-3 mt-3">
-                        <div class="d-flex UIBox">
-                            <button><i class="fa-solid fa-check"></i></button>
-                            <button><i class="fa-solid fa-outdent"></i></button>
-                            <button><i class="fa-regular fa-image"></i></button>
-                            <button><i class="fa-solid fa-t"></i>c</button>
-                            <button><i class="fa-solid fa-t"></i>bc</button>
-                            <button><i class="fa-solid fa-t"></i>s</button>
-                            <button><i class="fa-solid fa-fill-drip"></i></button>
-                            <button><i class="fa-solid fa-reply"></i></button>
-                            <button><i class="fa-solid fa-reply scaleX-R"></i></button>
-                        </div>
+                <!-- 툴 박스 (기능 추가 가능 할 시 더 추가)-->
+                <!-- 아이콘 사이트 https://fontawesome.com/ 무료 아이콘 사용 -->
+                <div class="toolBox d-flex gap-3 mt-3">
+                    <div class="d-flex UIBox">
+                        <button><i class="fa-solid fa-check"></i></button>
+                        <button><i class="fa-solid fa-outdent"></i></button>
+                        <button><i class="fa-regular fa-image"></i></button>
+                        <button><i class="fa-solid fa-t"></i>c</button>
+                        <button><i class="fa-solid fa-t"></i>bc</button>
+                        <button><i class="fa-solid fa-t"></i>s</button>
+                        <button><i class="fa-solid fa-fill-drip"></i></button>
+                        <button><i class="fa-solid fa-reply"></i></button>
+                        <button><i class="fa-solid fa-reply scaleX-R"></i></button>
                     </div>
                 </div>
-                <hr>
+            </div>
+            <hr>
 
-                <!-- 내용 -->
-                <div class="contentBox">
-                    <textarea class="form-control content" name="content" onInput="handleResizeHeight()" rows="20" placeholder="내용 입력 2000자 제한"
-                              th:text="${dto.content}"></textarea>
-                    <p>행 수: <span id="rowCount">1</span> 글자 수: <span id="textCount">1</span></p>
-                </div>
+            <!-- 내용 -->
+            <div class="contentBox">
+                <textarea class="form-control content" name="content" rows="20" onInput="handleResizeHeight()" placeholder="내용 입력 2000자 제한"
+                            th:text="${dto.content}"></textarea>
+                <p>행 수: <span id="rowCount">1</span> 글자 수: <span id="textCount">1</span></p>
+            </div>
 
-                <!-- 태그 -->
-                <div class="tagBox d-flex gap-2 mt-3">
-                    <input type="text" class="form-control tags" name="tags" placeholder="태그 입력 예: #부산, #광안리, #버스투어">
-                </div>
+            <!-- 태그 -->
+            <div class="tagBox d-flex gap-2 mt-3">
+                <input type="text" class="form-control tags" name="tags" placeholder="태그 입력 예: #부산, #광안리, #버스투어">
+            </div>
 
-                <!-- 글번호-->
-                <div class="contentBox">
-                    <input type="hidden" class="form-control" name="id" value="test" readonly
-                           th:value="${dto.id}">
-                </div>
+            <!-- 글번호-->
+            <div class="contentBox">
+                <input type="hidden" class="form-control" name="id" value="test" readonly
+                        th:value="${dto.id}">
+            </div>
 
-                <!-- 유저 이름 -->
-                <div class="contentBox">
-                    <input type="hidden" class="form-control" name="writer" value="test" readonly
-                           th:value="${dto.writer}">
-                </div>
+            <!-- 유저 이름 -->
+            <div class="contentBox">
+                <input type="hidden" class="form-control" name="writer" value="test" readonly
+                        th:value="${dto.writer}">
+            </div>
 
-                <!-- 유저 아이디 (체크용)-->
-                <div class="contentBox">
-                    <input type="hidden" class="form-control" name="writerId" value="test" readonly
-                           th:value="${dto.writerId}">
-                </div>
+            <!-- 유저 아이디 (체크용)-->
+            <div class="contentBox">
+                <input type="hidden" class="form-control" name="writerId" value="test" readonly
+                        th:value="${dto.writerId}">
+            </div>
 
-                <!-- 첨부파일 등록 모달 버튼 -->
-                <div class="mt-3 mb-3 row">
-                    <div class="col d-flex">
-                        <div><input type="button" id="addFilesBtn" class="btn btn-secondary opacity-50 addFilesBtn" value="이미지 등록"></div>
-                        <!-- 이미지 첨부파일 -->
-                        <div class="col container-fluid d-flex gap-3 uploadResult" style="flex-wrap:wrap">
-                            <th:block th:each="fileName: ${dto.fileNames}" th:if="${dto.fileNames != null && dto.fileNames.size() > 0 }">
-                                <div class="card" style="width: 18rem;"
-                                     th:with="nameArr=${fileName.split('==vb==')}">  <!-- nameArr [0]uuid [1]fileName -->
-                                    <div class="card-header d-flex justify-content-center">
-                                        <p>[[${nameArr[1]}]]</p>
-                                        <p hidden>${nameArr[1]}</p>  <!-- 그냥 텍스트로 인식 -->
-                                        <button type="button" class="btn btn-outline-danger opacity-50" style="margin-left:auto"
-                                                th:onClick="javascript:removeFile([[${nameArr[0]}]], [[${nameArr[1]}]], this)" > x </button>
-                                    </div>
-                                    <div class="card-body">
-                                        <img style="" class="w-100" th:data-src="${fileName}"
-                                             th:src="|/view/${fileName}|" />
-                                    </div>
+            <!-- 첨부파일 등록 모달 버튼 -->
+            <div class="mt-3 mb-3 row">
+                <div class="col d-flex">
+                    <div><input type="button" id="addFilesBtn" class="btn btn-secondary opacity-50 addFilesBtn" value="이미지 등록"></div>
+                    <!-- 이미지 첨부파일 -->
+                    <div class="col container-fluid d-flex gap-3 uploadResult" style="flex-wrap:wrap">
+                        <th:block th:each="fileName: ${dto.fileNames}" th:if="${dto.fileNames != null && dto.fileNames.size() > 0 }">
+                            <div class="card" style="width: 18rem;"
+                                    th:with="nameArr=${fileName.split('==vb==')}">  <!-- nameArr [0]uuid [1]fileName -->
+                                <div class="card-header d-flex justify-content-center">
+                                    <p>[[${nameArr[1]}]]</p>
+                                    <p hidden>${nameArr[1]}</p>  <!-- 그냥 텍스트로 인식 -->
+                                    <button type="button" class="btn btn-outline-danger opacity-50" style="margin-left:auto"
+                                            th:onClick="javascript:removeFile([[${nameArr[0]}]], [[${nameArr[1]}]], this)" > x </button>
                                 </div>
+                                <div class="card-body">
+                                    <img style="" class="w-100" th:data-src="${fileName}"
+                                            th:src="|/view/s_${fileName}|" />
+                                </div>
+                            </div>
 
-                            </th:block>
-                        </div>
-                        <div class="uploadHidden"></div>
+                        </th:block>
                     </div>
+                    <div class="uploadHidden"></div>
                 </div>
+            </div>
 
-                <!-- 하단 버튼 -->
-                <div class="buttonBox d-flex mt-3">
-                    <div class="ms-auto">
-                        <a href="/board/userBoard/list" th:href="|@{/admin/board/list}?${pageRequestDTO.getLink()}|" class="ms-auto">
-                            <button type="button" class="form-control border d-inline cancelBtn">취소</button>
-                        </a>
-                    </div>
-                    <div class="ms-2"><button type="submit" class="form-control border d-inline confirmBtn">수정완료</button></div>
+            <!-- 하단 버튼 -->
+            <div class="buttonBox d-flex mt-3">
+                <div class="ms-auto">
+                    <a href="/admin/board/list" th:href="|@{/admin/board/list?}${pageRequestDTO.getLink()}|" class="ms-auto">
+                        <button type="button" class="form-control border d-inline cancelBtn">취소</button>
+                    </a>
                 </div>
-            </form>
+                <div class="ms-2" sec:authorize="${isAuthenticated()}" th:if="${dto.writer == #authentication.principal.name}">
+                    <button type="button" class="form-control border d-inline confirmBtn" onclick="confirmFun(event)">수정완료</button>
+                </div>
+            </div>
+        </form>
 
-        </div> <!-- end postBox -->
-
-    </div> <!-- end body -->
+    </div> <!-- end postBox -->
 
     <div>[[${dto}]]</div>
 

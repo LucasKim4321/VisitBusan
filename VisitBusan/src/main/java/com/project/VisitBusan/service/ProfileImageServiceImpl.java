@@ -31,7 +31,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
     @Override
     public void findImage(ProfileImageDTO profileImageDTO, String userId) {
-        Member member = memberRepository.findByUserId(userId)
+        Member member = memberRepository.findByUserIdWithImg(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
 
         if(member.getProfileImage() == null) {
@@ -51,7 +51,7 @@ public class ProfileImageServiceImpl implements ProfileImageService {
         }
         // 현재 로그인한 사용자 ID 가져오기
         String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-        Member member = memberRepository.findByUserId(memberId)
+        Member member = memberRepository.findByUserIdWithImg(memberId)
                 .orElseThrow(() -> new UsernameNotFoundException("계정이 존재하지 않습니다."));
 
         //3. 기존 이미지 조회

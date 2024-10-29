@@ -59,7 +59,7 @@ class MemberServiceTest {
     public void findMember() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
             String userId = i +"userId";
-            Optional<Member> memberOptional = memberRepository.findByUserId(userId);
+            Optional<Member> memberOptional = memberRepository.findByUserIdWithImg(userId);
             log.info("test start ==> ");
             if (memberOptional.isPresent()) {
                 Member member = memberOptional.get();

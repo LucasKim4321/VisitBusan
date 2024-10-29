@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // ID 중복 체크
-        if (memberRepository.findByUserId(userId).isPresent()) {
+        if (memberRepository.findByUserIdWithImg(userId).isPresent()) {
             log.info("이미 가입된 ID입니다: " + userId);
             throw new DuplicateUserIdException("이미 사용 중인 ID입니다.");
         }
@@ -76,7 +76,7 @@ public class MemberServiceImpl implements MemberService {
     //로그인
     @Override
     public Member login(String userId, String password) {
-        Optional<Member> optionalMember = memberRepository.findByUserId(userId);
+        Optional<Member> optionalMember = memberRepository.findByUserIdWithImg(userId);
 
         if(optionalMember.isPresent()) {
             //작성한 ID와 PW 일치시 로그인
@@ -96,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberDTO findMember(String userId) {
         log.info("회원 조회 요청: userId = " + userId);
 
-        Optional<Member> memberOptional = memberRepository.findByUserId(userId);
+        Optional<Member> memberOptional = memberRepository.findByUserIdWithImg(userId);
 
         if (memberOptional.isPresent()) {
             Member member = memberOptional.get();
@@ -107,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
             throw new IllegalArgumentException("해당 회원이 없습니다.");
         }
 
-//        Member member = memberRepository.findByUserId(userId)
+//        Member member = memberRepository.findByUserIdWithImg(userId)
 //                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
 //        return MemberDTO.toMemberDTO(member);
     }
@@ -118,7 +118,7 @@ public class MemberServiceImpl implements MemberService {
         log.info("멤버 정보: {}", memberDTO);
         System.out.println("회원 ID: " + memberDTO.getUserId());
         //회원 조회
-        Member member = memberRepository.findByUserId(memberDTO.getUserId())
+        Member member = memberRepository.findByUserIdWithImg(memberDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다."));
         //비밀번호 검증
         /*if (memberDTO.getPassword() != null && !passwordEncoder.matches(memberDTO.getPassword(), member.getPassword())) {
@@ -148,7 +148,7 @@ public class MemberServiceImpl implements MemberService {
     //회원 삭제
     @Override
     public void remove(String userId) {
-        Member member = memberRepository.findByUserId(userId)
+        Member member = memberRepository.findByUserIdWithImg(userId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다."));
         //회원정보만 삭제
         memberRepository.delete(member);

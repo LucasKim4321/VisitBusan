@@ -229,12 +229,12 @@ footer .container {
         height: 20px;
         overflow: hidden;
         margin: 15px 0 5px;
-        display: -webkit-box;
         text-overflow: ellipsis;
-        #fff-space:
-        normal;
+        /* color: #fff;
+        display: -webkit-box;
+        white-space: normal;
         -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
+        -webkit-box-orient: vertical; */
     }
     .postsBox .postRegDate {
         font-size: 15px;

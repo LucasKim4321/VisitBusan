@@ -47,7 +47,7 @@
             </form>
         </div>
         <div class="search-box">
-            <div class="search-inner right">
+            <div class="search-inner right" sec:authorize="isAuthenticated()">
                 <a href="/board/userBoard/create" th:href="|@{/board/}${menu}/create?${pageRequestDTO.getLink()}|" class="ms-auto">
                     <button class="btn btn-search" >글쓰기</button>
                 </a>

@@ -1,5 +1,6 @@
 package com.project.VisitBusan.controller;
 
+import com.project.VisitBusan.entity.Member;
 import com.project.VisitBusan.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -66,11 +67,25 @@ public class RoleTestController {
         return "관리자와 유저 둘 다 접근 가능한 페이지입니다~";
     }
 
+//    // 로그인 상태이면서 USER 권한을 가지고 있거나 특정 유저인 경우
+//    @PostAuthorize("isAuthenticated() and ( hasRole('ROLE_USER') or returnObject.name==principal.name )")
+//    @GetMapping("/selectOne/{userId}")
+//    public @ResponseBody Member selectOneInfo(@PathVariable("userId") String userId) {  // @ResponseBody body에 리턴값 출력
+//        // 유저 또는 특정한 유저만 접근 가능한 페이지입니다~
+//        return memberRepository.findByUserId(userId);
+//    }
+//    // 로그인 상태이면서 USER 권한을 가지고 있거나 특정 유저인 경우
+//    @PostAuthorize("isAuthenticated() and ( hasRole('ROLE_USER') or returnObject==principal.name )")
+//    @GetMapping("/selectOne/{userId}")
+//    public @ResponseBody String selectOneInfo2(@PathVariable("userId") String userId) {  // @ResponseBody body에 리턴값 출력
+//        // 유저 또는 특정한 유저만 접근 가능한 페이지입니다~
+//        return memberRepository.findByUserId(userId).getUserId();
+//    }
     // 로그인 상태이면서 USER 권한을 가지고 있거나 특정 유저인 경우
-    @PostAuthorize("isAuthenticated() and ( hasRole('ROLE_USER') or returnObject.name==principal.name )")
-    @GetMapping("/selectOne/{username}")
-    public @ResponseBody String selectOneInfo(@PathVariable("username") String username) {  // @ResponseBody body에 리턴값 출력
-        return "유저 또는 특정한 유저만 접근 가능한 페이지입니다~"+memberRepository.findByEmail(username);
+    @PostAuthorize("isAuthenticated() and ( hasRole('ROLE_USER') or #userId==principal.username )")
+    @GetMapping("/selectOne/{userId}")
+    public @ResponseBody String selectOneInfo3(@PathVariable("userId") String userId) {  // @ResponseBody body에 리턴값 출력
+        return "유저 또는 특정한 유저만 접근 가능한 페이지입니다~"+memberRepository.findByUserId(userId);
     }
 
 

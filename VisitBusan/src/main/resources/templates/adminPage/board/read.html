@@ -4,12 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/adminBase}">
 
-<!-- 현재 페이지에서만 사용하는 css 정의 -->
-<style layout:fragment="mystyle" th:inline="css">
-</style>
-
-<!-- main_body  -->
-<div class="userPost myBox" layout:fragment="content">
+<div class="board readPage" layout:fragment="content">
 
     <div class="topBox">
         <h1 class="categoryName" th:switch="${dto.category}">
@@ -58,16 +53,16 @@
                     </div>
                     <div class="info">
                         <div>닉네임 [[${dto.writer}]]</div>
-                        <div>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd hh:mm')}]]/[[${dto.viewCount}]]</div>
+                        <div>작성일 [[${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm')}]] 조회수 [[${dto.viewCount}]]</div>
                     </div>
                 </div>
 
                 <div class="ms-auto">
-                    댓글수
+                    <div>댓글수 <span th:text="${dto.replyCount}">1</span></div>
                 </div>
 
                 <div>
-                    url복사...
+                    <div onclick="copyLink()">url복사...</div>
                 </div>
 
             </div>
@@ -75,7 +70,7 @@
         <hr>
         <div class="middleBox">
             <!-- 내용 -->
-            <div class="content">[[${dto.content}]]</div>
+            <textarea class="content w-100" rows="1" th:text="${dto.content}" readonly></textarea>
 
             <!-- 첨부파일 -->
             <div class="mb-3 row">
@@ -84,8 +79,8 @@
                     <div class="py-2 thumbnail" id="thumbnailBox" th:if="${dto.fileNames != null && dto.fileNames.size() > 0 }">
                         <!-- img-thumbnail 부트스트랩 -->
                         <img style="" class="w-100"
-                             th:each="fileName: ${dto.fileNames}"
-                             th:src="|/view/${fileName}|"/>
+                                th:each="fileName: ${dto.fileNames}"
+                                th:src="|/view/${fileName}|"/>
                     </div>
                 </div>
             </div>
@@ -101,8 +96,8 @@
 
             <!-- 좋아요, 댓글, 공유, 신고 -->
             <div class="d-flex gap-3 mt-3">
-                <div class="">좋아요 7</div>
-                <div>댓글 12</div>
+                <div>좋아요: <span th:text="${dto.boardLikeCount}">8</span></div>
+                <div>댓글: <span th:text="${dto.replyCount}">1</span></div>
                 <div class="ms-auto">공유</div>
                 <div>신고</div>
             </div>
@@ -116,7 +111,14 @@
                 <div>최신순</div>
             </div>
 
+            <ul class="list-group replies"> <!--  댓글리스트 -->
+                <li class="list-group-item ">
+                    댓글이 없습니다.
+                </li>
+            </ul>
+
             <!-- 댓글1 -->
+            <!--
             <div class="reply d-flex mt-3 gap-3">
                 <div class="imgBox">
                     <div class="imgdiv rounded-circle mx-auto"><img th:src="|@{/images/profileImage/}gwanganli2.jpg|"></div>
@@ -131,27 +133,20 @@
                     </div>
                 </div>
             </div>
+            !-->
 
-            <!-- 댓글2 -->
-            <div class="reply d-flex mt-3 gap-3">
-                <div class="imgBox">
-                    <div class="imgdiv rounded-circle mx-auto"><img th:src="|@{/images/profileImage/}gwanganli3.jpg|"></div>
-                </div>
-                <div>
-                    <div>작성자</div>
-                    <div>댓글 내용</div>
-                    <div class="d-flex gap-3">
-                        <div>작성날자/시간</div>
-                        <div>답글쓰기</div>
-                        <div>좋아요</div>
-                    </div>
+            <!-- 댓글 페이징 -->
+            <div class="row mt-4 mb-5">
+                <div class="col d-flex justify-content-center">
+                    <ul class="pagination replyPaging">
+                    </ul>
                 </div>
             </div>
 
             <!-- 댓글 등록 -->
             <div class="d-flex my-4">
-                <textarea class="form-control col me-3" name="" id="" placeholder="댓글 입력"></textarea>
-                <div class=""><button class="btn btn-outline-secondary w-100 h-100">등록</button></div>
+                <textarea class="form-control col me-3 replyText" name="" id="" placeholder="댓글 입력"></textarea>
+                <div class=""><button class="regBtn btn btn-outline-secondary w-100 h-100">등록</button></div>
 
             </div>
 
@@ -160,17 +155,17 @@
         <!-- 하단 버튼 -->
         <div class="buttonBox d-flex mt-3">
             <div class="ms-auto">
-                <a href="/admin/board/list" th:href="|@{/admin/board/list}?${pageRequestDTO.getLink()}|" class="ms-auto">
+                <a href="/admin/board/list" th:href="|@{/admin/board/list?}${pageRequestDTO.getLink()}|" class="ms-auto">
                     <button type="button" class="form-control border d-inline listBtn">리스트</button>
                 </a>
             </div>
-            <div class="ms-2">
+            <div class="ms-2" sec:authorize ="hasAnyAuthority('ROLE_ADMIN')">
                 <form class="removeForm">
-                    <button type="button" class="form-control border d-inline removeBtn">삭제</button>
+                    <button type="button" class="form-control border d-inline removeBtn" onclick="removeFun(event)">삭제</button>
                 </form>
             </div>
-            <div class="ms-2">
-                <a href="/board/userBoard/modify" th:href="|@{/admin/board/modify(id=${dto.id})}&${pageRequestDTO.getLink()}|" class="ms-auto">
+            <div class="ms-2" sec:authorize="${isAuthenticated()}" th:if="${dto.writer == #authentication.principal.name}">
+                <a href="/admin/board/modify" th:href="|@{/admin/board/modify?id=}${dto.id}&${pageRequestDTO.getLink()}|" class="ms-auto">
                     <button type="button" class="form-control border d-inline modifyBtn">수정</button>
                 </a>
             </div>
@@ -178,7 +173,9 @@
 
     </div> <!-- end postBox -->
 
-    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
+    <div>[[${dto}]]</div>
+
+    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-readLink="|/admin/board/read|" th:data-link="${pageRequestDTO.getLink()}"
          th:data-id="${dto.id}" th:data-link-remove="|/admin/board/remove?id=${dto.id}&${pageRequestDTO.getLink()}|">
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>
@@ -189,6 +186,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- file upload 처리하는 javascript 연결 -->
     <script src="/js/upload.js"></script>
+    <script src="/js/reply.js"></script>
 
 </div> <!-- end fragment="content" -->
 

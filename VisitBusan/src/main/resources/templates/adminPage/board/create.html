@@ -6,133 +6,125 @@
 
 <!-- 현재 페이지에서만 사용하는 css 정의 -->
 <style layout:fragment="mystyle" th:inline="css">
-    .card-body {
-        width: 250px;
-        height: 300px;
-        overflow: hidden;
-        justify-content: center;
-    }
 </style>
 
-<!-- main_body  -->
-<div class="userCreate myBox createPage" layout:fragment="content">
+<div class="board createPage" layout:fragment="content">
 
-    <div class="body">
+    <div class="topBox">
+        <h1 class="categoryName" th:switch="${pageRequestDTO.bCategory}">
+            <th:block th:case="'place'">명소</th:block>
+            <th:block th:case="'food'">음식</th:block>
+            <th:block th:case="'accommodation'">숙박</th:block>
+            <th:block th:case="'scheduledTravel'">일정여행</th:block>
+            <th:block th:case="'themeTravel'">테마여행</th:block>
+            <th:block th:case="'preparation'">여행준비정보</th:block>
+            <th:block th:case="'guide'">가이드북</th:block>
+            <th:block th:case="'information'">여행정보</th:block>
+            <th:block th:case="'schedule'">여행일정</th:block>
+            <th:block th:case="'review'">후기</th:block>
+            <th:block th:case="'performance'">공연·전시</th:block>
+            <th:block th:case="'festival'">축제·행사</th:block>
+            <th:block th:case="'sports'">스포츠 경기</th:block>
+            <th:block th:case="*">전체</th:block>
+        </h1>
+    </div>
+        
+    <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
+        
+        <form class="createForm" action="/admin/board/create" th:action="|@{/admin/board/create}?${pageRequestDTO.getLink()}|" method="post">
+            <div class="topBox mt-4">
+                <!-- 카테고리 -->
+                <div class="categoryBox mt-3">
+                    <select class="form-select" name="category">
+                        <option value="">- 카테고리 선택 -</option>
+                        <option value="place" th:selected="${pageRequestDTO.bCategory=='place'}">명소</option>
+                        <option value="food" th:selected="${pageRequestDTO.bCategory=='food'}">음식</option>
+                        <option value="accommodation" th:selected="${pageRequestDTO.bCategory=='accommodation'}">숙박</option>
+                        <option value="scheduledTravel" th:selected="${pageRequestDTO.bCategory=='scheduledTravel'}">일정여행</option>
+                        <option value="themeTravel" th:selected="${pageRequestDTO.bCategory=='themeTravel'}">테마여행</option>
+                        <option value="preparation" th:selected="${pageRequestDTO.bCategory=='preparation'}">여행준비정보</option>
+                        <option value="guide" th:selected="${pageRequestDTO.bCategory=='guide'}">가이드북</option>
+                        <option value="information" th:selected="${pageRequestDTO.bCategory=='information'}">여행정보</option>
+                        <option value="schedule" th:selected="${pageRequestDTO.bCategory=='schedule'}">여행일정</option>
+                        <option value="review" th:selected="${pageRequestDTO.bCategory=='review'}">후기</option>
+                        <option value="performance, all1" th:selected="${pageRequestDTO.bCategory=='performance'}">공연·전시</option>
+                        <option value="festival, all1" th:selected="${pageRequestDTO.bCategory=='festival'}">축제·행사</option>
+                        <option value="sports, all1" th:selected="${pageRequestDTO.bCategory=='sports'}">스포츠 경기</option>
+                    </select>
+                </div>
 
-        <div class="topBox">
-            <h1 class="categoryName" th:switch="${pageRequestDTO.bCategory}">
-                <th:block th:case="'place'">명소</th:block>
-                <th:block th:case="'food'">음식</th:block>
-                <th:block th:case="'accommodation'">숙박</th:block>
-                <th:block th:case="'scheduledTravel'">일정여행</th:block>
-                <th:block th:case="'themeTravel'">테마여행</th:block>
-                <th:block th:case="'preparation'">여행준비정보</th:block>
-                <th:block th:case="'guide'">가이드북</th:block>
-                <th:block th:case="'information'">여행정보</th:block>
-                <th:block th:case="'schedule'">여행일정</th:block>
-                <th:block th:case="'review'">후기</th:block>
-                <th:block th:case="'performance'">공연·전시</th:block>
-                <th:block th:case="'festival'">축제·행사</th:block>
-                <th:block th:case="'sports'">스포츠 경기</th:block>
-                <th:block th:case="*">전체</th:block>
-            </h1>
-        </div>
+                <!-- 장소 링크 (홈페이지에 올려진 장소 링크) (추후 모달창 사용) -->
+                <div class="mt-3">
+                    <input type="text" class="form-control location" name="location" placeholder="장소 링크">
+                </div>
 
-        <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
-            <form class="createForm" action="/admin/board/create" th:action="|@{/admin/board/create}?${pageRequestDTO.getLink()}|" method="post">
-                <div class="topBox mt-4">
-                    <!-- 카테고리 -->
-                    <div class="categoryBox mt-3">
-                        <select class="form-select" name="category">
-                            <option value="">- 카테고리 선택 -</option>
-                            <option value="place" th:selected="${pageRequestDTO.bCategory=='place'}">명소</option>
-                            <option value="food" th:selected="${pageRequestDTO.bCategory=='food'}">음식</option>
-                            <option value="accommodation" th:selected="${pageRequestDTO.bCategory=='accommodation'}">숙박</option>
-                            <option value="scheduledTravel" th:selected="${pageRequestDTO.bCategory=='scheduledTravel'}">일정여행</option>
-                            <option value="themeTravel" th:selected="${pageRequestDTO.bCategory=='themeTravel'}">테마여행</option>
-                            <option value="preparation" th:selected="${pageRequestDTO.bCategory=='preparation'}">여행준비정보</option>
-                            <option value="guide" th:selected="${pageRequestDTO.bCategory=='guide'}">가이드북</option>
-                            <option value="information" th:selected="${pageRequestDTO.bCategory=='information'}">여행정보</option>
-                            <option value="schedule" th:selected="${pageRequestDTO.bCategory=='schedule'}">여행일정</option>
-                            <option value="review" th:selected="${pageRequestDTO.bCategory=='review'}">후기</option>
-                            <option value="performance, all1" th:selected="${pageRequestDTO.bCategory=='performance'}">공연·전시</option>
-                            <option value="festival, all1" th:selected="${pageRequestDTO.bCategory=='festival'}">축제·행사</option>
-                            <option value="sports, all1" th:selected="${pageRequestDTO.bCategory=='sports'}">스포츠 경기</option>
-                        </select>
-                    </div>
+                <!-- 제목 -->
+                <div class="title mt-3">
+                    <input type="text" class="form-control" name="title" placeholder="제목 입력 3자 이상 100자 이하">
+                </div>
 
-                    <!-- 장소 링크 (홈페이지에 올려진 장소 링크) (추후 모달창 사용) -->
-                    <div class="mt-3">
-                        <input type="text" class="form-control location" name="location" placeholder="장소 링크">
-                    </div>
-
-                    <!-- 제목 -->
-                    <div class="title mt-3">
-                        <input type="text" class="form-control" name="title" placeholder="제목 입력 3자 이상 100자 이하">
-                    </div>
-
-                    <!-- 툴 박스 (기능 추가 가능 할 시 더 추가)-->
-                    <!-- 아이콘 사이트 https://fontawesome.com/ 무료 아이콘 사용 -->
-                    <div class="toolBox d-flex gap-3 mt-3">
-                        <div class="d-flex UIBox">
-                            <button><i class="fa-solid fa-check"></i></button>
-                            <button><i class="fa-solid fa-outdent"></i></button>
-                            <button><i class="fa-regular fa-image"></i></button>
-                            <button><i class="fa-solid fa-t"></i>c</button>
-                            <button><i class="fa-solid fa-t"></i>bc</button>
-                            <button><i class="fa-solid fa-t"></i>s</button>
-                            <button><i class="fa-solid fa-fill-drip"></i></button>
-                            <button><i class="fa-solid fa-reply"></i></button>
-                            <button><i class="fa-solid fa-reply scaleX-R"></i></button>
-                        </div>
+                <!-- 툴 박스 (기능 추가 가능 할 시 더 추가)-->
+                <!-- 아이콘 사이트 https://fontawesome.com/ 무료 아이콘 사용 -->
+                <div class="toolBox d-flex gap-3 mt-3">
+                    <div class="d-flex UIBox">
+                        <button><i class="fa-solid fa-check"></i></button>
+                        <button><i class="fa-solid fa-outdent"></i></button>
+                        <button><i class="fa-regular fa-image"></i></button>
+                        <button><i class="fa-solid fa-t"></i>c</button>
+                        <button><i class="fa-solid fa-t"></i>bc</button>
+                        <button><i class="fa-solid fa-t"></i>s</button>
+                        <button><i class="fa-solid fa-fill-drip"></i></button>
+                        <button><i class="fa-solid fa-reply"></i></button>
+                        <button><i class="fa-solid fa-reply scaleX-R"></i></button>
                     </div>
                 </div>
-                <hr>
+            </div>
+            <hr>
 
-                <!-- 내용 -->
-                <div class="contentBox">
-                    <textarea class="form-control content" name="content" rows="20" placeholder="내용 입력 2000자 제한"></textarea>
-                    <p>행 수: <span id="rowCount">1</span> 글자 수: <span id="textCount">1</span></p>
+            <!-- 내용 -->
+            <div class="contentBox">
+                <textarea class="form-control content" name="content" rows="20" placeholder="내용 입력 2000자 제한"></textarea>
+                <p>행 수: <span id="rowCount">1</span> 글자 수: <span id="textCount">1</span></p>
+            </div>
+
+            <!-- 태그 -->
+            <div class="tagBox d-flex gap-2 mt-3">
+                <input type="text" class="form-control tags" name="tags" placeholder="태그 입력 예: #부산, #광안리, #버스투어">
+            </div>
+
+            <!-- 유저 이름 -->
+            <div class="contentBox">
+                <input type="hidden" class="form-control" name="writer" value="test" readonly>
+            </div>
+
+            <!-- 유저 아이디 (체크용)-->
+            <div class="contentBox">
+                <input type="hidden" class="form-control" name="writerId" value="test" readonly>
+            </div>
+
+            <!-- 첨부파일 등록 모달 버튼 -->
+            <div class="mt-3 mb-3 row">
+                <div class="col d-flex">
+                    <div><input type="button" id="addFilesBtn" class="btn btn-secondary opacity-50 addFilesBtn" value="이미지 등록"></div>
+                    <div class="col container-fluid d-flex gap-3 uploadResult" style="flex-wrap:wrap"></div>
+                    <div class="uploadHidden"></div>
                 </div>
+            </div>
 
-                <!-- 태그 -->
-                <div class="tagBox d-flex gap-2 mt-3">
-                    <input type="text" class="form-control tags" name="tags" placeholder="태그 입력 예: #부산, #광안리, #버스투어">
-                </div>
-
-                <!-- 유저 이름 -->
-                <div class="contentBox">
-                    <input type="hidden" class="form-control" name="writer" value="test" readonly>
-                </div>
-
-                <!-- 유저 아이디 (체크용)-->
-                <div class="contentBox">
-                    <input type="hidden" class="form-control" name="writerId" value="test" readonly>
-                </div>
-
-                <!-- 첨부파일 등록 모달 버튼 -->
-                <div class=" mt-3 mb-3 row">
-                    <div class="col d-flex">
-                        <div><input type="button" id="addFilesBtn" class="btn btn-secondary opacity-50 addFilesBtn" value="이미지 등록"></div>
-                        <div class="col container-fluid d-flex gap-3 uploadResult" style="flex-wrap:wrap"></div>
-                        <div class="uploadHidden"></div>
-                    </div>
-                </div>
-
-                <!-- 하단 버튼 -->
-                <div class="buttonBox d-flex mt-3">
-                    <div class="ms-auto">
+            <!-- 하단 버튼 -->
+            <div class="buttonBox d-flex mt-3">
+                <div class="ms-auto">
 <!--/*                        <a href="/board/information" th:href="|@{/board/}${menu}/list?${pageRequestDTO.getLink()}|" class="ms-auto">*/-->
-                            <button type="button" class="form-control border d-inline cancelBtn">취소</button>
+                        <button type="button" class="form-control border d-inline cancelBtn">취소</button>
 <!--/*                        </a>*/-->
-                    </div>
-                    <div class="ms-2"><button type="submit" class="form-control border d-inline submitBtn">등록</button></div>
                 </div>
-            </form>
+                <div class="ms-2" sec:authorize ="hasAnyAuthority('ROLE_ADMIN')">
+                    <button type="button" class="form-control border d-inline submitBtn" onclick="submitFun(event)">등록</button>
+                </div>
+            </div>
+        </form>
 
-        </div> <!-- end .postBox -->
-
-    </div> <!-- end .body -->
+    </div> <!-- end .postBox -->
 
     <!-- 첨부파일 추가를 위한 모달창 -->
     <div class="modal modalUpload fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

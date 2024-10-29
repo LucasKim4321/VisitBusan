@@ -6,6 +6,13 @@ const menu = dataCon.getAttribute('data-menu');
 const link = dataCon.getAttribute('data-link');
 const linkList = dataCon.getAttribute('data-link-list');
 
+// 툴박스 
+const toolBox = document.querySelector('.toolBox .UIBox');
+toolBox.addEventListener("click", (e)=> {
+    e.preventDefault();  // 기본 이벤트 제거
+    e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
+})
+
 const content = document.querySelector('.content');
 const rowCountDisplay = document.getElementById("rowCount");
 const textCountDisplay = document.getElementById("textCount");
@@ -270,7 +277,7 @@ function addFiles () {
 // 게시물 등록 : 게시글 정보, 첨부파일이름 DB에 저장 요청
 // ------------------------------------------------ //
 
-document.querySelector('.submitBtn').addEventListener('click', function(e) {
+function submitFun(e) {
     e.preventDefault();  // 기본 이벤트 제거
     e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
 
@@ -320,4 +327,4 @@ document.querySelector('.submitBtn').addEventListener('click', function(e) {
 
     formObj.submit();
 
-})
+}

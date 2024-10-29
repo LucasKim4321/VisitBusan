@@ -8,6 +8,7 @@ import com.project.VisitBusan.service.BoardService;
 import com.project.VisitBusan.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
+@PostAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 public class AdminStartController {
 
     private final BoardService boardService;

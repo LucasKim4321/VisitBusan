@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -94,16 +95,61 @@ public class BoardController {
 
     } // end get list
 
+    // 게시글 조회
+    @GetMapping("/{menu}/read")
+    public String read(@PathVariable("menu") String menu,
+                       Long id,
+                       PageRequestDTO pageRequestDTO,
+                       Model model) {
+
+        if(id != null) {
+            log.info("==> id: "+id);
+            log.info("==> pageRequestDTO: "+pageRequestDTO);
+
+            // 게시글 조회 서비스 요청
+            BoardDTO boardDTO = boardService.readOne(id);
+            model.addAttribute("dto",boardDTO);
+            log.info("==> after service boardDTO: "+boardDTO);
+
+            boardService.viewCount(boardDTO);
+
+            //프로필 이미지 조회
+            ProfileImageDTO profileImageDTO = new ProfileImageDTO();
+            profileImageService.findImage(profileImageDTO, boardDTO.getWriterId());
+            model.addAttribute("writerProfileImage", profileImageDTO);
+        }
+
+
+//        Member member = memberRepository.findByUserIdWithImg(boardDTO.getWriterId()).orElseThrow();
+//        replyDTO.setReplierProfileImageName(member.getProfileImage().getFileName());
+//        @NotEmpty
+//        private String replierProfileImageName;
+
+        /*
+        반환값을 void로 할 경우
+        return 생략하면 "board/read" 형태으로 자동 포워딩  (return "board/read";)
+        */
+//        return "boards/userBoard/read";
+
+        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
+        // 모델에 데이터를 담아 타임리프 템플릿에 전달합니다.
+        model.addAttribute("day", day);
+
+        return "boards/"+menu+"/read";
+
+    } // end get read
 
     // 게시글 등록
+    @PostAuthorize("isAuthenticated()")
     @GetMapping("/{menu}/create")
     public String registerGet(@PathVariable("menu") String menu,
-                          PageRequestDTO pageRequestDTO) {
+                              PageRequestDTO pageRequestDTO) {
 
         return "boards/"+menu+"/create";
 
     } // end get create
 
+    @PostAuthorize("isAuthenticated()")
     @PostMapping("/{menu}/create")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String registerPost(@PathVariable("menu") String menu,
@@ -139,51 +185,7 @@ public class BoardController {
 
     } // end post create
 
-    // 게시글 조회
-    @GetMapping("/{menu}/read")
-    public String read(@PathVariable("menu") String menu,
-                       Long id,
-                       PageRequestDTO pageRequestDTO,
-                       Model model) {
-
-        if(id != null) {
-            log.info("==> id: "+id);
-            log.info("==> pageRequestDTO: "+pageRequestDTO);
-
-            // 게시글 조회 서비스 요청
-            BoardDTO boardDTO = boardService.readOne(id);
-            model.addAttribute("dto",boardDTO);
-            log.info("==> after service boardDTO: "+boardDTO);
-
-            boardService.viewCount(boardDTO);
-
-            //프로필 이미지 조회
-            ProfileImageDTO profileImageDTO = new ProfileImageDTO();
-            profileImageService.findImage(profileImageDTO, boardDTO.getWriterId());
-            model.addAttribute("writerProfileImage", profileImageDTO);
-        }
-
-
-//        Member member = memberRepository.findByUserId(boardDTO.getWriterId()).orElseThrow();
-//        replyDTO.setReplierProfileImageName(member.getProfileImage().getFileName());
-//        @NotEmpty
-//        private String replierProfileImageName;
-
-        /*
-        반환값을 void로 할 경우
-        return 생략하면 "board/read" 형태으로 자동 포워딩  (return "board/read";)
-        */
-//        return "boards/userBoard/read";
-
-        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
-        // 모델에 데이터를 담아 타임리프 템플릿에 전달합니다.
-        model.addAttribute("day", day);
-
-        return "boards/"+menu+"/read";
-
-    } // end get read
-
-
+    @PostAuthorize("isAuthenticated()")
     @GetMapping("/{menu}/modify")  // 두개이상 사용시 {}안에 ,쓰고 하나 더 입력
     public String modifyget(@PathVariable("menu") String menu,
                           Long id,
@@ -199,6 +201,7 @@ public class BoardController {
     } // end get modify
 
     // 4. 게시글 수정
+    @PostAuthorize("isAuthenticated()")
     @PostMapping("/{menu}/modify")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String modifypost(@PathVariable("menu") String menu,
@@ -242,6 +245,7 @@ public class BoardController {
     } // end post modify
 
     // 5. 게시글 삭제
+    @PostAuthorize("isAuthenticated()")
     @PostMapping("/{menu}/remove")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String remove(@PathVariable("menu") String menu,

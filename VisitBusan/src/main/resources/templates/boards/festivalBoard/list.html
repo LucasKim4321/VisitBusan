@@ -65,7 +65,7 @@
             <li class="wBtn">이번주</li>
             <li class="nBtn">다음주</li>
             <li class="mBtn">30일</li>
-            <div class="search-inner right ms-auto">
+            <div class="search-inner right ms-auto" sec:authorize ="hasAnyAuthority('ROLE_ADMIN')">
                 <a href="/board/userBoard/create" th:href="|@{/board/}${menu}/create?${pageRequestDTO.getLink()}|" class="ms-auto">
                     <button class="btn btn-search" >글쓰기</button>
                 </a>

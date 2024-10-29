@@ -56,7 +56,7 @@ function callRemoveFiles() {
 // ------------------------ //
 
 const removeFileList = [];
-document.querySelector('.removeBtn').addEventListener('click', function(e) {
+function removeFun(e) {
     e.preventDefault();  // 기본 이벤트 제거
     e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
 
@@ -90,7 +90,7 @@ document.querySelector('.removeBtn').addEventListener('click', function(e) {
         formObj.method = "post";
         formObj.submit();
     }
-})
+}
 
 // 게시글 링크 복사
 function copyLink() {

@@ -33,7 +33,7 @@
                     <!-- 카테고리 -->
                     <div class="categoryBox mt-3">
                         <select class="form-select" name="category">
-                            <option>- 카테고리 선택 -</option>
+                            <option value="">- 카테고리 선택 -</option>
                             <option value="place" th:selected="${dto.category=='place'}">명소</option>
                             <option value="food" th:selected="${dto.category=='food'}">음식</option>
                             <option value="accommodation" th:selected="${dto.category=='accommodation'}">숙박</option>
@@ -133,7 +133,9 @@
                             <button type="button" class="form-control border d-inline cancelBtn">취소</button>
                         </a>
                     </div>
-                    <div class="ms-2"><button type="submit" class="form-control border d-inline confirmBtn">수정완료</button></div>
+                    <div class="ms-2" sec:authorize="${isAuthenticated()}" th:if="${dto.writer == #authentication.principal.name}">
+                        <button type="button" class="form-control border d-inline confirmBtn" onclick="confirmFun(event)">수정완료</button>
+                    </div>
                 </div>
             </form>
 

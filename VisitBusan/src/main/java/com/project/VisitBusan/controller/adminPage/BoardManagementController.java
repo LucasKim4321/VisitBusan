@@ -8,6 +8,7 @@ import com.project.VisitBusan.service.ProfileImageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,9 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @Log4j2
+@PostAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin/board")
 public class BoardManagementController {
 
@@ -54,27 +59,26 @@ public class BoardManagementController {
                        PageRequestDTO pageRequestDTO,
                        Model model) {
 
-        log.info("==> id: "+id);
-        log.info("==> pageRequestDTO: "+pageRequestDTO);
+        if(id != null) {
+            log.info("==> id: "+id);
+            log.info("==> pageRequestDTO: "+pageRequestDTO);
 
-        // 게시글 조회 서비스 요청
-        BoardDTO boardDTO = boardService.readOne(id);
-        model.addAttribute("dto",boardDTO);
-        log.info("==> after service boardDTO: "+boardDTO);
+            // 게시글 조회 서비스 요청
+            BoardDTO boardDTO = boardService.readOne(id);
+            model.addAttribute("dto",boardDTO);
+            log.info("==> after service boardDTO: "+boardDTO);
 
-        boardService.viewCount(boardDTO);
+            boardService.viewCount(boardDTO);
 
-        /*
-        반환값을 void로 할 경우
-        return 생략하면 "board/read" 형태으로 자동 포워딩  (return "board/read";)
-        */
-//        return "boards/userBoard/read";
+            //프로필 이미지 조회
+            ProfileImageDTO profileImageDTO = new ProfileImageDTO();
+            profileImageService.findImage(profileImageDTO, boardDTO.getWriterId());
+            model.addAttribute("writerProfileImage", profileImageDTO);
+        }
 
-        //프로필 이미지 조회
-        ProfileImageDTO profileImageDTO = new ProfileImageDTO();
-        profileImageService.findImage(profileImageDTO, boardDTO.getWriterId());
-        model.addAttribute("writerProfileImage", profileImageDTO);
-
+        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
+        // 모델에 데이터를 담아 타임리프 템플릿에 전달합니다.
+        model.addAttribute("day", day);
 
         return "adminPage/board/read";
 

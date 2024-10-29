@@ -171,6 +171,7 @@ a {
             list-style: none;
             padding: 0;
         }
+        /* 검색창 설정 */
         .search-box {
             display: flex;
             justify-content: center;
@@ -192,6 +193,7 @@ a {
         }
     } /* end .topBox */
 
+    /* 검색 조건 버튼 설정 */
     .search-box2 {
         .search_array {
             display: flex;
@@ -218,27 +220,26 @@ a {
 
     } /* end .search-box */
 
-
-    .pagination {
-        .page-link {
-            color: #333;
-        }
-        .page-link:active {
-            box-shadow: none;
-        }
-        .page-link:focus {
-            box-shadow: none;
-        }
-        .active .page-link {
-            background-color: #333;
-            color: #fff;
-            border-color: #333;
-        }
-
-    } /* end .pagination */
-
 } /* end .cate */
 
+/* 페이지 컨트롤 */
+.pagination {
+    .page-link {
+        color: #333;
+    }
+    .page-link:active {
+        box-shadow: none;
+    }
+    .page-link:focus {
+        box-shadow: none;
+    }
+    .active .page-link {
+        background-color: #333;
+        color: #fff;
+        border-color: #333;
+    }
+
+} /* end .pagination */
 
 /* 테이블 설정 */
 
@@ -293,73 +294,203 @@ a {
     flex-direction: column;
 }
 
-/* board read */
+/* ------------------ */
+/*     게시글 관리     */
+/* ------------------ */
 
-/* 이미지 크기 제한 */
-.userPost .imgBox {
-    width: 60px;
+/* ------------------ */
+/* 공통된 게시판 스타일 */
+/* ------------------ */
+
+/* board (게시판 전체 공통) */
+.board {
+    padding: 50px;
+    background-color: #fff;
+    .content {
+        /* all: unset; */
+        /* white-space: pre; */
+        /* white-space: pre-line; */
+        /* white-space: pre-wrap; */
+        /* border: none; */
+        /* outline: none; */
+        resize: none;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
 }
 
-/* 이미지를 동그랗게 만듬 */
-.userPost .imgdiv {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    margin-top: 0%;
+/* read (read페이지 공통) */
+.readPage {
+    .content {
+        border: none;
+        outline: none;
+    }
+    /* 이미지 크기 제한 */
+    .imgBox {
+        width: 60px;
+        /* 이미지를 동그랗게 만듬 */
+        .imgdiv {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%;
+            margin-top: 0%;
+        }
+        .imgdiv img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    }
 }
-.userPost .imgdiv img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+
+/* modify, create (modify,create페이지 공통) */
+.createPage, .modifyPage {
+    .card-body {
+        width: 250px;
+        height: 300px;
+        overflow: hidden;
+        justify-content: center;
+    }
+    .UIBox {
+        gap: 10px;
+    }
+    .categoryBox select, .UIBox button, .buttonBox button {
+        color: gray;
+    }
+    .contentBox textarea {
+        height: 500px; width: 100%;
+    }
+    /* 아이콘 좌우반전 */
+    .scaleX-R{
+        transform: scaleX(-1);
+    }
+    .UIBox button {
+        border: none;
+        background-color: #fff;
+    }
 }
-.userPost .categoryName {
+
+/* end 공통된 게시판 스타일 */
+
+/* ------------------ */
+/* 개별 게시판 스타일 */
+/* ------------------ */
+
+/* travelGuide */
+.travelGuideList {
+    .postTitle {
+        text-align: center;
+    }
+    .down-btn-box {
+        text-align: center;
+        .down-btn {
+            color: #333;
+            border: 1px solid #b5b5b5;
+            padding: 5px 20px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        .down-btn:hover {
+            color: #fff;
+            border: #38aed6;
+            background-color: #38aed6;
+        }
+    }
+}
+
+/* festivalBoard */
+
+.festivalList .days .page-link {
     text-align: center;
 }
 
-
-/* board create */
-
-.userCreate .UIBox {
-    gap: 10px;
-}
-.userCreate .categoryBox select, .UIBox button, .buttonBox button {
-    color: gray;
-}
-.userCreate .contentBox textarea {
-    height: 500px; width: 100%;
-}
-
-/* 아이콘 좌우반전 */
-.userCreate .scaleX-R{
-    transform: scaleX(-1);
-}
-.userCreate .UIBox button {
+.festivalBoard .dates > li > a , .days > li > a {
     border: none;
-    background-color: #fff;
 }
 
-#input_files_result_box {
-    width: 100%;
-    height: 400px;
+/* 박스안 이미지 가득차게 수평 수직 가운데 정렬 1 */
+.festivalBoard button {
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+}
+.festivalBoard .pagination {
     overflow: hidden;
 }
 
-/* 버튼 스타일 */
-.blueBtn {
-    background-color: #1a73e8;
-    padding: 8px 16px;
-    font-size: 14px;
+.festivalCreate, .festivalModify {
+    .informationBox .infor-inner-box .period {
+        display: flex;
+        gap: 10px;
+        input:nth-child(1) { flex: 1; }
+        input:nth-child(2) { flex: 1; }
+    }
+}
+.informationBox {
+    margin: 20px 0;
+    border: 1px solid #dee2e6;
+    padding: 25px 40px;
     border-radius: 20px;
-    color: #fff;
-    display: inline-block;
+    margin-bottom: 10px;
+}
+.informationBox .infor-inner-box  {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+}
+.informationBox .infor-inner-box  div {
+    flex: 1 1 50%;
+}
+.informationBox .infor-inner-box  .L-box {
+    position: relative;
 }
 
-/* 게시글 관리 */
-.myBox {
-    padding: 50px;
-    background-color: #fff;
+.informationBox .infor-inner-box  .R-box, .informationBox .infor-inner-box  .L-box {
+    padding: 0;
 }
+.informationBox .infor-inner-box .L-box::after {
+    content: "";
+    display: none;
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    right: 0;
+    top: 0;
+    background: #ddd;
+    z-index: -1;
+}
+.informationBox .infor-inner-box .infor-title {
+    font-weight: 600;
+    margin-right: 15px;
+}
+/* 다운로드, 목록 버튼 설정 */
+.informationBox .btnDownload, .btnList {
+    background-color: #fff;
+    color: #333;
+    padding: 10px 30px;
+}
+.informationBox .downloadBox {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.informationBox .downloadBox .btnDownload {
+    border: 1px solid #333;
+    font-size: 16px;
+}
+.informationBox p {
+    margin-bottom: 0.5rem;
+}
+/* 버튼 설정 */
+.informationBox .home-btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    margin-top: 10px;
+}
+

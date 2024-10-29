@@ -120,7 +120,9 @@
                         <button type="button" class="form-control border d-inline cancelBtn">취소</button>
                         <!--/*                        </a>*/-->
                     </div>
-                    <div class="ms-2"><button type="submit" class="form-control border d-inline submitBtn">등록</button></div>
+                    <div class="ms-2" sec:authorize ="hasAnyAuthority('ROLE_ADMIN')">
+                        <button type="button" class="form-control border d-inline submitBtn" onclick="submitFun(event)">등록</button>
+                    </div>
                 </div>
             </form>
 

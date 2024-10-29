@@ -38,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 //                .build();
 
         // Member Entity(DB)에 있는 정보를 기준으로 Authentication 처리
-        Optional<Member> result = memberRepository.findByUserId(username);  // 회원 검색
+        Optional<Member> result = memberRepository.findByUserIdWithImg(username);  // 회원 검색
         //예외 발생
 //        if (member == null) {  // 미가입 회원일 경우 / Optional 이므로 코드 변경
 //            throw new UsernameNotFoundException(username);
