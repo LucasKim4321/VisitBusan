@@ -3,7 +3,7 @@ console.log("스크립트 실행! :b");
 const dataCon = document.querySelector('.dataCon');
 const errors = dataCon.getAttribute('data-errors');
 const menu = dataCon.getAttribute('data-menu');
-const readLink = dataCon.getAttribute('data-readLink');
+const readLink = dataCon.getAttribute('data-removeLink');
 const link = dataCon.getAttribute('data-link');
 const linkRemove = dataCon.getAttribute('data-link-remove');
 const dto_id = dataCon.getAttribute('data-id');

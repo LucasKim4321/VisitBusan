@@ -142,10 +142,11 @@
                 <!-- 댓글 등록 -->
                 <div class="d-flex my-4">
                     <textarea class="form-control col me-3 replyText" name="" id="" placeholder="댓글 입력"></textarea>
-                    <div class=""><button class="regBtn btn btn-outline-secondary w-100 h-100">등록</button></div>
-
+                    <div class="">
+                        <button class="regBtn btn btn-outline-secondary w-100 h-100">등록</button>
+                    </div>
                 </div>
-
+                
             </div> <!-- end 댓글창 -->
 
             <!-- 하단 버튼 -->
@@ -155,13 +156,13 @@
                         <button type="button" class="form-control border d-inline listBtn">리스트</button>
                     </a>
                 </div>
-                <div class="ms-2" sec:authorize="${isAuthenticated()}" th:if="${dto.writer == #authentication.principal.name}">
+                <div class="ms-2" sec:authorize="isAuthenticated()" th:if="${dto.writerId == #authentication.principal.userId}">
                     <form class="removeForm">
                         <button type="button" class="form-control border d-inline removeBtn" onclick="removeFun(event)">삭제</button>
                     </form>
                 </div>
-                <div class="ms-2" sec:authorize="${isAuthenticated()}" th:if="${dto.writer == #authentication.principal.name}">
-                    <a href="/board/userBoard/modify" th:href="|@{/board/}${menu}/modify?id=${dto.id}&${pageRequestDTO.getLink()}|" class="ms-auto">
+                <div class="ms-2" sec:authorize="isAuthenticated()" th:if="${dto.writerId == #authentication.principal.userId}">
+                    <a href="/board/userBoard/modify" th:href="|@{/board/}${menu}/modify?id=${dto.id}&writerId=${dto.writerId}&${pageRequestDTO.getLink()}|" class="ms-auto">
                         <button type="button" class="form-control border d-inline modifyBtn">수정</button>
                     </a>
                 </div>
@@ -173,7 +174,7 @@
     <div>[[${dto}]]</div>
 
     <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-readLink="|/board/${menu}/read|" th:data-link="${pageRequestDTO.getLink()}"
-         th:data-id="${dto.id}" th:data-link-remove="|/board/${menu}/remove?id=${dto.id}&${pageRequestDTO.getLink()}|">
+         th:data-id="${dto.id}" th:data-removeLink="|/board/${menu}/remove?id=${dto.id}&writerId=${dto.writerId}&${pageRequestDTO.getLink()}|">
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>
         </th:block>

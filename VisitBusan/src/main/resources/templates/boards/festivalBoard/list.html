@@ -21,22 +21,22 @@
         <div class="tag-list-box categoryBox">
             <ul class="nav category">
                 <li class="nav-item tag-list with-4">
-                    <a class="nav-link active" th:href="@{/board/festivalBoard/list?bCategory=all1}">
+                    <a class="nav-link" th:classappend="${pageRequestDTO.bCategory=='all1' ? 'active' : ''}" th:href="@{/board/festivalBoard/list?bCategory=all1}">
                         전체
                     </a>
                 </li>
                 <li class="nav-item tag-list with-4">
-                    <a class="nav-link" th:href="@{/board/festivalBoard/list?bCategory=performance}">
+                    <a class="nav-link" th:classappend="${pageRequestDTO.bCategory=='performance' ? 'active' : ''}" th:href="@{/board/festivalBoard/list?bCategory=performance}">
                         공연·전시
                     </a>
                 </li>
                 <li class="nav-item tag-list with-4">
-                    <a class="nav-link" th:href="@{/board/festivalBoard/list?bCategory=festival}">
+                    <a class="nav-link" th:classappend="${pageRequestDTO.bCategory=='festival' ? 'active' : ''}" th:href="@{/board/festivalBoard/list?bCategory=festival}">
                         축제·행사
                     </a>
                 </li>
                 <li class="nav-item tag-list with-4">
-                    <a class="nav-link" th:href="@{/board/festivalBoard/list?bCategory=sports}">
+                    <a class="nav-link" th:classappend="${pageRequestDTO.bCategory=='sports' ? 'active' : ''}" th:href="@{/board/festivalBoard/list?bCategory=sports}">
                         스포츠 경기
                     </a>
                 </li>
@@ -89,11 +89,13 @@
                         <div class="postTitle" th:text="${dto.title}">2024 부산나이트워크42K</div>
                         <div class="postRegDate">
                             <th:block th:if="${dto.startDate != null }">
-                                <span th:text="|${#temporals.format(dto.startDate, 'yyyy-MM-dd')} (${day[#temporals.dayOfWeek(dto.startDate)-1]})|"></span>
+                                <span th:text="${#temporals.format(dto.startDate, 'yyyy-MM-dd (EEE)')}"></span>
+                                <!-- <span th:text="|${#temporals.format(dto.startDate, 'yyyy-MM-dd')} (${day[#temporals.dayOfWeek(dto.startDate)-1]})|"></span> -->
                             </th:block>
                              ~
                             <th:block th:if="${dto.endDate != null }">
-                                <span th:text="|${#temporals.format(dto.endDate, 'yyyy-MM-dd')} (${day[#temporals.dayOfWeek(dto.endDate)-1]})|"></span>
+                                <span th:text="${#temporals.format(dto.endDate, 'yyyy-MM-dd (EEE)')}"></span>
+                                <!-- <span th:text="|${#temporals.format(dto.endDate, 'yyyy-MM-dd')} (${day[#temporals.dayOfWeek(dto.endDate)-1]})|"></span> -->
                             </th:block>
                         </div>
                     </div>

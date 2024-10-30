@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +25,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@PostAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin/board")
 public class BoardManagementController {
 

@@ -121,7 +121,7 @@
                             <button type="button" class="form-control border d-inline cancelBtn">취소</button>
                         </a>
                     </div>
-                    <div class="ms-2" sec:authorize="${isAuthenticated()}" th:if="${dto.writer == #authentication.principal.name}">
+                    <div class="ms-2" sec:authorize="isAuthenticated()" th:if="${dto.writerId == #authentication.principal.userId}">
                         <button type="button" class="form-control border d-inline confirmBtn" onclick="confirmFun(event)">수정완료</button>
                     </div>
                 </div>

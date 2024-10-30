@@ -114,12 +114,17 @@ SecurityConfig.java 파일로 가서 해당 클래스에 @EnableMethodSecurity �
 
 @Secured 애노테이션을 붙여주면, 애노테이션에 인자로 받은 권한이 유저에게 있을 때만 실행하도록 할 수 있다.
 @PreAuthorize: 메서드가 실행되기 전에 인증을 거친다.
-@PostAuthorize: 메서드가 실행되고 나서 응답을 보내기 전에 인증을 거친다.
+@PostAuthorize: 메서드가 실행되고 나서 응답을 보내기 전에 인증을 거친다. returnObject를 사용하기 위해 필요
+
+returnObject: 메서드의 반환 값을 나타냅니다. 반환 값이 특정 조건을 만족하는지 확인하는 데 사용할 수 있습니다. @PostAuthorize에서만 사용 가능
+#파라미터이름: 파라미터값에 접근
+principal: 사용자를 증명하는 주요객체(User)를 직접 접근할 수 있다.
+authentication : SecurityContext에 있는 authentication 객체에 접근 할 수 있다. 인증 객체 전체에 접근할 수 있습니다. 사용자의 권한이나 추가 정보를 확인할 수 있습니다.
+this: 현재 클래스의 인스턴스를 나타냅니다. 예를 들어, 현재 객체의 특정 속성이나 메서드를 참조할 때 사용 가능합니다.
+@커스텀메서드이름: 표현식 내에서 SpEL을 통해 커스텀 검증 메서드를 호출할 수도 있습니다. 다만, 메서드가 @Component 또는 @Service로 등록된 클래스에 있어야 합니다.
 
 hasRole([role]) : 현재 사용자의 권한이 파라미터의 권한과 동일한 경우 true
 hasAnyRole([role1,role2 ...]) : 현재 사용자의 권한 파라미터의 권한 중 일치하는 것이 있는 경우 true
-principal: 사용자를 증명하는 주요객체(User)를 직접 접근할 수 있다.
-authentication : SecurityContext에 있는 authentication 객체에 접근 할 수 있다.
 permitAll : 모든 접근 허용
 denyAll : 모든 접근 비허용
 isAnonymous() : 현재 사용자가 익명(비로그인)인 상태인 경우 true

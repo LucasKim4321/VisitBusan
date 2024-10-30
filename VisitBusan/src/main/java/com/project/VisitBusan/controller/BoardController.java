@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -140,7 +141,7 @@ public class BoardController {
     } // end get read
 
     // 게시글 등록
-    @PostAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and (#menu=='userBoard' or hasRole('ROLE_ADMIN'))")
     @GetMapping("/{menu}/create")
     public String registerGet(@PathVariable("menu") String menu,
                               PageRequestDTO pageRequestDTO) {
@@ -149,7 +150,7 @@ public class BoardController {
 
     } // end get create
 
-    @PostAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and (#menu=='userBoard' or hasRole('ROLE_ADMIN'))")
     @PostMapping("/{menu}/create")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String registerPost(@PathVariable("menu") String menu,
@@ -185,10 +186,10 @@ public class BoardController {
 
     } // end post create
 
-    @PostAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and #writerId==principal.username")
     @GetMapping("/{menu}/modify")  // 두개이상 사용시 {}안에 ,쓰고 하나 더 입력
     public String modifyget(@PathVariable("menu") String menu,
-                          Long id,
+                          Long id, String writerId,
                           PageRequestDTO pageRequestDTO,
                           Model model) {
 
@@ -201,7 +202,7 @@ public class BoardController {
     } // end get modify
 
     // 4. 게시글 수정
-    @PostAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and #boardDTO.writerId==principal.username")
     @PostMapping("/{menu}/modify")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String modifypost(@PathVariable("menu") String menu,
@@ -245,11 +246,11 @@ public class BoardController {
     } // end post modify
 
     // 5. 게시글 삭제
-    @PostAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and #writerId==principal.username")
     @PostMapping("/{menu}/remove")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String remove(@PathVariable("menu") String menu,
-                         Long id,
+                         Long id, String writerId,
                          PageRequestDTO pageRequestDTO,
                          RedirectAttributes redirectAttributes){
 

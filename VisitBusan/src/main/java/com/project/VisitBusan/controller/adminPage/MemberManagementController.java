@@ -29,7 +29,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@PostAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
+@PreAuthorize("isAuthenticated() and hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin/member")
 public class MemberManagementController {
 
