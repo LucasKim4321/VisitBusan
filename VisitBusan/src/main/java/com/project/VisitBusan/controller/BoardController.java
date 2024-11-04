@@ -59,7 +59,6 @@ public class BoardController {
 //        log.info("=> "+responseDTO);
 
 //        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
-//        // 모델에 데이터를 담아 타임리프 템플릿에 전달합니다.
 //        model.addAttribute("day", day);
 
         return ResponseEntity.ok(responseDTO.getDtoList());
@@ -88,9 +87,8 @@ public class BoardController {
 
         model.addAttribute("responseDTO", responseDTO);
 
-        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
-        // 모델에 데이터를 담아 타임리프 템플릿에 전달합니다.
-        model.addAttribute("day", day);
+//        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
+//        model.addAttribute("day", day);
 
         return "boards/"+menu+"/list";
 
@@ -132,9 +130,8 @@ public class BoardController {
         */
 //        return "boards/userBoard/read";
 
-        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
-        // 모델에 데이터를 담아 타임리프 템플릿에 전달합니다.
-        model.addAttribute("day", day);
+//        List<String> day = Arrays.asList("월", "화", "수", "목", "금", "토", "일");
+//        model.addAttribute("day", day);
 
         return "boards/"+menu+"/read";
 

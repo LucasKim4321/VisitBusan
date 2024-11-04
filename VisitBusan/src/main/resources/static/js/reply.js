@@ -86,6 +86,12 @@ async function removeReply(id){
 const replyBIdList = document.querySelector('.replies'); // 댓글 목록 DOM
 const replyPaging = document.querySelector('.replyPaging');// 페이지 목록 DOM
 const board_id = document.querySelector('.dataCon').getAttribute('data-id');
+const currentUserTag = document.querySelector('.dataCon .currentUser');
+let currentUser;
+if (currentUserTag!=null) {
+  currentUser = currentUserTag.getAttribute('data-currentUser')
+}
+console.log('currentUser',currentUser)
 
 //------------------------------------------------------------------------ //
 // 4. 페이징 처리

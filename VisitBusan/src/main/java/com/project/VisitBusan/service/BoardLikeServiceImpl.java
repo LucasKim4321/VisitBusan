@@ -30,9 +30,9 @@ public class BoardLikeServiceImpl implements BoardLikeService {
     private final ModelMapper modelMapper;
 
 
-    // 1. 게시글 좋아요 등록
+    // 게시글 좋아요 등록
     @Override
-    public Long register(BoardLikeDTO boardLikeDTO) {
+    public String register(BoardLikeDTO boardLikeDTO) {
 
         /*
         // 게시글 번호 => board Entity 읽기 //  BoardLikeDTO에서 boardId를 쓰기위한 임시방편
@@ -46,57 +46,41 @@ public class BoardLikeServiceImpl implements BoardLikeService {
 
         // dto -> entity
         BoardLike boardLike = dtoToEntity(boardLikeDTO);
+        log.info("==> test2 boardLike: "+boardLike);
         // entity -> DB에 반영
-        Long id = boardLikeRepository.save(boardLike).getId();
+        String userId = boardLikeRepository.save(boardLike).getUserId();
+        log.info("==> test3 userId: "+userId);
 
-        return id;
+        return userId;
     }
 
-    // 2. 게시글 좋아요 조회
+    // 게시글 좋아요 조회
     @Override
-    public BoardLikeDTO read(Long id) {
-        Optional<BoardLike> boardLikeOptional = boardLikeRepository.findById(id);
-        BoardLike boardLike = boardLikeOptional.orElseThrow();
-        
-//        return modelMapper.map(boardLike, BoardLikeDTO.class);
-        return entityToDTO(boardLike);  // entity -> dto 전환 후 반환
+    public BoardLikeDTO read(Long boardId, String userId) {
+        Optional<BoardLike> boardLikeOptional = boardLikeRepository.findByUserId(boardId, userId);
+        try {
+            BoardLike boardLike = boardLikeOptional.orElseThrow(() -> new RuntimeException("BoardLike not found"));
+//            return modelMapper.map(boardLike, BoardLikeDTO.class);
+            return entityToDTO(boardLike);  // entity -> dto 전환 후 반환
+
+        } catch (RuntimeException e) {  // 예외 처리
+            return null;
+        }
     }
 
-    // 4. 게시글 좋아요 삭제
+    // 게시글 좋아요 삭제
     @Override
-    public void remove(Long id) {
-        log.info("boardLike remove id:"+id);
-        boardLikeRepository.deleteById(id);
+    public void remove(Long boardId, String userId) {
+        log.info("boardLike remove userId:"+userId);
+        boardLikeRepository.deleteByUserId(boardId, userId);
 
     }
 
-    // 5. 게시글 좋아요 목록(페이징 기능이 있는 List)
+    //  게시글 좋아요 카운트
     @Override
-    public PageResponseDTO<BoardLikeDTO> getListBoard(Long boardId, PageRequestDTO pageRequestDTO) {
+    public long count(Long boardId) {
 
-        //  PageRequest.of(0, 10, 정렬옵션)
-        Pageable pageable = PageRequest.of(
-                pageRequestDTO.getPage() <= 0 ? 0: pageRequestDTO.getPage() -1,
-                pageRequestDTO.getSize(),
-                Sort.by("id").ascending());
-
-        // 조회된 결과를 Option타입으로 반환됨.
-        Page<BoardLike> result = boardLikeRepository.listOfBoard(boardId, pageable);
-
-        // Optional객체 내에 있는 내용을 .getContent()의해 추출하여
-        // entity- > dto전환하여 List구조에 저장
-        List<BoardLikeDTO> dtoList =
-                result.getContent()
-                        .stream()
-                        // .map(boardLike -> modelMapper.map(boardLike, BoardLikeDTO.class))  1:1 맵핑을 해줌
-                        .map(boardLike -> entityToDTO(boardLike))
-                        .collect(Collectors.toList());
-
-        return PageResponseDTO.<BoardLikeDTO>withAll()
-                .pageRequestDTO(pageRequestDTO)
-                .dtoList(dtoList)
-                .total((int)result.getTotalElements())
-                .build();
+        return boardLikeRepository.countBoardLike(boardId);
     }
 
 }

@@ -26,7 +26,7 @@ public class BoardLikeController {
     private final BoardLikeService boardLikeService;  // 게시글 좋아요 서비스 객체
 
     // 게시글 좋아요 등록
-    @PostMapping(value="/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/create", consumes = MediaType.APPLICATION_JSON_VALUE)  // 전송받은 data 종류
     public Map<String, String>  register(  // @Valid 제약조건 유효성 검사
                                            @Valid @RequestBody BoardLikeDTO boardLikeDTO, // boardLikeDTO랑 똑같은 이름의 클래스가 있으면 자동으로 값이 들어옴
                                            BindingResult bindingResult  // 유효성 검사 결과가 들어있음. 객체값 검증
@@ -34,14 +34,15 @@ public class BoardLikeController {
 
         log.info("==> boardLikeDTO: "+boardLikeDTO);
         log.info("==> bindingResult: "+bindingResult.toString());
-        log.info("==> BoardLikeDTO.get: "+boardLikeDTO.getId()+","+boardLikeDTO.getBoard_id()+","+boardLikeDTO.getRegDate());
+        log.info("==> BoardLikeDTO.get: "+boardLikeDTO.getId()+","+boardLikeDTO.getBoardId()+","+boardLikeDTO.getRegDate());
 
         if (bindingResult.hasErrors()) {  // 에러가 존재하면 bindingResult에서 값을 받아서 BindException으로 리턴
+            log.info("==> test1 error: "+bindingResult);
             throw new BindException(bindingResult);
         }
 
-        Long id = boardLikeService.register(boardLikeDTO);
-        log.info("==> id: "+id);
+        String userId = boardLikeService.register(boardLikeDTO);
+        log.info("==> test4 userId: "+userId);
 
 
         //Board board = Board.builder().board_id(boardLikeDTO.getBoard_id()).build();
@@ -59,49 +60,52 @@ public class BoardLikeController {
 
         // 3
         Map<String, String> resultMap = new HashMap<>();
-        resultMap.put("id", id+"번 게시글 좋아요이 등록되었습니다옹~");
+        resultMap.put("userId", userId+"의 좋아요가 등록되었습니다~");
         return resultMap;
 
     }
 
-    // 2. 특정 게시물의 게시글 좋아요 목록
-    @GetMapping(value="/list/{board_id}")
-    public PageResponseDTO<BoardLikeDTO> getList (@PathVariable("board_id") Long board_id, // 경로에서 board_id값을 받음
-                                                  PageRequestDTO pageRequestDTO) {
+    // 좋아요 삭제
+    @DeleteMapping(value="/delete")
+    public Map<String, String> remove(@Valid BoardLikeDTO boardLikeDTO, // boardLikeDTO랑 똑같은 이름의 클래스가 있으면 자동으로 값이 들어옴
+                                    BindingResult bindingResult  // 유효성 검사 결과가 들어있음. 객체값 검증
+                                    ) throws BindException {  //  에러가 존재하면 bindingResult에서 값을 받아서 리턴
 
-        log.info("==> pageRequestDTO: "+pageRequestDTO);
-        log.info("==> board_id: "+board_id);
+        if (bindingResult.hasErrors()) {  // 에러가 존재하면 bindingResult에서 값을 받아서 BindException으로 리턴
+            log.info("==> test1 error: "+bindingResult);
+            throw new BindException(bindingResult);
+        }
 
-        PageResponseDTO<BoardLikeDTO> responseDTO = boardLikeService.getListBoard(board_id, pageRequestDTO);
-        // 서버쪽에 클라이언트에 보내는 데이터: 페이징 객체, 게시글 좋아요 리스트 ...
-        return responseDTO;
-
-//        responseDTO.getDtoList().stream().forEach(reply-> log.info("==> reply: "+reply));
-//        Map<String, List<BoardLikeDTO>> resultMap = Map.of("list", responseDTO.getDtoList());
-//        return resultMap;
-
-    }
-
-    // 4. 좋아요 삭제
-    @DeleteMapping(value="/{id}" )// 전송받은 data 종류 명시
-    public Map<String, Long> remove(@PathVariable("id") Long id){  // 경로에서 id값을 받음
-
-
-        boardLikeService.remove(id);
+        log.info("==> test2 getBoardId: "+boardLikeDTO.getBoardId()+", getUserId: "+boardLikeDTO.getUserId());
+        boardLikeService.remove(boardLikeDTO.getBoardId(), boardLikeDTO.getUserId());
 
         // 클라이언트에게 보낼 data 정보 및 메시지
-        Map<String, Long> resultMap = new HashMap<>();
-        resultMap.put("id",id);
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("userId", boardLikeDTO.getUserId()+"의 좋아요가 삭제되었습니다.");
 
         return resultMap;
     }
 
-    // 5. 게시글 좋아요 조회
-    @GetMapping(value="/{id}" )// 전송받은 data 종류 명시
-    public BoardLikeDTO getBoardLikeDTO(@PathVariable("id") Long id){
+    // 게시글 좋아요 조회
+    @GetMapping(value="/read")
+    public BoardLikeDTO getBoardLikeDTO(@Valid BoardLikeDTO boardLikeDTO, // boardLikeDTO랑 똑같은 이름의 클래스가 있으면 자동으로 값이 들어옴
+                                        BindingResult bindingResult  // 유효성 검사 결과가 들어있음. 객체값 검증
+                                        ) throws BindException {  //  에러가 존재하면 bindingResult에서 값을 받아서 리턴
 
-        BoardLikeDTO boardLikeDTO = boardLikeService.read(id);
-        return boardLikeDTO;
+        if (bindingResult.hasErrors()) {  // 에러가 존재하면 bindingResult에서 값을 받아서 BindException으로 리턴
+            log.info("==> test1 error: "+bindingResult);
+            throw new BindException(bindingResult);
+        }
+
+        BoardLikeDTO result = boardLikeService.read(boardLikeDTO.getBoardId(), boardLikeDTO.getUserId());
+        log.info("==> test3 result: "+result);
+        return result;
+    }
+
+    @GetMapping("/count")
+    public long countBoardLike(Long boardId) {
+
+        return boardLikeService.count(boardId);
     }
 }
 

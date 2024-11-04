@@ -92,7 +92,9 @@
 
                 <!-- 좋아요, 댓글, 공유, 신고 -->
                 <div class="d-flex gap-3 mt-3">
-                    <div>좋아요: <span th:text="${dto.boardLikeCount}">8</span></div>
+                    <div class="boardLike" onclick="boardLikeBtn(event)">
+                        <span class="heart">🩶</span>좋아요: <span class="heartCount" th:text="${dto.boardLikeCount}">8</span>
+                    </div>
                     <div>댓글: <span th:text="${dto.replyCount}">1</span></div>
                     <div class="ms-auto">공유</div>
                     <div>신고</div>
@@ -178,6 +180,7 @@
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>
         </th:block>
+        <div class="currentUser" sec:authorize="isAuthenticated()" th:data-currentUser="${#authentication.principal.userId}"></div>
     </div>
 
     <!-- Axios 라이브러리 연결 -->
@@ -185,6 +188,8 @@
     <!-- file upload 처리하는 javascript 연결 -->
     <script src="/js/upload.js"></script>
     <script src="/js/reply.js"></script>
+    <script src="/js/boardLike.js"></script>
+
 
 </div> <!-- end fragment="content" -->
 
