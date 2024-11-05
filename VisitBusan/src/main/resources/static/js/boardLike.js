@@ -42,7 +42,7 @@ async function axiosCountBoardLike(params) {
 getBoardLike()
 
 // 좋아요 버튼 정의
-function boardLikeBtn(e) {
+async function boardLikeBtn(e) {
     e.preventDefault();  // 기본 이벤트 제거
     e.stopPropagation();  // 버블링(현재 이벤트가 발생한 요소의 상위 요소들에 대해서 이벤트 감지되는 현상) 방지
 
@@ -59,7 +59,6 @@ function boardLikeBtn(e) {
         removeBoardLike()
     }
     console.log('4')
-    countBoardLike()
 
 }
 
@@ -76,7 +75,7 @@ function countBoardLike() {
         console.log("result: ",result);
         heartCount.innerText = result
 
-    }).catch(e=> alert("에러났다옹!\n\n"+e));
+    }).catch(e=> alert("에러!\n\n"+e));
 
 }
 
@@ -87,7 +86,7 @@ function countBoardLike() {
 function addBoardLike() {
 
     if (currentUser==null || currentUser.length==0) {  // 로그인한 사람만 등록 가능. 값이 undefined일 경우 눌 관련 처리만 가능함. length 이런 작업 안됨.
-        alert("로그인한 사람만 등록이 가능하다옹~");
+        alert("로그인한 사람만 등록이 가능합니다~");
         return  // 함수 종료
     }
 
@@ -103,9 +102,10 @@ function addBoardLike() {
         console.log("result: ",result);
         console.log("result.userId: ",result.userId);
         heart.innerText = '❤️'
+        countBoardLike()
         
 
-    }).catch(e=> alert("에러났다옹!\n\n"+e));
+    }).catch(e=> alert("에러!\n\n"+e));
 
 }
 
@@ -143,7 +143,7 @@ function getBoardLike() {
             heart.innerText = '🩶'
         }
 
-    }).catch(e=> alert("에러났다옹!\n\n"+e));
+    }).catch(e=> alert("에러!\n\n"+e));
 
 
 }
@@ -172,8 +172,9 @@ function removeBoardLike() {
         console.log("result: ",result);
         console.log("result.userId: ",result.userId);
         heart.innerText = '🩶'
+        countBoardLike()
 
-    }).catch(e=> alert("에러났다옹!\n\n"+e));
+    }).catch(e=> alert("에러!\n\n"+e));
 
 
 }
