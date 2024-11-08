@@ -3,9 +3,9 @@ console.log("스크립트 실행! :b");
 const dataCon = document.querySelector('.dataCon');
 const errors = dataCon.getAttribute('data-errors');
 const menu = dataCon.getAttribute('data-menu');
-const readLink = dataCon.getAttribute('data-removeLink');
 const link = dataCon.getAttribute('data-link');
-const linkRemove = dataCon.getAttribute('data-link-remove');
+const readLink = dataCon.getAttribute('data-readLink');
+const removeLink = dataCon.getAttribute('data-removeLink');
 const dto_id = dataCon.getAttribute('data-id');
 const fileNames = document.querySelectorAll('.dataCon .fileName');
 console.log("errors: " ,errors)
@@ -86,7 +86,7 @@ function removeFun(e) {
 
         const formObj = document.querySelector('.removeForm');
         // formObj.action = `/board/${menu}/remove?id=${dto_id}&${link}`;
-        formObj.action = linkRemove;
+        formObj.action = removeLink;
         formObj.method = "post";
         formObj.submit();
     }
