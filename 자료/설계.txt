@@ -3,8 +3,8 @@
 /---------------------/
 
 기본설정(application.properties, build.gradle)
-설정같은거(advice)
 설정(config)
+예외처리(advice)
 시큐리티(security)
 컨스턴트(constant)
 
@@ -17,7 +17,13 @@ DTO(dto)
  - 검색(search)
 서비스(service)
 컨트롤러(controller)
+ - adminPage
 
+정적 리소스 (static)
+ - css
+ - js
+ - fonts
+ - images
 템플릿(templates)
  - layouts
  - fragments
@@ -29,29 +35,40 @@ DTO(dto)
 
 
 Base - CustomRestController, RootConfig, PageRequestDTO, PageResponseDTO
-security - CustomSecurityConfig, CustomServletConfig, Role, AuthMemberDTO, Custom403Handler ...
+Security - CustomSecurityConfig, Role, AuthMemberDTO, CustomUserDetailService, Custom403Handler ...
+Swagger - SwaggerConfig, CustomServletConfig, Controller
 
 upload  - UploadFileDTO, UploadRequestDTO, UpDownController
 
-Member  - Member(Entity), MemberDTO, MemberRepository, MemberService, MemberContoller 
+Member  - Entity, DTO, Repository, Service, Contoller, Test
 Board   - Entity, DTO, Repository, Service, Controller, Test
+festivalInfo - Entity, DTO, Repository, Test
+BoardFile - Entity, DTO, Repository, Test
+BoardLike - Entity, DTO, Repository, Service, Controller, Test
+ProfileImage - Entity, DTO, Repository, Service, Controller, Test
 Reply   - Entity, DTO, Repository, Service, Controller, Test
 Like    - Entity, DTO, Repository, Service, Contorller, Test
 Alarm   - Entity, DTO, Repository, Service, Controller, Test
 Report  - Entity, DTO, Repository, Service, Controller, Test
 Warning - Entity, DTO, Repository, Service, Controller, Test
+AdminPageController - AdminStart, BoardManagement, MemberManagement, ReportManagement
+
 
 templates
- - layouts : basic, adminBasic
- - fragments : header, footer, alarm(modal), report(modal)
+ - layouts : base, adminBase
+ - fragments : header, footer, alarm(modal), report(modal), adminHeader
  - member : login(All), signUp(All), modify(User, Admin), myPage(User, Admin)
  - boards : travelInfo, travelRecommend, travelGuide, festivalBoard, userBoard
-            - travelInfo        :  list(All), create(Admin), read(All), modify(Admin)
-            - travelRecommend   :  list(All), create(Admin), read(All), modify(Admin)
-            - travelGuide       :  list(All), create(Admin), read(All), modify(Admin), travelPreparation(All)
-            - festivalBoard     :  list(All), create(Admin), read(All), modify(Admin)
-            - userBoard         :  list(All), create(User),  read(All), modify(User)
+            - travelInfo        :  list(All), read(All), create(Admin), modify(Admin)
+            - travelRecommend   :  list(All), read(All), create(Admin), modify(Admin)
+            - travelGuide       :  list(All), read(All), create(Admin), modify(Admin), travelPreparation(All)
+            - festivalBoard     :  list(All), read(All), create(Admin), modify(Admin)
+            - userBoard         :  list(All), read(All), create(User) , modify(User)
  - adminPage(Admin) : main, config, report, board, member
+            - board  : list, read, create, modify
+            - member : list
+            - report : list
+            - config
 
 
 스타일 있는 게시판 구현(보류)(어려움)
@@ -65,35 +82,46 @@ templates
 regDate, modDate
 
 회원 (Member extends BaseEntity)(id 또는 email을 유저 식별용으로 사용)
-id, userId, password, name, email, address, profileImage, roleSet
+id, userId, password, name, email, address, memberText, profileImage, roleSet
 
 프로필 이미지 (ProfileImage)
-uuid, fileName, ord, member
+uuid, fileName, member(FK)
 
 게시물 (Board extends BaseEntity)
-id, category, title, content, boardFileSet(Set<BoardFile>), writer, email, tags, viewCount, // likeCount
+id, category, title, content, boardFileSet(Set<BoardFile>), writer, writerId, viewCount, // likeCount
 
-카테고리:
- - 관리자 게시판 : 축제행사, 공연전시,명소, 가이드
- - 유저 게시판 :  여행공유, 여행
+// 카테고리
+// 관리자 게시판 :
+//  - 여행정보게시판(travelInfo) : 명소(place), 음식(food), 숙박(accommodation)
+//  - 여행추천게시판(travelRecommend) : 일정여행(scheduledTravel), 테마여행(themeTravel)
+//  - 여행가이드게시판(travelGuide) : 가이드(guide), 여행준비(preparation)
+//  - 축제게시판(festivalBoard) : 축제행사(festival), 공연전시(performance), 스포츠(sports)
+// 유저 게시판 :
+//  - 유저게시판(userBoard) : 여행정보(information), 여행일정(schedule), 후기(review)
+
+축제정보 (FestivalInfo)
+id, board(FK), contactNum, place, host, supervision, homepage, startDate, endDate
 
 게시물 파일 (BoardFile)
 uuid, fileName, ord, board(FK)
 
+게시물 좋아요 (boardLike)
+id, board(FK), userId, regDate
+
+태그 (Tag)
+id, board(FK), tagName
+
 댓글 (Reply extends BaseEntity)
-id, board(FK), replyText, replier(유저이름), replierEmail
+id, board(FK), replyText, replier(유저이름), replierId
 
 대댓글 (SubReply extends BaseEntity)
-id, reply(FK), replyText, replier(유저이름), replierEmail
-
-게시물 좋아요 (boardLike)
-id, board(FK), member(FK), regDate
+id, reply(FK), replyText, replier(유저이름), replierId
 
 댓글 좋아요 (ReplyLike)
-id, reply(FK), member(FK), regDate
+id, reply(FK), memberId, regDate
 
 대댓글 좋아요 (SubReplyLike)
-id, subReply(FK), member(FK), regDate
+id, subReply(FK), memberId, regDate
 
 // 좋아요 (Like)
 // id, board(FK), reply(FK), subReply(FK), member(FK), regDate
@@ -119,7 +147,7 @@ id, category(1,2,3,4...), reportText(기타), reporter, reporterId, regDate
 다르면 dtoToEntity entityToDto 제작
 
 페이지 리퀘스트 (PageRequestDTO)
-page, size, type, keyword, link
+page, size, type, keyword, bCategory, link
 
 페이지 리스폰스 (PageResponseDTO)
 page, size, total, start, end, prev, next, dtoList
@@ -131,28 +159,35 @@ username, password, authorities, name, email, address
 name, password, email, address, role
 
 프로필 이미지 (ProfileImageDTO)
-uuid, fileName, ord, member
+uuid, fileName, member_id
 
 게시물 (BoardDTO)
-bno, category, title, content, fileNames(List<String>), writer, email, regDate, modDate, tags, viewCount
+id, category, title, content, fileNames(List<String>), writer, writerId, regDate, modDate, viewCount, replyCount, boardLikeCount,
+이벤트 정보용 contactNum, place, host, supervision, homepage, startDate, endDate
+
+축제정보 (FestivalInfoDTO)
+id, board_id, contactNum, place, host, supervision, homepage, startDate, endDate
 
 게시물 파일 (BoardFileDTO)
 uuid, fileName, ord
 
 게시물 좋아요 (BoardLikeDTO)
-id, board, member, regDate
+id, board_id, userId, regDate
+
+태그 (TagDTO)
+id, board_id, tagName
 
 댓글 (ReplyDTO)
-id, board, replyText, replier, replierEmail, regDate, modDate
+id, board_id, replyText, replier, replierId, regDate, modDate
 
 대댓글 (SubReplyDTO)
-id, reply, replyText, replier, replierEmail regDate, modDate
+id, reply_id, replyText, replier, replierId regDate, modDate
 
 댓글 좋아요 (ReplyLikeDTO)
-id, reply, member, regDate
+id, reply_id, memberId, regDate
 
 대댓글 좋아요 (SubReplyLikeDTO)
-id, subReply, member, regDate
+id, subReply_id, memberId, regDate
 
 알람 (AlarmDTO)
 id, member(알람받는 유저), Reply, SubReply, boardLike, replyLike, subReplyLike, warning, regDate
@@ -216,9 +251,6 @@ main페이지 : 모든 사용자 조회 및 클릭 가능
 마이페이지 : 유저, 관리자만 조회 가능
 
 관리자 페이지 : 관리자만 조회 가능, 관리자 임명(최고관리자)
-
-
-
 
 
 첨부파일 등록
