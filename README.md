@@ -9,7 +9,7 @@
 참고로 스페이스바 2번하면 엔터, <b>HTML 태그 적용됨<b>  
   
 visit busan : https://www.visitbusan.net/kr/index.do  
-팀 포폴 : https://spark-lily-0cd.notion.site/da860fb2a5eb4b72a0a8455a8a44eb69  
+팀 포폴 : https://www.notion.so/Project-Visit-Busan-59756d6447f24536b6cf7f8bae166ba2?pvs=4  
 작업 계획 : https://hapohees-team.monday.com/boards/1902534665  
   
 각종 링크  
