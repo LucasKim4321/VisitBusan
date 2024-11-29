@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration  // 환경설정
 public class RootConfig {
 
+    // ModelMapper: 필드 이름이 동일한 경우 자동으로 매핑
     @Bean
     public ModelMapper getMapperMapper () {
 

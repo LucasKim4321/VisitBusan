@@ -169,7 +169,8 @@
                 </a>
             </div>
             <div class="ms-2" sec:authorize="isAuthenticated()" th:if="${dto.writerId == #authentication.principal.userId}">
-                <form class="removeForm">
+                <form class="removeForm" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
                     <button type="button" class="form-control border d-inline removeBtn" onclick="removeFun(event)">삭제</button>
                 </form>
             </div>

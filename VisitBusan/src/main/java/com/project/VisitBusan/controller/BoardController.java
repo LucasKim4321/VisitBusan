@@ -200,7 +200,7 @@ public class BoardController {
 
     // 4. 게시글 수정
     @PreAuthorize("isAuthenticated() and #boardDTO.writerId==principal.username")
-    @PostMapping("/{menu}/modify")
+    @PutMapping("/{menu}/modify")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String modifypost(@PathVariable("menu") String menu,
                              BoardDTO boardDTO,  // @Valid 넘어온 데이터 BoardDTO의 에러 유무 체크
@@ -244,7 +244,7 @@ public class BoardController {
 
     // 5. 게시글 삭제
     @PreAuthorize("isAuthenticated() and #writerId==principal.username")
-    @PostMapping("/{menu}/remove")
+    @DeleteMapping("/{menu}/remove")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String remove(@PathVariable("menu") String menu,
                          Long id, String writerId,

@@ -94,7 +94,8 @@
 
             <!-- 유저 이름 -->
             <div class="contentBox">
-                <input type="hidden" class="form-control" name="writer" value="test" readonly>
+                <input type="hidden" class="form-control" name="writer" value="test" readonly
+                       th:value="${#authentication.principal.name}">
             </div>
 
             <!-- 유저 아이디 (체크용)-->
@@ -151,7 +152,7 @@
     </div>
 
     <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
-        th:data-link-list="|/admin/board/list?${pageRequestDTO.getLink()}|"></div>
+        th:data-listLink="|/admin/board/list?${pageRequestDTO.getLink()}|"></div>
 
     <!-- Axios 라이브러리 연결 -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

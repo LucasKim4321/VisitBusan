@@ -160,7 +160,8 @@
                 </a>
             </div>
             <div class="ms-2" sec:authorize ="hasAnyAuthority('ROLE_ADMIN')">
-                <form class="removeForm">
+                <form class="removeForm" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
                     <button type="button" class="form-control border d-inline removeBtn" onclick="removeFun(event)">삭제</button>
                 </form>
             </div>
@@ -173,10 +174,10 @@
 
     </div> <!-- end postBox -->
 
-    <div>[[${dto}]]</div>
+    <!-- <div>[[${dto}]]</div> -->
 
     <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-readLink="|/admin/board/read|" th:data-link="${pageRequestDTO.getLink()}"
-         th:data-id="${dto.id}" th:data-link-remove="|/admin/board/remove?id=${dto.id}&${pageRequestDTO.getLink()}|">
+         th:data-id="${dto.id}" th:data-removeLink="|/admin/board/remove?id=${dto.id}&${pageRequestDTO.getLink()}|">
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>
         </th:block>

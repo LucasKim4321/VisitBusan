@@ -78,13 +78,15 @@
                 </div>
 
                 <!-- 유저 이름 -->
-                <div class="contentBox">
-                    <input type="hidden" class="form-control" name="writer" value="test" readonly>
+                <div class="contentBox" sec:authorize="isAuthenticated()">
+                    <input type="hidden" class="form-control" name="writer" value="test" readonly
+                           th:value="${#authentication.principal.name}">
                 </div>
 
                 <!-- 유저 아이디 (체크용)-->
-                <div class="contentBox">
-                    <input type="hidden" class="form-control" name="writerId" value="test" readonly>
+                <div class="contentBox" sec:authorize="isAuthenticated()">
+                    <input type="hidden" class="form-control" name="writerId" value="test" readonly
+                           th:value="${#authentication.principal.userId}">
                 </div>
 
                 <!-- 첨부파일 등록 모달 버튼 -->
@@ -138,7 +140,7 @@
     </div>
 
     <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
-        th:data-link-list="|/board/${menu}/list?${pageRequestDTO.getLink()}|">
+        th:data-listLink="|/board/${menu}/list?${pageRequestDTO.getLink()}|">
     </div>
 
     <!-- Axios 라이브러리 연결 -->

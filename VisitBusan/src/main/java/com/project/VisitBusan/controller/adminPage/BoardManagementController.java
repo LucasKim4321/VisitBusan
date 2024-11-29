@@ -13,10 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
@@ -143,7 +140,7 @@ public class BoardManagementController {
 
     } // end get modify
     
-    @PostMapping("/modify")
+    @PutMapping("/modify")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String modifypost(BoardDTO boardDTO,  // @Valid 넘어온 데이터 BoardDTO의 에러 유무 체크
                              BindingResult bindingResult,  // 감지한 에러 데이터
@@ -186,7 +183,7 @@ public class BoardManagementController {
 
 
     // 게시글 삭제
-    @PostMapping("/remove")
+    @DeleteMapping("/remove")
     // BoardDTO는 메서드가 호출 받았을 때 넘겨받은 파라미터 값이 BoardDTO의 필드명과 일치하면 자동 매핑 (일치하는 값만 불러옴)
     public String remove(Long id,
                          PageRequestDTO pageRequestDTO,

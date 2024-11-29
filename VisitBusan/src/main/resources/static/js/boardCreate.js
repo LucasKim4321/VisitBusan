@@ -4,7 +4,7 @@ const dataCon = document.querySelector('.dataCon');
 const errors = dataCon.getAttribute('data-errors');
 const menu = dataCon.getAttribute('data-menu');
 const link = dataCon.getAttribute('data-link');
-const linkList = dataCon.getAttribute('data-link-list');
+const linkList = dataCon.getAttribute('data-listLink');
 
 // 툴박스 
 const toolBox = document.querySelector('.toolBox .UIBox');

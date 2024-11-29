@@ -87,7 +87,8 @@ function removeFun(e) {
         const formObj = document.querySelector('.removeForm');
         // formObj.action = `/board/${menu}/remove?id=${dto_id}&${link}`;
         formObj.action = removeLink;
-        formObj.method = "post";
+//        formObj.method = 'post';  // 전송 방식 설정  // 설정 안하면 기본값 Get
+//        form 태그는 put,delete 지원안되지만 <input type="hidden" name="_method" value="DELETE">를 사용하면 가능
         formObj.submit();
     }
 }

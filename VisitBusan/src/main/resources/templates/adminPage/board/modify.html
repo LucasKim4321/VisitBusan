@@ -33,6 +33,7 @@
     <div class="postBox border rounded-4 mt-4 mx-auto py-3 px-5">
 
         <form class="modifyForm" action="/admin/board/modify" th:action="|@{/admin/board/modify?}${pageRequestDTO.getLink()}|" method="post">
+            <input type="hidden" name="_method" value="PUT">
             <div class="topBox mt-4">
                 <!-- 카테고리 -->
                 <div class="categoryBox mt-3">
@@ -155,7 +156,7 @@
 
     </div> <!-- end postBox -->
 
-    <div>[[${dto}]]</div>
+    <!-- <div>[[${dto}]]</div> -->
 
     <!-- 첨부파일 추가를 위한 모달창 -->
     <div class="modal modalUpload fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
