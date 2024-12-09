@@ -111,7 +111,7 @@ public class MemberController {
     public String loginMember(String error, String logout) {
         log.info("=> login ");
         // 로그인 폼이 있는 페이지로 포워딩
-        return "/members/login";
+        return "members/login";
     }
 
     // 1-1. 로그인 실패시 처리할 url
@@ -120,7 +120,7 @@ public class MemberController {
         log.info("==> login error");
         model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호 확인해주세요.");
 
-        return "/members/login";
+        return "members/login";
     }
 
     //----------------------- //

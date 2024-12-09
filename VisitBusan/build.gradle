@@ -39,6 +39,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security' 		// 시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  	// 타임리프
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'		    // 타임리프 레이아웃
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'		// 엑추에이터 (모니터링)
+
 
 //	implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'					// Swagger 문서화
 
@@ -98,4 +100,10 @@ sourceSets {
 // 4. QueryDsl 컴파일 설정
 // 컴파일 하기전에 클린(빌드 파일을 지움)
 // QEntity가 존재하는 데 중복 생성하려고 해서 에러
-compileJava.dependsOn('clean')
+//compileJava.dependsOn('clean')
+
+tasks.withType(JavaCompile) {
+	options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated")
+}
+
+
