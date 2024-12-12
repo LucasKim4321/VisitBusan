@@ -83,7 +83,7 @@
                                 <img th:src="|@{/images/samples/}busan1.jpg|" alt="사진">
                             </th:block>
                             <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() > 0 }">
-                                <img th:src="|/view/s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
+                                <img th:src="|@{/view/}s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
                             </th:block>
                         </div>
                         <div class="postTitle" th:text="${dto.title}">2024 부산나이트워크42K</div>

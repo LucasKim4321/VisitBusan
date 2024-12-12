@@ -1,5 +1,7 @@
 console.log("스크립트 실행! :b");
 
+var contextPath = document.querySelector('.dataCon').getAttribute('data-contextPath');
+console.log("contextPath2",contextPath);
 const dataCon = document.querySelector('.dataCon');
 const errors = dataCon.getAttribute('data-errors');
 const menu = dataCon.getAttribute('data-menu');
@@ -173,7 +175,7 @@ function showUploadFile({uuid, fileName, img, link}) {  // link는 UploadResultD
                     onClick="javascript:removeFile('${uuid}', '${fileName}', this)" > x </button>
         </div>
         <div class="card-body">
-            <img src="/view/${link}" data-src="${uuid+"==vb=="+fileName}" class="w-100"/>
+            <img src=${contextPath}view/${link}" data-src="${uuid+"==vb=="+fileName}" class="w-100"/>
         </div>
     </div>
     `;

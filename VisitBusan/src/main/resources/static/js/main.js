@@ -1,3 +1,6 @@
+const contextPath = document.querySelector('.dataCon').getAttribute('data-contextPath');
+
+
 console.log("123123123123123")
 let currentIndex = 0;
 let slides = document.querySelectorAll('.slider .f-sliderBox');
@@ -87,7 +90,7 @@ ord_imgSlide.innerHTML = '';
 
 pageRequests.forEach(request => {
     // 서버로부터 카테고리별로 그룹화된 데이터를 가져옴
-    fetch(`/board/main/list?size=${request.size}&bCategory=${request.bCategory}`)
+    fetch(`${contextPath}board/main/list?size=${request.size}&bCategory=${request.bCategory}`)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -106,14 +109,16 @@ pageRequests.forEach(request => {
             if(request.bCategory == "festival") {
                 const f_sliderBox = document.createElement("div");
                 f_sliderBox.classList = "f-sliderBox"
-                f_sliderBox.setAttribute('data-link', `/board/festivalBoard/read?id=${data[i].id}&bCategory=festival`);
+                f_sliderBox.setAttribute('data-link', `${contextPath}board/festivalBoard/read?id=${data[i].id}&bCategory=festival`);
                 f_sliderBox.onclick = postRead;
                 
                 if (data[i].boardFiles.length == 0 ) {
-                    f_sliderBox.style.backgroundImage= "url('../images/mainpage/f_img2.gif')";
+                    // f_sliderBox.style.backgroundImage= "url('../images/mainpage/f_img2.gif')";
+                    f_sliderBox.style.backgroundImage= `url('${contextPath}images/mainpage/f_img2.gif')`;
                 }
                 if (data[i].boardFiles.length > 0 ) {
-                    f_sliderBox.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
+                    // f_sliderBox.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
+                    f_sliderBox.style.backgroundImage=`url('${window.location.origin}${contextPath}view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
                 }
 
                 f_sliderBox.innerHTML += 
@@ -130,32 +135,34 @@ pageRequests.forEach(request => {
             } else if (request.bCategory == "place") {
                 const g_imgBox_child = document.createElement("div");
                 g_imgBox_child.classList = "g-item"
-                g_imgBox_child.setAttribute('data-link', `/board/travelInfo/read?id=${data[i].id}&bCategory=place`);
+                g_imgBox_child.setAttribute('data-link', `${contextPath}board/travelInfo/read?id=${data[i].id}&bCategory=place`);
                 g_imgBox_child.onclick = postRead;
                 if (data[i].boardFiles.length == 0 ) {
-                    g_imgBox_child.style.backgroundImage= "url('../images/samples/busan1.jpg')";
+                    // g_imgBox_child.style.backgroundImage= "url('../images/samples/busan1.jpg')";
+                    g_imgBox_child.style.backgroundImage= `url('${contextPath}images/samples/busan1.jpg')`;
                 }
                 if (data[i].boardFiles.length > 0 ) {
-                    g_imgBox_child.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
+                    // g_imgBox_child.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
+                    g_imgBox_child.style.backgroundImage=`url('${window.location.origin}${contextPath}view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
                 }
                 g_imgBox.appendChild(g_imgBox_child);
 
             } else if (request.bCategory == "review") {
                 const t_imgBox_child = document.createElement("div");
                 t_imgBox_child.classList = "t-item"
-                t_imgBox_child.setAttribute('data-link', `/board/userBoard/read?id=${data[i].id}&bCategory=review`);
+                t_imgBox_child.setAttribute('data-link', `${contextPath}board/userBoard/read?id=${data[i].id}&bCategory=review`);
                 t_imgBox_child.onclick = postRead;
                 let htmlTag = '';
                 if (data[i].boardFiles.length == 0 ) {
                     htmlTag +=
                     `<div class="image-container">
-                        <img class="img-tag" src="../images/samples/busan1.jpg">
+                        <img class="img-tag" src="${contextPath}images/samples/busan1.jpg">
                     </div>`
                 }
                 if (data[i].boardFiles.length > 0 ) {
                     htmlTag +=
                     `<div class="image-container">
-                        <img class="img-tag" src="/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}">
+                        <img class="img-tag" src="${contextPath}view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}">
                     </div>`
                 }
                 htmlTag +=
@@ -168,13 +175,15 @@ pageRequests.forEach(request => {
 
             } else if (request.bCategory == "themeTravel") {
                 const ord_imgSlide_child = document.createElement("li");
-                ord_imgSlide_child.setAttribute('data-link', `/board/travelRecommend/read?id=${data[i].id}&bCategory=themeTravel`);
+                ord_imgSlide_child.setAttribute('data-link', `${contextPath}board/travelRecommend/read?id=${data[i].id}&bCategory=themeTravel`);
                 ord_imgSlide_child.onclick = postRead;
                 if (data[i].boardFiles.length == 0 ) {
-                    ord_imgSlide_child.style.backgroundImage= "url('../images/samples/busan1.jpg')";
+                    // ord_imgSlide_child.style.backgroundImage= "url('../images/samples/busan1.jpg')";
+                    ord_imgSlide_child.style.backgroundImage= `url('${contextPath}images/samples/busan1.jpg')`;
                 }
                 if (data[i].boardFiles.length > 0 ) {
-                    ord_imgSlide_child.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
+                    // ord_imgSlide_child.style.backgroundImage=`url('http://localhost:9089/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
+                    ord_imgSlide_child.style.backgroundImage=`url('${window.location.origin}${contextPath}view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}')`;
                 }
                 ord_imgSlide.appendChild(ord_imgSlide_child);
 

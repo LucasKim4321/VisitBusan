@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="card-body">
                                         <img style="" class="w-100" th:data-src="${fileName}"
-                                             th:src="|/view/s_${fileName}|" />
+                                             th:src="|@{/view/}s_${fileName}|" />
                                     </div>
                                 </div>
 
@@ -159,7 +159,7 @@
     </div>
 
     <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-link="${pageRequestDTO.getLink()}"
-         th:data-id="${dto.id}" th:data-link-read="|/board/${menu}/read?id=${dto.id}&${pageRequestDTO.getLink()}|">
+         th:data-id="${dto.id}" th:data-link-read="|@{/board/}${menu}/read?id=${dto.id}&${pageRequestDTO.getLink()}|" th:data-contextPath="@{/}">
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>
         </th:block>
@@ -168,7 +168,7 @@
     <!-- Axios 라이브러리 연결 -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- file upload 처리하는 javascript 연결 -->
-    <script src="/js/upload.js"></script>
+    <script src="/js/upload.js" th:src="@{/js/upload.js}"></script>
 
 </div> <!-- end fragment="content" -->
 

@@ -59,7 +59,7 @@
                         <img th:src="|@{/images/samples/}busan1.jpg|" alt="사진">
                     </th:block>
                     <th:block th:if="${dto.boardFiles != null && dto.boardFiles.size() > 0 }">
-                        <img th:src="|/view/s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
+                        <img th:src="|@{/view/}s_${dto.boardFiles[0].uuid}==vb==${dto.boardFiles[0].fileName}|" alt="사진">
                     </th:block>
                 </div>
                 <div class="postTitle" th:text="${dto.title}">여행과 힐링을 동시에, 부산 웰니스 관광지 선정(부산웰니스관광, 광안리, 숲, 명상, 스파)</div>

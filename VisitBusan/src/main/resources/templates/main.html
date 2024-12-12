@@ -78,7 +78,7 @@
                 <div>restaurant</div>
                 <div>festival</div>
                 <div>guide</div>
-            </div><img src="/images/mainpage/food.jpg">
+            </div><img src="/images/mainpage/food.jpg" th:src="@{/images/mainpage/food.jpg}">
             <!-- 이미지 위로 position 셋팅 -->
 
         </div>
@@ -96,7 +96,7 @@
             <div class="t-imgBox">
                 <div class="t-item">
                     <div class="image-container">
-                        <img class="img-tag" src="/images/samples/busan1.jpg">
+                        <img class="img-tag" src="/images/samples/busan1.jpg" th:src="@{/images/samples/busan1.jpg}">
                         <!-- <img src="/images/mainpage/cloudStroe.jpg"> -->
                     </div>
                     <div class="t-tag">#광안리해수욕장</div>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="t-item">
                     <div class="image-container">
-                        <img class="img-tag" src="/images/samples/busan1.jpg">
+                        <img class="img-tag" src="/images/samples/busan1.jpg" th:src="@{/images/samples/busan1.jpg}">
                         <!-- <img src="/images/mainpage/cloudStroe.jpg"> -->
                     </div>
                     <div class="t-tag">#광안리해수욕장</div>
@@ -137,6 +137,9 @@
             </div>
         </div> <!-- end outOfOrdinary-->
     </div> <!-- end myBox-->
+
+    <div class="dataCon" hidden th:data-contextPath="@{/}">
+    </div>
 
     <!-- Axios 라이브러리 연결 -->
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->

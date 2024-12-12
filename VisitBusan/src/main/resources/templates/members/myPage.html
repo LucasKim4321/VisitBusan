@@ -73,7 +73,7 @@
                     <div class="myPosts">
                         <div class="myPost rev-inner-item">
                             <div class="rev-img">
-                                <img src="/images/mypage/image1.jpg" alt="이미지">
+                                <img src="/images/mypage/image1.jpg" th:src="@{/images/mypage/image1.jpg}" alt="이미지">
                             </div>
                             <div class="rev-content">
                                 <div class="mypage-tag">#광안리해수욕장</div>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="myPost">
                             <div class="rev-img">
-                                <img src="/images/mypage/image1.jpg" alt="이미지">
+                                <img src="/images/mypage/image1.jpg" th:src="@{/images/mypage/image1.jpg}" alt="이미지">
                             </div>
                             <div class="rev-content">
                                 <div class="mypage-tag">#광안리해수욕장</div>
@@ -111,7 +111,7 @@
                         </div>
                         <div class="myPost">
                             <div class="rev-img">
-                                <img src="/images/mypage/image1.jpg" alt="이미지">
+                                <img src="/images/mypage/image1.jpg" th:src="@{/images/mypage/image1.jpg}" alt="이미지">
                             </div>
                             <div class="rev-content">
                                 <div class="mypage-tag">#광안리해수욕장</div>
@@ -141,7 +141,7 @@
                 <div class="row myLikes">
                     <div class="col rev-inner-item">
                         <div class="rev-img">
-                            <img src="/images/mypage/image1.jpg" alt="이미지">
+                            <img src="/images/mypage/image1.jpg" th:src="@{/images/mypage/image1.jpg}" alt="이미지">
                         </div>
                         <div class="rev-content">
                             <div class="mb-2 mt-4">겨울 호기심 천국 1박2일 체험 코스</div>
@@ -151,7 +151,7 @@
                     </div>
                     <div class="col rev-inner-item">
                         <div class="rev-img">
-                            <img src="/images/mypage/image1.jpg" alt="이미지">
+                            <img src="/images/mypage/image1.jpg" th:src="@{/images/mypage/image1.jpg}" alt="이미지">
                         </div>
                         <div class="rev-content">
                             <div class="mb-2 mt-4">겨울 호기심 천국 1박2일 체험 코스</div>
@@ -161,7 +161,7 @@
                     </div>
                     <div class="col rev-inner-item">
                         <div class="rev-img">
-                            <img src="/images/mypage/image1.jpg" alt="이미지">
+                            <img src="/images/mypage/image1.jpg" th:src="@{/images/mypage/image1.jpg}" alt="이미지">
                         </div>
                         <div class="rev-content">
                             <div class="mb-2 mt-4">겨울 호기심 천국 1박2일 체험 코스</div>
@@ -337,7 +337,7 @@
 
                 console.log("test 시작");
 
-                fetch('/mypage/check', {
+                fetch('[[@{/mypage/check}]]', {
                    method: 'POST',
                    body: new FormData(modifyForm)
                 }).then(response => {
@@ -377,7 +377,7 @@
             e.stopPropagation();
 
             console.log("test 시작");
-            fetch('/mypage/check', {
+            fetch('[[@{/mypage/check}]]', {
                method: 'POST',
                body: new FormData(deleteForm)
 
@@ -416,7 +416,7 @@
         const request = {type:'writerId', keyword:writerId, size:3};
 
         // 서버로부터 카테고리별로 그룹화된 데이터를 가져옴
-        fetch(`/board/main/list?size=${request.size}&type=${request.type}&keyword=${request.keyword}`)
+        fetch(`[[@{/board/main/list?size=}]]${request.size}&type=${request.type}&keyword=${request.keyword}`)
         .then(response => response.json())
         .then(data => {
 
@@ -430,7 +430,7 @@
 
                 const myPost = document.createElement("div");
                 myPost.classList = "myPost"
-                myPost.setAttribute('data-link', `/board/userBoard/read?id=${data[i].id}&bCategory=${data[i].bCategory}`);
+                myPost.setAttribute('data-link', `[[@{/board/userBoard/read?id=}]]${data[i].id}&bCategory=${data[i].bCategory}`);
                 myPost.onclick = postRead;
                                     
                 let htmlTag = '';
@@ -440,11 +440,11 @@
                     `
                 if (data[i].boardFiles.length == 0 ) {
                     htmlTag += 
-                    `   <img src="../images/mypage/image1.jpg" alt="이미지">`
+                    `   <img src="[[@{/images/}]]mypage/image1.jpg" alt="이미지">`
                 }
                 if (data[i].boardFiles.length > 0 ) {
                     htmlTag += 
-                    `   <img src="/view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}" alt="이미지">`
+                    `   <img src="[[@{/view/}]]${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}" alt="이미지">`
                 }
 
                 htmlTag += 

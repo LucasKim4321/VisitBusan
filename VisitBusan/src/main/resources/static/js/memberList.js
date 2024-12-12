@@ -2,6 +2,8 @@ console.log("스크립트 실행2! :b");
 
 const dataCon = document.querySelector('.dataCon');
 const link = dataCon.getAttribute('data-link');
+var contextPath = document.querySelector('.dataCon').getAttribute('data-contextPath');
+console.log("contextPath1",contextPath);
 
 // 페이징 번호 클릭시 처리하는 함수
 document.querySelector('.my_pagination').addEventListener('click',function(e) {
@@ -76,7 +78,7 @@ informationModal.querySelector('.createBtn2').addEventListener('click', function
     };
 
     // 서버에 POST 요청을 보냅니다.
-    fetch(`/admin/member/create`, {
+    fetch(`${contextPath}admin/member/create`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -85,7 +87,7 @@ informationModal.querySelector('.createBtn2').addEventListener('click', function
     })
     .then(response => {
         if (response.ok) {
-            window.location.href = "/admin/member/list";
+            window.location.href = `${contextPath}admin/member/list`;
         } else {
             throw new Error("서버 응답에 문제가 있습니다.");
             // throw new Error(response.body);
@@ -120,7 +122,7 @@ for (let i = 1; i < memberRows.length; i++) { // 헤더를 제외하기 위해 i
         // 유저 데이터 불러오기
         console.log("userId",userId)
         if (userId!=null||userId.length>0) {
-            fetch(`/admin/member/read/${userId}?`, {
+            fetch(`${contextPath}admin/member/read/${userId}?`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -188,7 +190,7 @@ document.querySelector('.modBtn').addEventListener('click', function(e) {
     //     address: document.getElementById('inputAddress').value
     // });
     // fetch(`/admin/member/modify?${params.toString()}`, {
-    fetch('/admin/member/modify', {
+    fetch(`${contextPath}admin/member/modify`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -197,7 +199,7 @@ document.querySelector('.modBtn').addEventListener('click', function(e) {
     })
     .then(response => {
         if (response.ok) {
-            window.location.href = `/admin/member/list?${link}`; // 응답 텍스트를 반환
+            window.location.href = `${contextPath}admin/member/list?${link}`; // 응답 텍스트를 반환
         } else {
             throw new Error("서버 응답에 문제가 있습니다.");
         }
@@ -219,7 +221,7 @@ document.querySelector('.removeBtn').addEventListener('click', function(e) {
     const userId = document.getElementById('inputUserId').value;
     // 서버에 POST 요청을 보냅니다.
     if(document.getElementById('inputRole').value!='ROOT') {
-        fetch(`/admin/member/delete?userId=${userId}`, {
+        fetch(`${contextPath}admin/member/delete?userId=${userId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -227,7 +229,7 @@ document.querySelector('.removeBtn').addEventListener('click', function(e) {
         })
         .then(response => {
             if (response.ok) {
-                window.location.href = `/admin/member/list?${link}`;
+                window.location.href = `${contextPath}admin/member/list?${link}`;
             } else {
                 throw new Error("서버 응답에 문제가 있습니다.");
                 // throw new Error(response.body);

@@ -66,7 +66,7 @@
                             <!-- img-thumbnail 부트스트랩 -->
                             <img style="" class="w-100"
                                  th:each="fileName: ${dto.fileNames}"
-                                 th:src="|/view/${fileName}|"/>
+                                 th:src="|@{/view/}${fileName}|"/>
                         </div>
                     </div>
                 </div>
@@ -164,8 +164,8 @@
 
     <!-- <div>[[${dto}]]</div> -->
 
-    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-readLink="|/board/${menu}/read|" th:data-link="${pageRequestDTO.getLink()}"
-         th:data-id="${dto.id}" th:data-removeLink="|/board/${menu}/remove?id=${dto.id}&writerId=${dto.writerId}&${pageRequestDTO.getLink()}|">
+    <div class="dataCon" hidden th:data-errors="${errors}" th:data-menu="${menu}" th:data-readLink="|@{/board/}${menu}/read|" th:data-link="${pageRequestDTO.getLink()}"
+         th:data-id="${dto.id}" th:data-removeLink="|@{/board/}${menu}/remove?id=${dto.id}&writerId=${dto.writerId}&${pageRequestDTO.getLink()}|" th:data-contextPath="@{/}">
         <th:block th:each="fileName:${dto.fileNames}">
             <div class="fileName" th:text="${fileName}"></div>
         </th:block>
@@ -174,8 +174,8 @@
     <!-- Axios 라이브러리 연결 -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- file upload 처리하는 javascript 연결 -->
-    <script src="/js/upload.js"></script>
-    <script src="/js/reply.js"></script>
+    <script src="/js/upload.js" th:src="@{/js/upload.js}"></script>
+    <script src="/js/reply.js" th:src="@{/js/reply.js}"></script>
 
 </div> <!-- end fragment="content" -->
 

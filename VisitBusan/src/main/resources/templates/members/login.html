@@ -16,7 +16,7 @@
             <div class="login-box mt-4">
                 <h1 class="text-center">로그인</h1>
                 <hr>
-                <form action="/login" method="post" class="mt-4">
+                <form action="/login" th:action="@{/login}" method="post" class="mt-4">
                     <div class="form-floating mb-2">
                         <input name="userId" type="text" class="form-control" id="floatingInput" placeholder="아이디를 입력하세요">
                         <label for="floatingInput">아이디 입력</label>

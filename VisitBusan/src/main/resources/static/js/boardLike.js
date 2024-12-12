@@ -4,11 +4,11 @@ console.log('board_id2',board_id);
 const heart = document.querySelector('.boardLike .heart')
 const heartCount = document.querySelector('.boardLike .heartCount')
 console.log('heart',heart);
-
+var contextPath = document.querySelector('.dataCon').getAttribute('data-contextPath');
 
 // 게시글에 대한 좋아요 조회
 async function axiosGetBoardLike(params) {
-    const response = await axios.get(`/boardLike/read?${params.toString()}`);
+    const response = await axios.get(`${contextPath}boardLike/read?${params.toString()}`);
 
     console.log("getBoardLike response: ", response.data);
     return response.data;
@@ -16,7 +16,7 @@ async function axiosGetBoardLike(params) {
 
 // 게시글에 대한 좋아요 등록
 async function axiosAddBoardLike(boardLikeObj) {
-    const response = await axios.post(`/boardLike/create`, boardLikeObj);
+    const response = await axios.post(`${contextPath}boardLike/create`, boardLikeObj);
 
     console.log("addBoardLike response: ", response.data);
     return response.data;
@@ -24,7 +24,7 @@ async function axiosAddBoardLike(boardLikeObj) {
 
 // 게시글에 대한 좋아요 삭제
 async function axiosRemoveBoardLike(params) {
-    const response = await axios.delete(`/boardLike/delete?${params.toString()}`);
+    const response = await axios.delete(`${contextPath}boardLike/delete?${params.toString()}`);
 
     console.log("removeBoardLike response: ", response.data);
     return response.data;
@@ -32,7 +32,7 @@ async function axiosRemoveBoardLike(params) {
 
 // 게시글에 대한 좋아요 카운트
 async function axiosCountBoardLike(params) {
-    const response = await axios.get(`/boardLike/count?${params.toString()}`);
+    const response = await axios.get(`${contextPath}boardLike/count?${params.toString()}`);
 
     console.log("countBoardLike response: ", response.data);
     return response.data;
