@@ -1,12 +1,9 @@
 const contextPath = document.querySelector('.dataCon').getAttribute('data-contextPath');
 
-
-console.log("123123123123123")
 let currentIndex = 0;
 let slides = document.querySelectorAll('.slider .f-sliderBox');
 let totalSlides = slides.length;
 // const totalSlides = 2;
-console.log("789789789798")
 
 function showSlide(index) {
     const slider = document.querySelector('.slider');

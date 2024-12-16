@@ -1,5 +1,7 @@
-
 console.log("/js/reply.js.....")
+
+var contextPath = document.querySelector('.dataCon').getAttribute('data-contextPath');
+console.log("contextPath1",contextPath);
 
 // ------------------------------------------------------ //
 // 특정 게시글에 대한 댓글 조회 : axios(비동기) 요청 테스트
@@ -7,7 +9,7 @@ console.log("/js/reply.js.....")
  async function getReply(board_id){
   console.log("board_id:",board_id);
 
-  const result = await axios.get(`/replies/list/${board_id}`)
+  const result = await axios.get(`${contextPath}replies/list/${board_id}`)
 //  console.log("getReply(): ",result)
 //  console.log("getReply() data: ",result.data)
 //  console.log("getReply() data.list: ",result.data.list)
@@ -19,7 +21,7 @@ console.log("/js/reply.js.....")
 // ------------------------------------------------------------  //
  async function getList({board_id, page, size, goLast}){
   const result = await axios.get(
-                                  `/replies/list/${board_id}`,
+                                  `${contextPath}replies/list/${board_id}`,
                                   { params: {page, size} })
   console.log("axios: getList() data: ",result)
 
@@ -47,7 +49,7 @@ console.log("/js/reply.js.....")
 // 2.게시글에 대한 댓글 등록
 // ------------------------------------------------------------  //
 async function addReply(replyObj){
-  const response = await axios.post(`/replies/`, replyObj);
+  const response = await axios.post(`${contextPath}replies/`, replyObj);
 
    console.log("addReply response:", response.data);
   return response.data
@@ -56,7 +58,7 @@ async function addReply(replyObj){
 // 3.게시글에 대한 댓글 조회
 // ------------------------------------------------------------  //
 async function getReply(id){
-  const response = await axios.get(`/replies/${id}`);
+  const response = await axios.get(`${contextPath}replies/${id}`);
   //console.log("addReply response:", response.data);
   return response.data
 }
@@ -65,7 +67,7 @@ async function getReply(id){
 // 4.게시글에 대한 댓글 수정
 // ------------------------------------------------------------  //
 async function modifyReply(replyObj){
-  const response = await axios.put(`/replies/${replyObj.id}`, replyObj);
+  const response = await axios.put(`${contextPath}replies/${replyObj.id}`, replyObj);
   //console.log("addReply response:", response.data);
   return response.data
 }
@@ -73,7 +75,7 @@ async function modifyReply(replyObj){
 // 5.게시글에 대한 댓글 삭제
 // ------------------------------------------------------------  //
 async function removeReply(id){
-  const response = await axios.delete(`/replies/${id}`);
+  const response = await axios.delete(`${contextPath}replies/${id}`);
   //console.log("addReply response:", response.data);
   return response.data
 }

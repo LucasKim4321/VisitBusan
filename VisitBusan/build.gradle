@@ -102,6 +102,7 @@ sourceSets {
 // QEntity가 존재하는 데 중복 생성하려고 해서 에러
 //compileJava.dependsOn('clean')
 
+// clean 대신 사용. 컴파일시 QEntity 중복 생성 방지
 tasks.withType(JavaCompile) {
 	options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated")
 }

@@ -147,7 +147,7 @@
         }
         try {
             // ID 또는 이메일이 이미 존재하는지 확인 API 호출
-            const response = await fetch("[[@{/check-existing}]]", {
+            const response = await fetch([[@{/check-existing}]], {
                 method : "POST", //데이터가 서버로 전송
                 headers : {"Content-Type":"application/json"}, //JSON 형식
                 body : JSON.stringify({userId: userId.value.trim(), email: email.value.trim()}) // db로 보내는 데이터 id, email

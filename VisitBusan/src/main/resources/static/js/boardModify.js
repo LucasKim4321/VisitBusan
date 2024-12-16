@@ -175,7 +175,7 @@ function showUploadFile({uuid, fileName, img, link}) {  // link는 UploadResultD
                     onClick="javascript:removeFile('${uuid}', '${fileName}', this)" > x </button>
         </div>
         <div class="card-body">
-            <img src=${contextPath}view/${link}" data-src="${uuid+"==vb=="+fileName}" class="w-100"/>
+            <img src="${contextPath}view/${link}" data-src="${uuid+"==vb=="+fileName}" class="w-100"/>
         </div>
     </div>
     `;

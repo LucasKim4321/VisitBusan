@@ -6,7 +6,7 @@
     font-family: 'NotoSansKR';
     font-style: normal;
     font-weight: 400;
-    src: url('/fonts/NotoSansKR-Regular.ttf') format('truetype');
+    src: url('../fonts/NotoSansKR-Regular.ttf') format('truetype');
     letter-spacing: -0.003em;
 }
 * {

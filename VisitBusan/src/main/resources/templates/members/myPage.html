@@ -274,9 +274,16 @@
                 </form>
             </div>
         </div>
+
+        <div class="dataCon" hidden th:data-contextPath="@{/}"></div>
+
     </div>
 
     <script layout:fragment="myscript" th:inline="javascript">
+
+        var contextPath = document.querySelector('.dataCon').getAttribute('data-contextPath');
+        console.log("contextPath1",contextPath);
+
         //---------------------------프로필 이미지---------------------------//
         function uploadFile() {
             event.preventDefault(); //기본 동작 방지
@@ -337,7 +344,7 @@
 
                 console.log("test 시작");
 
-                fetch('[[@{/mypage/check}]]', {
+                fetch(`${contextPath}mypage/check`, {
                    method: 'POST',
                    body: new FormData(modifyForm)
                 }).then(response => {
@@ -377,7 +384,7 @@
             e.stopPropagation();
 
             console.log("test 시작");
-            fetch('[[@{/mypage/check}]]', {
+            fetch(`${contextPath}mypage/check`, {
                method: 'POST',
                body: new FormData(deleteForm)
 
@@ -416,7 +423,7 @@
         const request = {type:'writerId', keyword:writerId, size:3};
 
         // 서버로부터 카테고리별로 그룹화된 데이터를 가져옴
-        fetch(`[[@{/board/main/list?size=}]]${request.size}&type=${request.type}&keyword=${request.keyword}`)
+        fetch(`${contextPath}board/main/list?size=${request.size}&type=${request.type}&keyword=${request.keyword}`)
         .then(response => response.json())
         .then(data => {
 
@@ -430,7 +437,7 @@
 
                 const myPost = document.createElement("div");
                 myPost.classList = "myPost"
-                myPost.setAttribute('data-link', `[[@{/board/userBoard/read?id=}]]${data[i].id}&bCategory=${data[i].bCategory}`);
+                myPost.setAttribute('data-link', `${contextPath}board/userBoard/read?id=${data[i].id}&bCategory=${data[i].bCategory}`);
                 myPost.onclick = postRead;
                                     
                 let htmlTag = '';
@@ -440,11 +447,11 @@
                     `
                 if (data[i].boardFiles.length == 0 ) {
                     htmlTag += 
-                    `   <img src="[[@{/images/}]]mypage/image1.jpg" alt="이미지">`
+                    `   <img src="${contextPath}images/mypage/image1.jpg" alt="이미지">`
                 }
                 if (data[i].boardFiles.length > 0 ) {
                     htmlTag += 
-                    `   <img src="[[@{/view/}]]${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}" alt="이미지">`
+                    `   <img src="${contextPath}view/${data[i].boardFiles[0].uuid}==vb==${data[i].boardFiles[0].fileName}" alt="이미지">`
                 }
 
                 htmlTag += 
