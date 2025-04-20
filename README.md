@@ -76,7 +76,7 @@
 
 지속적으로 이탈하는 동기생으로 인해 팀원이 부족해 프로젝트 변경, 축소 및 수정 과정을 거침.
 
-부족한 팀원과 부족한 시간으로 인해 새로 무언가를 시도하기보단 기존 웹페이지를 참조하고 변형한 웹페이지를 제작해 관련 기술 습득 및 팀프로젝트 경험을 목표.
+부족한 팀원과 부족한 시간으로 인해 새로운 무언가를 시도하기보단 기존 웹페이지를 참조하고 변형한 웹페이지를 제작해 관련 기술 습득 및 팀프로젝트 경험을 목표.
 
 ## 8. 프로젝트 결과
 
@@ -95,19 +95,9 @@
 ## 10. 링크 및 자료
 
 - GitHub 저장소: [[링크]](https://github.com/LucasKim4321/VisitBusan)https://github.com/LucasKim4321/VisitBusan
+- Notion: https://www.notion.so/Project-Visit-Busan-59756d6447f24536b6cf7f8bae166ba2
 - 데모 사이트: [링크]
-- 프로젝트 문서: [[링크]](https://www.notion.so/13803b0502dd81e2bb49eb803f6123b5?pvs=21)
 
 [요구사항 및 기능](https://www.notion.so/13803b0502dd80188402c0d9513cbf0e?pvs=21)
 
 [설계 (태진)](https://www.notion.so/13803b0502dd806baefbd519569668d4?pvs=21)
-
-[작업](https://www.notion.so/13803b0502dd81099b14d13468dff000?pvs=21)
-
-[프로젝트](https://www.notion.so/13803b0502dd811fa12ddd3b223f55c7?pvs=21)
-
-[회의](https://www.notion.so/13803b0502dd81edbe1ce57b6e43d2d6?pvs=21)
-
-[문서](https://www.notion.so/13803b0502dd81e2bb49eb803f6123b5?pvs=21)
-
-[위키](https://www.notion.so/13803b0502dd81618cc8eed6d939b632?pvs=21)
