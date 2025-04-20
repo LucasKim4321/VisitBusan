@@ -1,4 +1,4 @@
-# <strong>Project Visit Busan</strong>
+# Project Visit Busan
 
 # 더 조은 컴퓨터 아카데미 교육생팀 팀프로젝트
 
