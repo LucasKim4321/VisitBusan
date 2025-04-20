@@ -1,67 +1,113 @@
-# TeamProject
-올리는 양식 : 이름 날짜 - 제목 (그날 하루에 올리는 제목이 같을 경우 숫자 카운트(제목1, 제목2 이런식)  
-프로젝트 시작 전 항상 동기화(또는 Pull)버튼 눌러서 동기화 시켜놓고 시작하기  
-깃에 올릴때 풀(Pull) 먼저 해놓고 -> 스테이징(업로드할 항목체크)하고 -> 커밋제목(필수! 안적으면 안올려짐)입력 -> 커밋하고 -> 동기화(또는 Push)  
-작업전후 동기화 잊지말기~ (잘못하면 분기점생김)  
-후에는 브랜치 나눠서 작업할 예정~  
-  
-팀 공지사항, 하고싶은말 여기 올리기 :b  
-참고로 스페이스바 2번하면 엔터, <b>HTML 태그 적용됨<b>  
-  
-visit busan : https://www.visitbusan.net/kr/index.do  
-팀 포폴 : https://www.notion.so/Project-Visit-Busan-59756d6447f24536b6cf7f8bae166ba2?pvs=4  
-작업 계획 : https://hapohees-team.monday.com/boards/1902534665  
-  
-각종 링크  
-깃 명령어 : https://bacassf.tistory.com/28  
-깃 브랜치 : https://coduking.tistory.com/entry/Git-branch-%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9%EB%B2%95-%EB%B0%8F-Github-%ED%98%91%EC%97%85-%EB%B0%A9%EB%B2%95  
-W3School : https://www.w3schools.com/  
-부트스트랩 :  https://getbootstrap.com/  
-심플사이드바 : https://startbootstrap.com/template/simple-sidebar  
-폰트어썸아이콘 : https://fontawesome.com/v6/search?o=r&m=free  
-&nbsp;&nbsp;v6 적용시 링크 : &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"&gt;  
-써머노트 : https://summernote.org/  
-  
-제이쿼리 : https://jquery.com/  
-제이쿼리 doc : https://api.jquery.com/  
-리엑트 : https://react.dev/  
-리엑트 doc : https://react.dev/reference/react  
-깃 doc : https://docs.github.com/ko  
-  
-인텔리제이(커뮤니티버전 다운) : https://www.jetbrains.com/ko-kr/idea/download/?section=windows  
-이클립스(JEE버전 다운) : https://www.eclipse.org/downloads/packages/  
-스프링 : https://spring.io/  
-스프링 프로젝트 시작 : https://start.spring.io/  
-  
-자바 1.8 doc : https://docs.oracle.com/javase/8/docs/api/  
-타임리프 doc : https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html  
-  
-maven : https://mvnrepository.com/  
-npm : https://www.npmjs.com/  
-MyBatis : https://mybatis.org/mybatis-3/  
-  
-  
-인텔리제이 설정  
-  
-플러그인 설정  
-plugins  
-lombok (롬복 사용시 필수)  
-spring boot assistant  
-  
-utf-8 설정  
-encoding 검색 utf-8 check  
-Editor-> File Encodings -> utf-8  
-  
-어노테이션 활성화  
-build->compiler->annotation processors  
-enable annotation processing  
-  
-설정시 대소문자 구분없이 요소가 검색됨.  
-Editor-> Code Completion -> Match Case  uncheck  
-  
-gradle사용 설정  
-실행시 문제 있으면 (앵간하면 기본값으로)  
-build and run using intellij IDEA  
-run tests using intellij IDEA  
-이 설정 뭔가 문제있음 기본값 gradle로 (기본설정 gradle)  
-build->buildTools->gradle  
+# <strong>Project Visit Busan</strong>
+
+# 더 조은 컴퓨터 아카데미 교육생팀 팀프로젝트
+
+## 1. 프로젝트 개요
+
+프로젝트명: Visit Busan
+
+기간: 24.08.16 - 24.11.8
+
+팀 구성: 3 명
+
+리더: 김태진
+
+팀원: 하보희, 오진우
+
+## 2. 프로젝트 목표
+
+팀과 협력하여 부산을 대표하는 관광 안내 페이지를 제작
+
+## 3. 사용 기술 스택
+
+- 프론트엔드: Thymeleaf (템플릿 엔진),  jQuery (JavaScript 라이브러리), Axios (HTTP 요청 라이브러리), Bootstrap (CSS 라이브러리), Font Awesome (아이콘 라이브러리)
+- 백엔드: Java, Spring Boot (프레임워크), Spring Security (보안 프레임워크), JPA (ORM), Lombok (코드 간소화 라이브러리), ModelMapper (객체 매핑), JUnit (테스트 프레임워크), Spring DevTools (개발 보조 도구), QueryDSL (동적 쿼리 빌더)
+- 데이터베이스: MariaDB (프로덕션 DB), H2 (테스트용 임베디드 DB)
+- 디자인 : Figma (디자인 협업 툴)
+- 기타 도구: Git (프로그래밍 협업 툴), Notion (프로젝트 협업 툴), Chat GPT 4
+
+## 4. 주요 기능
+
+- 부산 관광 정보 및 가이드 제공
+- 축제, 공연 등의 행사 정보 제공
+- 자신의 경험과 정보를 공유할 수 있는 유저 게시판 제공
+- 회원가입 후 회원 전용 기능 수행
+- 관리자 전용 페이지를 통한 전반적인 홈페이지 관리
+
+## 5. 팀원 역할 및 기여도
+
+김태진 : 계획, 설계, 검수, 자료조사, 프론트, 백엔드, DB 설계, 백엔드 설계, 포트폴리오
+
+하보희 : 디자인, 자료조사, 자료 정리, 프론트, 백엔드
+
+오진우 : 자료조사, 프론트, 백엔드
+
+### **세부사항**
+
+- 김태진
+    - 프론트 : 메인 페이지 html 제작 및 타임리프 적용, 공통된 양식의 유저 게시판 페이지 list, read, create, modify 페이지 html 제작 및 타임리프 적용. 축제 게시판 list, read, create, modify 페이지 html 제작 및 타임리프 적용, 정보 페이지 타임리프 적용, 관리자 페이지 회원 관리, 게시글 관리 페이지 html 제작 및 타임리프 적용. 관리자 메인 페이지 타임리프 적용.
+    - 백엔드 : 프로젝트 기초 설계 및 제작, DB설계 및 제작, 시큐리티 기능 구현, 게시글 기능(목록,등록,읽기,수정,삭제,카테고리,조회수,좋아요) 구현 및 웹페이지 적용, 파일 업로드 구현, 검색(게시글,회원) 기능 구현, 관리자 메인페이지, 관리자 게시글 관리 페이지 기능 구현. 회원 관리 기능 마무리(목록,등록,삭제,권한,검색). 댓글 기능 마무리, 마이페이지 내 게시글 기능 구현.
+- 하보희
+    - 프론트 : 전체 웹페이지 디자인, 푸터, 헤더 제작, 로그인페이지, 회원가입페이지, 마이페이지 html 제작 및 타임리프 적용, 전체 페이지 스타일 수정
+    - 백엔드 : 멤버 기능 구현(목록,등록,읽기,수정,삭제) 및 웹페이지 적용, 프로필 업로드 구현, 로그인 동작, 마이 페이지, 관리자 회원 관리 기능(수정) 구현.
+    - 중도 이탈 (24.10.21)
+- 오진우
+    - 프론트 : 공통된 양식의 정보 페이지의 list, read 페이지, 여행준비정보, 가이드북, 관리자 메인 페이지 html로 제작
+    - 백엔드 : 댓글 기능(목록,등록,읽기,수정,삭제) 구현 및 웹페이지 적용.
+    - 중도 이탈 (24.10.01)
+
+## 6. 개발 과정
+
+- 기획 및 요구사항 분석
+
+[요구사항 및 기능 문서 링크](https://www.notion.so/13803b0502dd80188402c0d9513cbf0e?pvs=21)
+
+[디자인](https://www.figma.com/design/UioI8NGOuQfBAd9iljqs9p/team-project?node-id=8-2&t=16vA4XHqqFlc3HS9-1)
+
+- 설계 (UI/UX, 데이터베이스 등)
+
+[설계 문서 링크](https://www.notion.so/13803b0502dd806baefbd519569668d4?pvs=21)
+
+- 개발 및 구현
+- 테스트 및 디버깅
+- 배포 및 유지보수
+
+## 7. 주요 도전 과제 및 해결 방법
+
+지속적으로 이탈하는 동기생으로 인해 팀원이 부족해 프로젝트 변경, 축소 및 수정 과정을 거침.
+
+부족한 팀원과 부족한 시간으로 인해 새로 무언가를 시도하기보단 기존 웹페이지를 참조하고 변형한 웹페이지를 제작해 관련 기술 습득 및 팀프로젝트 경험을 목표.
+
+## 8. 프로젝트 결과
+
+원래 기획한 프로젝트를 다 구현하진 못했지만 게시판, 댓글, 회원, 게시글 관리, 회원 관리 기능을 구현한 웹페이지를 완성하였습니다.
+
+높은 개인 할당량으로 인한 이해도 및 숙련도가 상승했습니다.
+
+## 9. 학습 및 개선점
+
+적은 인원으로도 팀프로젝트가 가능하다는 것을 깨달았고 무사히 완성 시킬 수 있었다.
+
+학원에서 공부하는 과정에서 많은 것을 배웠지만 그럼에도 프로그래밍 영역은 방대했고 때문에 GPT에게 많은 도움을 받았다. GPT가 완벽하진 않지만 그래도 아는 건 많아서 도움이 많이 되었다.
+
+여기서 깨달은 점은 지속적으로 공부하고 새로운 기술을 익히는 것이 중요하다는 것이다.
+
+## 10. 링크 및 자료
+
+- GitHub 저장소: [[링크]](https://github.com/LucasKim4321/VisitBusan)https://github.com/LucasKim4321/VisitBusan
+- 데모 사이트: [링크]
+- 프로젝트 문서: [[링크]](https://www.notion.so/13803b0502dd81e2bb49eb803f6123b5?pvs=21)
+
+[요구사항 및 기능](https://www.notion.so/13803b0502dd80188402c0d9513cbf0e?pvs=21)
+
+[설계 (태진)](https://www.notion.so/13803b0502dd806baefbd519569668d4?pvs=21)
+
+[작업](https://www.notion.so/13803b0502dd81099b14d13468dff000?pvs=21)
+
+[프로젝트](https://www.notion.so/13803b0502dd811fa12ddd3b223f55c7?pvs=21)
+
+[회의](https://www.notion.so/13803b0502dd81edbe1ce57b6e43d2d6?pvs=21)
+
+[문서](https://www.notion.so/13803b0502dd81e2bb49eb803f6123b5?pvs=21)
+
+[위키](https://www.notion.so/13803b0502dd81618cc8eed6d939b632?pvs=21)
